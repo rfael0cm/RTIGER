@@ -1,0 +1,21 @@
+
+# all inside a function that returns the final bin size
+findBinsize = function(){
+maxbin = 10000
+if (criterion(maxbin,min.counts,qunt) == FALSE) stop("could not find meaningful binning")
+minbin = 1
+if (criterion(maxbin,min.counts,qunt) == TRUE) return(1)
+
+repeat{
+  middlebin = ceiling((minbin+maxbin)/2)
+  if (middlebin==maxbin) break()
+  if (criterion(middlebin,min.counts,quant)){
+    maxbin = middlebin
+  } else {
+    minbin = middlebin
+  }
+}
+# middlebin is the final bin size
+return(middlebin)
+}
+
