@@ -55,7 +55,7 @@ forwardbackward = function(mat,params){
   a = params$a
   alpha[,1] = params$piv * (psimat[vstates,1]*pim["+"] +
                               rep(psimat["badP",1]*pim["badP"] + psimat["badM",1]*pim["badM"],3) )
-  nalpha[1] = sum(alpha[,1], na.rm = T)
+  nalpha[1] = sum(alpha[,1], na.rm = TRUE)
   alpha[,1] = alpha[,1]/nalpha[1]
   sapply(2:marker_nr,function(t){
     hilf = alpha[,t-1] *
@@ -73,7 +73,7 @@ forwardbackward = function(mat,params){
   sapply((marker_nr):2,function(t){
     hilf = (pim["badP"]*psimat["badP",t]+pim["badM"]*psimat["badM",t]) +
       pim["+"]*psimat[vstates,t]*(a%*%beta[,t])
-    nbeta[t-1] <<- sum(hilf, na.rm = T)
+    nbeta[t-1] <<- sum(hilf, na.rm = TRUE)
     beta[,t-1] <<- hilf/nbeta[t-1]
   })
   return(list(alpha=alpha,beta=beta,nalpha=nalpha,nbeta=nbeta,psimat=psimat))
@@ -353,14 +353,14 @@ tau_function = function(zeta,beta,psimat,mu,info,params){
     # tau here equals tau_t^j(s) in the lyx, for one part. dim = (j,t,s)
     # update vstates
     for (e_state in vstates){
-      tau[[part]][,,e_state] = matrix(rep(mu[[part]][,"+"],nr_samples),nrow=nr_samples,byrow=T)
+      tau[[part]][,,e_state] = matrix(rep(mu[[part]][,"+"],nr_samples),nrow=nr_samples,byrow= TRUE)
     }
     tau[[part]][,2:nr_markers,vstates] = tau[[part]][,2:nr_markers,vstates] * apply(zeta[[part]],c(1,2,4),sum)
     hilf = t( t(psimat[[part]][,1,vstates] * beta[[part]][,1,vstates]) * params$piv[vstates] )
     tau[[part]][,1,vstates] = tau[[part]][,1,vstates] * hilf / rowSums(hilf)
     # update badstates
     for (e_state in badstates){
-      tau[[part]][,,e_state] = matrix(rep(mu[[part]][,e_state],nr_samples),nrow=nr_samples,byrow=T)
+      tau[[part]][,,e_state] = matrix(rep(mu[[part]][,e_state],nr_samples),nrow=nr_samples,byrow = TRUE)
     }
   } # end for part
   # tau[[part]] here is tau_t^j(s) from the lyx (for one part); dim = (j,t,s)
@@ -396,8 +396,8 @@ update_emissions = function(tau,k_obs,n_obs,info, iteration){
 
   for (e_state in estates){
     for (part in part_names){
-      nominator[part] = sum(tau[[part]][,,e_state] * k_obs[[part]], na.rm = T)
-      denominator[part] = sum(tau[[part]][,,e_state] * n_obs[[part]], na.rm = T)
+      nominator[part] = sum(tau[[part]][,,e_state] * k_obs[[part]], na.rm = TRUE)
+      denominator[part] = sum(tau[[part]][,,e_state] * n_obs[[part]], na.rm = TRUE)
     }
     expectation[e_state] = sum(nominator) / sum(denominator)
   }
@@ -408,7 +408,7 @@ update_emissions = function(tau,k_obs,n_obs,info, iteration){
     alpha_s = testvalue * expected
     beta_s = testvalue * (1-expected)
     hilf = sapply(part_names,function(part){
-      psimat_new = TailRank::dbb(k_obs[[part]],n_obs[[part]],alpha_s,beta_s,log=TRUE)
+      psimat_new = TailRank::dbb(k_obs[[part]],n_obs[[part]],alpha_s,beta_s,log = TRUE)
       sum(tau[[part]][,,e_state]*psimat_new)
     }) # end sapply part
     return(sum(hilf))

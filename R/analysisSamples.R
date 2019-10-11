@@ -3,6 +3,8 @@
 #'
 #' @param object an RTIGER object 
 #' @return A list with the library size of ech sample as total allele count, and a logical vector which specifies wether or not each samples pass the threshold set when the object was created.
+#' 
+#' @export analysis.samples
 #'
 
 analysis.samples = function(object){

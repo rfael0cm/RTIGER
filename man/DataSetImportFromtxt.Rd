@@ -2,7 +2,7 @@
 % Please edit documentation in R/AllClasses.R
 \name{DataSetImportFromtxt}
 \alias{DataSetImportFromtxt}
-\title{This function creates an RTIGERDataSet from a list of txt files with the SNP counts for each sample}
+\title{This function creates an RTIGER Object}
 \usage{
 DataSetImportFromtxt(experimentDesign = NULL, observations = NULL,
   GenRanges = NULL, bin.length = NULL, min.samples = 1,
@@ -26,5 +26,5 @@ DataSetImportFromtxt(experimentDesign = NULL, observations = NULL,
 \item{seqlengths}{The genomic lengths of each chromosome (As in GenomicRanges).}
 }
 \description{
-This function creates an RTIGERDataSet from a list of txt files with the SNP counts for each sample
+This function creates an RTIGER Object
 }

@@ -11,7 +11,7 @@ This class is a generic container for R-Viterbi. It contains the modified decodi
 \section{Slots}{
 
 \describe{
-\item{\code{RParameter}}{The R parameter. It specifies the minimum number of iterations over a state before a transition is permited.}
+\item{\code{Rparameter}}{The R parameter. It specifies the minimum number of iterations over a state before a transition is permited.}
 
 \item{\code{LogLike}}{loglikelihood of the observed viterbi path given the observations.}
 

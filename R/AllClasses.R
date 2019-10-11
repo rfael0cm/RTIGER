@@ -8,10 +8,11 @@
 #' This class is a generic container for RTIGER analysis
 #'
 #' @slot RawData Raw data
-#' @slot FIlteredData List containing the filtered data based on the minimum number of samples supporting the each position and summing over the bin size.
-#' @slot Model fitted model to the data
+#' @slot FilteredData List containing the filtered data based on the minimum number of samples supporting the each position and summing over the bin size.
+#' @slot FilteringThreshold List of the parameters used to decide the bin size.
 #' @slot info List with information about the samples.
-#' @slot Viterbi List of chromosomes with the viterbi path per sample
+#' @slot Model fitted model to the data.
+#' @slot Viterbi List of chromosomes with the viterbi path per sample.
 #' @rdname RTIGERDataSet
 #' @exportClass RTIGER
 
@@ -36,7 +37,7 @@
 #' @param min.counts Total allele count to select a criterion to keep increasing the bin size.
 #' @param quant Quantile of observations that support the minimum counts. This quantile is used to decide when to stop increasing the bin size
 #' @param seqlengths The genomic lengths of each chromosome (As in GenomicRanges).
-#'
+#' @export DataSetImportFromtxt
 #'
 
 DataSetImportFromtxt = function(

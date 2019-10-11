@@ -13,12 +13,14 @@ This class is a generic container for RTIGER analysis
 \describe{
 \item{\code{RawData}}{Raw data}
 
-\item{\code{FIlteredData}}{List containing the filtered data based on the minimum number of samples supporting the each position and summing over the bin size.}
+\item{\code{FilteredData}}{List containing the filtered data based on the minimum number of samples supporting the each position and summing over the bin size.}
 
-\item{\code{Model}}{fitted model to the data}
+\item{\code{FilteringThreshold}}{List of the parameters used to decide the bin size.}
 
 \item{\code{info}}{List with information about the samples.}
 
-\item{\code{Viterbi}}{List of chromosomes with the viterbi path per sample}
+\item{\code{Model}}{fitted model to the data.}
+
+\item{\code{Viterbi}}{List of chromosomes with the viterbi path per sample.}
 }}
 

@@ -1,11 +1,11 @@
 
 #' This class is a generic container for R-Viterbi. It contains the modified decoding version of the Viterbi algorithm
 #'
-#' @slot RParameter The R parameter. It specifies the minimum number of iterations over a state before a transition is permited.
+#' @slot Rparameter The R parameter. It specifies the minimum number of iterations over a state before a transition is permited.
 #' @slot LogLike loglikelihood of the observed viterbi path given the observations.
 #' @slot Viterbi List of chromosomes with the viterbi path per sample
 #' @rdname RViterbi
-#' @export RViterbi
+#' @exportClass RViterbi
 
 .RViterbi = setClass("RViterbi",
                    representation = representation(

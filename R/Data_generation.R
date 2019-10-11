@@ -174,7 +174,7 @@ generate_data = function(params=NULL, info=NULL, r = 1,
   marker_states = vector("list",length(part_names))
   names(marker_states) = part_names
   for (part in part_names){
-    marker_states[[part]] = sample(c("+","badP","badM"),part_lengths[[part]],prob=params$pim,replace=T)
+    marker_states[[part]] = sample(c("+","badP","badM"),part_lengths[[part]],prob=params$pim,replace = TRUE)
     names(marker_states[[part]]) = marker_names[[part]]
   }
   

@@ -1,3 +1,10 @@
+#'
+#' Obtain number of Cross-Over events.
+#'
+#' @param object a RViterbi object.
+#' 
+#' @export calcCOnumber
+#'
 
 
 calcCOnumber = function(object){
@@ -12,6 +19,15 @@ calcCOnumber = function(object){
   return(numCO)
 
 }
+
+
+#'
+#' Haplotypes genomic widths.
+#'
+#' @param object a RViterbi object.
+#' 
+#' @export haplotypes.width
+#'
 
 haplotypes.width = function(object){
   widthCO = lapply(object@Viterbi, function(samp){
@@ -31,6 +47,15 @@ haplotypes.width = function(object){
 }
 
 
+
+#'
+#' Compute number of double CO per sample and chromosome.
+#'
+#' @param object a RViterbi object.
+#' @param samples character vector with the name of the samples.
+#' 
+#' @export calcDoubleCOnumber
+#
 calcDoubleCOnumber = function(object, samples = NULL){
   if(is.null(samples)) samples = names(object@Viterbi)
 
@@ -66,6 +91,16 @@ calcDoubleCOnumber = function(object, samples = NULL){
   return(numdco)
 
 }
+
+
+#'
+#' genomic widths of the double COs.
+#'
+#' @param object a RViterbi object.
+#' @param samples character vector with the name of the samples.
+#' 
+#' @export width.DoubleCO
+#
 
 
 width.DoubleCO = function(object, samples = NULL){

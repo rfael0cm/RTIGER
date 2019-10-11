@@ -28,7 +28,7 @@ plotGenotype = function(object,
   dat = FinalRes_chr[,c("P1.Allele.Count", "P2.Allele.Count")]
   dat$P2.Allele.Count = - dat$P2.Allele.Count
 
-  lim = max(abs(as.matrix(mcols(dat))), na.rm = T) + 2
+  lim = max(abs(as.matrix(mcols(dat))), na.rm = TRUE) + 2
 
   datgviz = DataTrack(dat, type = "h", name = "Data", col = col[1:2], ylim = c(-lim, lim))
 

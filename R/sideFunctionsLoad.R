@@ -42,8 +42,8 @@ binningFun = function(myG, bin.length){
 
   hits = findOverlaps(bins, myG)
 
-  agg = aggregate(myG, hits, P1.Allele.Count = sum(P1.Allele.Count, na.rm = T),
-                  total = sum(P1.Allele.Count + P2.Allele.Count, na.rm = T))
+  agg = aggregate(myG, hits, P1.Allele.Count = sum(P1.Allele.Count, na.rm = TRUE),
+                  total = sum(P1.Allele.Count + P2.Allele.Count, na.rm = TRUE))
 
   bins$P1.Allele.Count[countQueryHits(hits) > 0L] = agg$P1.Allele.Count
 

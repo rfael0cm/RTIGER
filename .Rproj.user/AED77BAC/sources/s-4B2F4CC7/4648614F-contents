@@ -1,5 +1,0 @@
-exportPattern("^[[:alpha:]]+")
-
-import(GenomicRanges)
-import(Gviz)
-import(rtracklayer)
