@@ -15,6 +15,23 @@
                    ))
 
 
+#'
+#' This funciton creates an RViterbi object. 
+#'
+#' @param object an RTIGER object with the filtered data
+#' @param rigidity rigidity parameter. Number of consecutive iterations in state s before using the transition matrix.
+#' #' @return returns and RViterbi object with the new viterbi path with rigidity R.
+#' @usage R.Viterbi(object, rigidity = NULL)
+#' 
+#' @examples 
+#' 
+#' data("fittedExample")
+#' RVit = R.Viterbi(myDat, rigidity = 3)
+#' 
+#' @export R.Viterbi
+#'
+#'
+
 
 R.Viterbi = function(object, rigidity = NULL){
   rigid = rigidity

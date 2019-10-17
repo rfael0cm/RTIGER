@@ -7,7 +7,7 @@ prescreen = function(gammas,    # posterior state probability matrix (states x t
     ifelse(length(y)==0,0,y)} )
   if (all(rt==0)) stop("no candidates found")
   rt = cbind(rt,1:length(rt))
-  st = rt[which(rt[,1]>0),,drop=F]
+  st = rt[which(rt[,1]>0),,drop=FALSE]
   selected = which(diff(st[,1])!=0)
   changepoints = st[selected,2]
   leftstate = st[selected,1]
@@ -23,14 +23,14 @@ prescreen = function(gammas,    # posterior state probability matrix (states x t
     rightselect = rt[min(maxpos,position+1):min(position+maxwidth,maxpos),1] == tostate
     rightends = (min(maxpos,position+1):min(position+maxwidth,maxpos))[rightselect]
     mat = outer(rightends,leftends,"-")
-    indices = which(maxwidth >= mat,arr.ind=T)
+    indices = which(maxwidth >= mat,arr.ind=TRUE)
     items = nrow(indices)
     if (items==0) return(NULL)
     intervals = cbind(rep(fromstate,items),rep(tostate,items),
                       leftends[indices[,2]],rightends[indices[,1]])
     colnames(intervals) = c("left_state","righ_tstate","left_end","right_end")
     return(t(intervals))
-  },simplify=T)
+  },simplify=TRUE)
   
   res = matrix(unlist(res),nrow=4)
   res = t(unique(t(res)))
@@ -142,7 +142,7 @@ wigglyTransition <- function(a, # Left boundary of the interval
   transreduced = transitions[c(sj,sk),c(sj,sk)]
   if (sj != sk){
     sapply(2:d,function(x){
-      gtilde[x,] <<- t(gtilde[x-1,,drop=F] %*% transreduced) * psis[c(sj,sk),a+x-1] / normfactors[a+x-1]
+      gtilde[x,] <<- t(gtilde[x-1,,drop=FALSE] %*% transreduced) * psis[c(sj,sk),a+x-1] / normfactors[a+x-1]
     })
     gende = gtilde[d,"sk"]
   }

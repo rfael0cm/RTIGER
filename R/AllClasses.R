@@ -37,6 +37,21 @@
 #' @param min.counts Total allele count to select a criterion to keep increasing the bin size.
 #' @param quant Quantile of observations that support the minimum counts. This quantile is used to decide when to stop increasing the bin size
 #' @param seqlengths The genomic lengths of each chromosome (As in GenomicRanges).
+#' 
+#' 
+#' #' @return A RTiger object with Genomic Ranges for the filtered and Raw data
+#' @usage DataSetImportFromtxt(experimentDesign = NULL, observations = NULL, GenRanges = NULL, bin.length = NULL, min.samples = 1, min.counts = 10, quant = .2, seqlengths = NULL)
+#' 
+#'
+#' @examples 
+#' 
+#' data("ATseqlengths")
+#' path = system.file("extdata",  package = "RTIGER")
+#' files = list.files(path, full.names = T)[1:3]
+#' expDesign = data.frame(files = files, name = list.files(path)[1:3])
+#' myDat = DataSetImportFromtxt(experimentDesign = expDesign, bin.length = 100, seqlengths = ATseqlengths)
+#' 
+#' 
 #' @export DataSetImportFromtxt
 #'
 
@@ -51,32 +66,32 @@ DataSetImportFromtxt = function(
   seqlengths = NULL
 ){
 
-  if(is.null(path) & is.null(experimentDesign) & is.null(observations)){
+  if( is.null(experimentDesign) & is.null(observations)){
     stop("No file information found!")
   }
 
 # Check path and patterns -------------------------------------------------
 
 
-  if(!is.null(path)){
-    if(!dir.exists(path)){
-      stop("path to the files does not exist")
-    }
-
-    if(!length(list.files(path))){
-      stop("No files in path directory")
-    }
-
-    if(!is.null(pattern)){
-      if(!list.files(path = path, pattern = pattern)){
-        stop("Do not exist files with this pattern")
-      }
-    }
-
-    if(is.null(pattern)) pattern = ".txt"
-    files = list.files(path, pattern, full.names = TRUE)
-    myCol = data.frame(files = files, name = sapply(files, function(filepath) sub(pattern = "(.*)\\..*$", replacement = "\\1", basename(filepath))))
-  }
+  # if(!is.null(path)){
+  #   if(!dir.exists(path)){
+  #     stop("path to the files does not exist")
+  #   }
+  # 
+  #   if(!length(list.files(path))){
+  #     stop("No files in path directory")
+  #   }
+  # 
+  #   if(!is.null(pattern)){
+  #     if(!list.files(path = path, pattern = pattern)){
+  #       stop("Do not exist files with this pattern")
+  #     }
+  #   }
+  # 
+  #   if(is.null(pattern)) pattern = ".txt"
+  #   files = list.files(path, pattern, full.names = TRUE)
+  #   myCol = data.frame(files = files, name = sapply(files, function(filepath) sub(pattern = "(.*)\\..*$", replacement = "\\1", basename(filepath))))
+  # }
 
 # Check expDesign ---------------------------------------------------------
 
@@ -116,7 +131,7 @@ DataSetImportFromtxt = function(
 
   }
   
-  if(names(seqlengths) != seqlevels(rawGR[[1]])) stop("Names of the seqlengths differ from the seqnames in the files. \n")
+  if(all(names(seqlengths) != seqlevels(rawGR[[1]]))) stop("Names of the seqlengths differ from the seqnames in the files. \n")
 
   if(!is.null(observations)){
 

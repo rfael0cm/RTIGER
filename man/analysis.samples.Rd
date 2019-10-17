@@ -15,3 +15,9 @@ A list with the library size of ech sample as total allele count, and a logical 
 \description{
 Library size and sample wise threshold analysis.
 }
+\examples{
+
+data("fittedExample")
+myAnalysis = analysis.samples(myDat)
+
+}

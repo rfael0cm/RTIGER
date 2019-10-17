@@ -4,9 +4,7 @@
 \alias{DataSetImportFromtxt}
 \title{This function creates an RTIGER Object}
 \usage{
-DataSetImportFromtxt(experimentDesign = NULL, observations = NULL,
-  GenRanges = NULL, bin.length = NULL, min.samples = 1,
-  min.counts = 10, quant = 0.2, seqlengths = NULL)
+DataSetImportFromtxt(experimentDesign = NULL, observations = NULL, GenRanges = NULL, bin.length = NULL, min.samples = 1, min.counts = 10, quant = .2, seqlengths = NULL)
 }
 \arguments{
 \item{experimentDesign}{Data frame with minimum two columns: files and name}
@@ -23,8 +21,21 @@ DataSetImportFromtxt(experimentDesign = NULL, observations = NULL,
 
 \item{quant}{Quantile of observations that support the minimum counts. This quantile is used to decide when to stop increasing the bin size}
 
-\item{seqlengths}{The genomic lengths of each chromosome (As in GenomicRanges).}
+\item{seqlengths}{The genomic lengths of each chromosome (As in GenomicRanges).
+
+
+#' @return A RTiger object with Genomic Ranges for the filtered and Raw data}
 }
 \description{
 This function creates an RTIGER Object
+}
+\examples{
+
+data("ATseqlengths")
+path = system.file("extdata",  package = "RTIGER")
+files = list.files(path, full.names = T)[1:3]
+expDesign = data.frame(files = files, name = list.files(path)[1:3])
+myDat = DataSetImportFromtxt(experimentDesign = expDesign, bin.length = 100, seqlengths = ATseqlengths)
+
+
 }

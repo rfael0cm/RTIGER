@@ -4,8 +4,7 @@
 \alias{fitModel}
 \title{This function fits our extended HMM to an object with the observations}
 \usage{
-fitModel(object, initial_params = NULL, randomize = FALSE,
-  eps = 0.01, max.iter = 50, trace = FALSE, verbose = FALSE)
+fitModel( object, initial_params = NULL, randomize = FALSE, eps = 0.01, max.iter = 50, trace = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{object}{an RTIGER object with the filtered data}
@@ -20,8 +19,19 @@ fitModel(object, initial_params = NULL, randomize = FALSE,
 
 \item{trace}{Logical value, wehter the values of the parameters along the EM algorithm should be saved}
 
-\item{verbose}{logical value, wether the algorithm status should be printed or not.}
+\item{verbose}{logical value, wether the algorithm status should be printed or not.
+
+#' @return The RTiger object with the fitted parameters.}
 }
 \description{
 This function fits our extended HMM to an object with the observations
+}
+\examples{
+
+data("ATseqlengths")
+path = system.file("extdata",  package = "RTIGER")
+files = list.files(path, full.names = T)[1:3]
+expDesign = data.frame(files = files, name = list.files(path)[1:3])
+myDat = DataSetImportFromtxt(experimentDesign = expDesign, bin.length = 100, seqlengths = ATseqlengths)
+myDat = fitModel(myDat, max.iter = 1)
 }

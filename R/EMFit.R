@@ -688,7 +688,19 @@ EMalgorithm = function(observations, info,
 #' @param max.iter Maximum number of iterations.
 #' @param trace Logical value, wehter the values of the parameters along the EM algorithm should be saved
 #' @param verbose logical value, wether the algorithm status should be printed or not.
-#'
+#' 
+#' #' @return The RTiger object with the fitted parameters.
+#' @usage fitModel( object, initial_params = NULL, randomize = FALSE, eps = 0.01, max.iter = 50, trace = FALSE, verbose = FALSE)
+#' 
+#' @examples 
+#' 
+#' data("ATseqlengths")
+#' path = system.file("extdata",  package = "RTIGER")
+#' files = list.files(path, full.names = T)[1:3]
+#' expDesign = data.frame(files = files, name = list.files(path)[1:3])
+#' myDat = DataSetImportFromtxt(experimentDesign = expDesign, bin.length = 100, seqlengths = ATseqlengths)
+#' myDat = fitModel(myDat, max.iter = 1)
+#' @export fitModel
 #'
 #'
 

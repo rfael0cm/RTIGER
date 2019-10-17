@@ -4,6 +4,14 @@
 #' @param object a RViterbi object.
 #' @return Matrix m x n. M number of samples and N chromosomes.
 #' 
+#' #' @return a matrix with n chromosomes and m samples (n x m) and the number of CO events.
+#' @usage calcCOnumber(object)
+#' 
+#' @examples 
+#' 
+#' data("R.ViterbiExample")
+#' co.num = calcCOnumber(R.Vit)
+#' 
 #' @export calcCOnumber
 #'
 
