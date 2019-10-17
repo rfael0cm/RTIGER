@@ -2,13 +2,16 @@
 % Please edit documentation in R/CO-analysis.R
 \name{calcCOnumber}
 \alias{calcCOnumber}
-\title{Obtain number of Cross-Over events.}
+\title{Obtain number of Cross-Over events per sample and chromosome.}
 \usage{
 calcCOnumber(object)
 }
 \arguments{
 \item{object}{a RViterbi object.}
 }
+\value{
+Matrix m x n. M number of samples and N chromosomes.
+}
 \description{
-Obtain number of Cross-Over events.
+Obtain number of Cross-Over events per sample and chromosome.
 }

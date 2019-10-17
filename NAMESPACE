@@ -8,11 +8,3 @@ export(haplotypes.width)
 export(width.DoubleCO)
 exportClasses(RTIGER)
 exportClasses(RViterbi)
-
-
-import(STAN)
-import(S4Vectors)
-import(methods)
-import(Gviz)
-import(GenomicRanges)
-import(rtracklayer)

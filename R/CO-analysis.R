@@ -1,7 +1,8 @@
 #'
-#' Obtain number of Cross-Over events.
+#' Obtain number of Cross-Over events per sample and chromosome.
 #'
 #' @param object a RViterbi object.
+#' @return Matrix m x n. M number of samples and N chromosomes.
 #' 
 #' @export calcCOnumber
 #'
