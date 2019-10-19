@@ -18,4 +18,29 @@ NULL
 #' @keywords data
 NULL
 
-#' @import STAN S4Vectors methods
+#' 
+#' Fitted RTiger object from 3 samples
+#'
+#' @name myDat
+#' @docType data
+#' @author Rafael Campos-Martin, Laia Capilla, Victor Solier, Raphael Mercier, Korbinian Schneeberger, Achim Tresch
+#' @keywords data
+NULL
+
+#' 
+#' fittedExample after applying the R.Viterbi algorithm
+#'
+#' @name RVit
+#' @docType data
+#' @author Rafael Campos-Martin, Laia Capilla, Victor Solier, Raphael Mercier, Korbinian Schneeberger, Achim Tresch
+#' @keywords data
+NULL
+
+#' 
+#' data frame with file address and names
+#'
+#' @name expDesign
+#' @docType data
+#' @author Rafael Campos-Martin, Laia Capilla, Victor Solier, Raphael Mercier, Korbinian Schneeberger, Achim Tresch
+#' @keywords data
+NULL

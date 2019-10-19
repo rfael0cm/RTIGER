@@ -47,7 +47,7 @@
 #' 
 #' data("ATseqlengths")
 #' path = system.file("extdata",  package = "RTIGER")
-#' files = list.files(path, full.names = T)[1:3]
+#' files = list.files(path, full.names = TRUE)[1:3]
 #' expDesign = data.frame(files = files, name = list.files(path)[1:3])
 #' myDat = DataSetImportFromtxt(experimentDesign = expDesign, bin.length = 100, seqlengths = ATseqlengths)
 #' 

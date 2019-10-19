@@ -20,6 +20,6 @@ Obtain number of Cross-Over events per sample and chromosome.
 \examples{
 
 data("R.ViterbiExample")
-co.num = calcCOnumber(R.Vit)
+co.num = calcCOnumber(RVit)
 
 }

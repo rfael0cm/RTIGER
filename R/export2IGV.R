@@ -1,3 +1,20 @@
+#'
+#' Exports the count and viterbi code to a folder in order to visualize it in IGV.
+#'
+#' @param object an RTIGER or RViterbi object with the filtered data
+#' @param sample character with the sample name as specified in the experimentalDesign
+#' @param dir character with the chromosome to plot. If left null, it will create a folder with the name of the sample.
+#' @param ratio boolean variable. Whether the ratio P1/total should be created as well.
+#' 
+#' @usage export2IGV(object, sample, dir = NULL, ratio = FALSE)
+#' 
+#' @examples 
+#' 
+#' data("R.ViterbiExample")
+#' info = myDat@info
+#' export2IGV(RVit, samp = info$sample_names[1])
+#' @export export2IGV
+#'
 export2IGV = function( object, sample, dir = NULL, ratio = FALSE){
   if(!is.null(dir)){
     dir.create(dir)
@@ -46,7 +63,23 @@ export2IGV = function( object, sample, dir = NULL, ratio = FALSE){
   export.bw(P2.count, P2.countsfile)
 }
 
-snpCounts2IGV = function(object, sample, dir){
+
+#'
+#' Exports the count at the marker level to a bw file to visualize in IGV
+#'
+#' @param object an RTIGER object with the filtered data
+#' @param sample character with the sample name as specified in the experimentalDesign
+#' @param dir character with the chromosome to plot. If left null, it will create a folder with the name of the sample.
+#' @usage snpCounts2IGV(object, sample, dir = NULL)
+#' 
+#' @examples 
+#' 
+#' data("fittedExample.rda")
+#' info = myDat@info
+#' snpCounts2IGV(myDat, samp = info$sample_names[1])
+#' @export snpCounts2IGV
+#'
+snpCounts2IGV = function(object, sample, dir = NULL){
   if(!is.null(dir)){
     dir.create(dir)
     compdir = file.path(dir, sample)

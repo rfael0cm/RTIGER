@@ -4,7 +4,7 @@
 \alias{plotGenotype}
 \title{This funciton creates an RViterbi object.}
 \usage{
-plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = c(1,1), cex.feature = .7, from = NULL, to = NULL, main = NULL, showId = TRUE, showGenAxis = FALSE)
+plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = c(1,1), main = NULL, showGenAxis = FALSE)
 }
 \arguments{
 \item{object}{an RTIGER or RViterbi object with the filtered data}
@@ -17,7 +17,9 @@ plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = 
 
 \item{size}{size of each  panel (see Gviz documentation)}
 
-\item{...}{Additional arguments which are all interpreted as display parameters to tweak the appearance of the plot. These parameters are global, meaning that they will be used for all tracks in the list where they actually make sense, and they override the track-internal settings. See Gviz, plotTracks funciton for details on display parameters.}
+\item{main}{an overall title for the plot. If null, the sample and chromosome are the default.}
+
+\item{showGenAxis}{boolean parameter whether or not show the genome axis.}
 }
 \description{
 This funciton creates an RViterbi object.
@@ -26,5 +28,5 @@ This funciton creates an RViterbi object.
 
 data("R.ViterbiExample")
 info = myDat@info
-plotGenotype(R.Vit, samp = info$sample_names[1], info$part_names[1])
+plotGenotype(RVit, samp = info$sample_names[1], info$part_names[1])
 }

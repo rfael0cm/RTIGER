@@ -1,3 +1,5 @@
+export(snpCounts2IGV)
+export(export2IGV)
 export(plotGenotype)
 export(R.Viterbi)
 export(DataSetImportFromtxt)

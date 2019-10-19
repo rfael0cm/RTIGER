@@ -10,7 +10,7 @@
 #' @examples 
 #' 
 #' data("R.ViterbiExample")
-#' co.num = calcCOnumber(R.Vit)
+#' co.num = calcCOnumber(RVit)
 #' 
 #' @export calcCOnumber
 #'
@@ -55,14 +55,20 @@ haplotypes.width = function(object){
 
 }
 
-
-
 #'
 #' Compute number of double CO per sample and chromosome.
 #'
 #' @param object a RViterbi object.
 #' @param samples character vector with the name of the samples.
 #' 
+#' @return a matrix with n chromosomes and m samples (n x m) and the number of double CO events.
+#' @usage calcDoubleCOnumber(object, samples = NULL)
+#' 
+#' @examples 
+#' 
+#' data("R.ViterbiExample")
+#' dco.num = calcDoubleCOnumber(RVit)
+#'
 #' @export calcDoubleCOnumber
 #
 calcDoubleCOnumber = function(object, samples = NULL){

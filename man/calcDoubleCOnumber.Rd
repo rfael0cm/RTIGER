@@ -11,6 +11,15 @@ calcDoubleCOnumber(object, samples = NULL)
 
 \item{samples}{character vector with the name of the samples.}
 }
+\value{
+a matrix with n chromosomes and m samples (n x m) and the number of double CO events.
+}
 \description{
 Compute number of double CO per sample and chromosome.
+}
+\examples{
+
+data("R.ViterbiExample")
+dco.num = calcDoubleCOnumber(RVit)
+
 }

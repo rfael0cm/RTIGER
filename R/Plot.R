@@ -11,15 +11,16 @@
 #' @param chr character with the chromosome to plot
 #' @param col color to define segments in P1, P2 and heterozygous regions.
 #' @param size size of each  panel (see Gviz documentation)
-#' @param ... Additional arguments which are all interpreted as display parameters to tweak the appearance of the plot. These parameters are global, meaning that they will be used for all tracks in the list where they actually make sense, and they override the track-internal settings. See Gviz, plotTracks funciton for details on display parameters.
+#' @param main an overall title for the plot. If null, the sample and chromosome are the default.
+#' @param showGenAxis boolean parameter whether or not show the genome axis.
 #' 
-#' @usage plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = c(1,1), cex.feature = .7, from = NULL, to = NULL, main = NULL, showId = TRUE, showGenAxis = FALSE)
+#' @usage plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = c(1,1), main = NULL, showGenAxis = FALSE)
 #' 
 #' @examples 
 #' 
 #' data("R.ViterbiExample")
 #' info = myDat@info
-#' plotGenotype(R.Vit, samp = info$sample_names[1], info$part_names[1])
+#' plotGenotype(RVit, samp = info$sample_names[1], info$part_names[1])
 #' @export plotGenotype
 #'
 #'
@@ -29,11 +30,7 @@ plotGenotype = function(object,
                         chr,
                         col = c("red", "blue", "mediumorchid4"),
                         size = c(1,1),
-                        cex.feature = .7,
-                        from = NULL,
-                        to = NULL,
                         main = NULL,
-                        showId = TRUE,
                         showGenAxis = FALSE
 ){
   DataViterbi_GR = object@Viterbi
@@ -67,14 +64,12 @@ plotGenotype = function(object,
     mySize = c(.5,size)
     
   }
-
-
+  
+  if(is.null(main)) main = paste(samp, "\n", chr)
   plotTracks(mytracks, groups = colnames(mcols(dat)),
-             cex.feature= cex.feature, background.title="darkgrey", lwd=2,
-             # from=1,
+             background.title="darkgrey", lwd=2,
              to= seqlengths(FinalRes_chr)[chr] ,
-             # to = 1733000,
-             main = paste(samp, "\n", chr),
+             main = main,
              sizes=mySize,
              showFeatureId=FALSE,
              fontcolor.feature="black",  background.title="darkgrey",
