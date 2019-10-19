@@ -9,8 +9,10 @@ R.Viterbi(object, rigidity = NULL)
 \arguments{
 \item{object}{an RTIGER object with the filtered data}
 
-\item{rigidity}{rigidity parameter. Number of consecutive iterations in state s before using the transition matrix.
-#' @return returns and RViterbi object with the new viterbi path with rigidity R.}
+\item{rigidity}{rigidity parameter. Number of consecutive iterations in state s before using the transition matrix.}
+}
+\value{
+returns and RViterbi object with the new viterbi path with rigidity R.
 }
 \description{
 This funciton creates an RViterbi object.

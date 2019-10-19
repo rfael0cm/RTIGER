@@ -14,6 +14,7 @@
 #' @param main an overall title for the plot. If null, the sample and chromosome are the default.
 #' @param showGenAxis boolean parameter whether or not show the genome axis.
 #' 
+#' @return plot with the genomic segmentation for chromosome chr in sample samp.
 #' @usage plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = c(1,1), main = NULL, showGenAxis = FALSE)
 #' 
 #' @examples 

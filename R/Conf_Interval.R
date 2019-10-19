@@ -1,3 +1,27 @@
+#'
+#' Obtain a list of Genomic Ranges object with the confidence interval (genomic Region), which a CO over has happened above certain threshold conf.
+#'
+#' @param rtigerobj a RTiger object.
+#' @param rviterbiobj a RViterbi object.
+#' @param conf value between 0 and 1. Indicates the percentage of the confidence interval. 
+#' @param max.width maximum number of observations apart to look for the probability.
+#' @param samples If wanted. It can be applied ot a smaller set of samples.
+#' 
+#' @return List of genomic Ranges object
+#' 
+#' 
+#' @usage conf.intervals(rtigerobj, rviterbiobj, conf = 0.95, max.width = 3, samples = NULL)
+#' 
+#' @examples 
+#' 
+#' data("fittedExample")
+#' data("R.ViterbiExample")
+#' my.conf.int = conf.intervals(myDat, RVit)
+#' 
+#' @export calcCOnumber
+#'
+
+
 conf.intervals = function(rtigerobj, rviterbiobj, conf = 0.95, max.width = 3, samples = NULL){
   if(class(rtigerobj) != "RTIGER") stop("rtiger is not a RTIGER object")
   if(class(rviterbiobj) != "RViterbi") stop("rviterbiobj is not a RViterbi")

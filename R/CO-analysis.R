@@ -35,6 +35,8 @@ calcCOnumber = function(object){
 #'
 #' @param object a RViterbi object.
 #' 
+#' @return A vector with the width of each segment of the chormosomes.
+#' 
 #' @export haplotypes.width
 #'
 
@@ -113,6 +115,8 @@ calcDoubleCOnumber = function(object, samples = NULL){
 #'
 #' @param object a RViterbi object.
 #' @param samples character vector with the name of the samples.
+#' 
+#' @return matrix m x n. with M chromosomes and N samples with the number of double COs.
 #' 
 #' @export width.DoubleCO
 #

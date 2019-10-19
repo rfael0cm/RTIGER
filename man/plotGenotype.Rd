@@ -21,6 +21,9 @@ plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = 
 
 \item{showGenAxis}{boolean parameter whether or not show the genome axis.}
 }
+\value{
+plot with the genomic segmentation for chromosome chr in sample samp.
+}
 \description{
 This funciton creates an RViterbi object.
 }

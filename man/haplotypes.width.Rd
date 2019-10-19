@@ -9,6 +9,9 @@ haplotypes.width(object)
 \arguments{
 \item{object}{a RViterbi object.}
 }
+\value{
+A vector with the width of each segment of the chormosomes.
+}
 \description{
 Haplotypes genomic widths.
 }

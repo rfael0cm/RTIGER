@@ -39,7 +39,7 @@
 #' @param seqlengths The genomic lengths of each chromosome (As in GenomicRanges).
 #' 
 #' 
-#' #' @return A RTiger object with Genomic Ranges for the filtered and Raw data
+#' @return A RTiger object with Genomic Ranges for the filtered and Raw data
 #' @usage DataSetImportFromtxt(experimentDesign = NULL, observations = NULL, GenRanges = NULL, bin.length = NULL, min.samples = 1, min.counts = 10, quant = .2, seqlengths = NULL)
 #' 
 #'

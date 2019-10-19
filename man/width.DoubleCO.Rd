@@ -11,6 +11,9 @@ width.DoubleCO(object, samples = NULL)
 
 \item{samples}{character vector with the name of the samples.}
 }
+\value{
+matrix m x n. with M chromosomes and N samples with the number of double COs.
+}
 \description{
 genomic widths of the double COs.
 }

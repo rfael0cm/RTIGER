@@ -13,6 +13,9 @@ snpCounts2IGV(object, sample, dir = NULL)
 
 \item{dir}{character with the chromosome to plot. If left null, it will create a folder with the name of the sample.}
 }
+\value{
+a folder with files to visualize results in igv.
+}
 \description{
 Exports the count at the marker level to a bw file to visualize in IGV
 }

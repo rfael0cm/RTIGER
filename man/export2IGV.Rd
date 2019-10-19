@@ -15,6 +15,9 @@ export2IGV(object, sample, dir = NULL, ratio = FALSE)
 
 \item{ratio}{boolean variable. Whether the ratio P1/total should be created as well.}
 }
+\value{
+a folder with files to visualize results in igv.
+}
 \description{
 Exports the count and viterbi code to a folder in order to visualize it in IGV.
 }

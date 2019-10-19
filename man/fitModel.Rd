@@ -19,9 +19,10 @@ fitModel( object, initial_params = NULL, randomize = FALSE, eps = 0.01, max.iter
 
 \item{trace}{Logical value, wehter the values of the parameters along the EM algorithm should be saved}
 
-\item{verbose}{logical value, wether the algorithm status should be printed or not.
-
-#' @return The RTiger object with the fitted parameters.}
+\item{verbose}{logical value, wether the algorithm status should be printed or not.}
+}
+\value{
+The RTiger object with the fitted parameters.
 }
 \description{
 This function fits our extended HMM to an object with the observations

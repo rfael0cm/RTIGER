@@ -1,3 +1,6 @@
+export(write.marker.geno.csv)
+export(write.geno.csv)
+export(conf.intervals)
 export(snpCounts2IGV)
 export(export2IGV)
 export(plotGenotype)

@@ -689,7 +689,7 @@ EMalgorithm = function(observations, info,
 #' @param trace Logical value, wehter the values of the parameters along the EM algorithm should be saved
 #' @param verbose logical value, wether the algorithm status should be printed or not.
 #' 
-#' #' @return The RTiger object with the fitted parameters.
+#' @return The RTiger object with the fitted parameters.
 #' @usage fitModel( object, initial_params = NULL, randomize = FALSE, eps = 0.01, max.iter = 50, trace = FALSE, verbose = FALSE)
 #' 
 #' @examples 

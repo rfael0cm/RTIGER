@@ -21,10 +21,10 @@ DataSetImportFromtxt(experimentDesign = NULL, observations = NULL, GenRanges = N
 
 \item{quant}{Quantile of observations that support the minimum counts. This quantile is used to decide when to stop increasing the bin size}
 
-\item{seqlengths}{The genomic lengths of each chromosome (As in GenomicRanges).
-
-
-#' @return A RTiger object with Genomic Ranges for the filtered and Raw data}
+\item{seqlengths}{The genomic lengths of each chromosome (As in GenomicRanges).}
+}
+\value{
+A RTiger object with Genomic Ranges for the filtered and Raw data
 }
 \description{
 This function creates an RTIGER Object

@@ -6,6 +6,7 @@
 #' @param dir character with the chromosome to plot. If left null, it will create a folder with the name of the sample.
 #' @param ratio boolean variable. Whether the ratio P1/total should be created as well.
 #' 
+#' @return a folder with files to visualize results in igv.
 #' @usage export2IGV(object, sample, dir = NULL, ratio = FALSE)
 #' 
 #' @examples 
@@ -70,6 +71,7 @@ export2IGV = function( object, sample, dir = NULL, ratio = FALSE){
 #' @param object an RTIGER object with the filtered data
 #' @param sample character with the sample name as specified in the experimentalDesign
 #' @param dir character with the chromosome to plot. If left null, it will create a folder with the name of the sample.
+#' @return a folder with files to visualize results in igv.
 #' @usage snpCounts2IGV(object, sample, dir = NULL)
 #' 
 #' @examples 
