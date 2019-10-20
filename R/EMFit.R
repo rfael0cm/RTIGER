@@ -589,7 +589,7 @@ EMalgorithm = function(observations, info,
     pim_trace[1,] = params$pim
   }
   iteration = 1
-  difference = 1
+  differenz = 1
   
   while(differenz > eps & iteration < max.iter) {
     
