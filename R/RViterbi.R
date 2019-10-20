@@ -42,7 +42,7 @@ R.Viterbi = function(object, rigidity = NULL){
   chrL = info$part_lengths
   anno = seqlengths(object@FilteredData$as.GR[[1]])
 
-  if (rigid==1) {break("Standard Viterbi is computing after model fitting.")}
+  if (rigid==1) {stop("Standard Viterbi is computing after model fitting.")}
 
   tiles = width(object@FilteredData$as.GR[[1]])[1]
   goodObs = object@FilteredData$as.mat

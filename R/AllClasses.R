@@ -112,7 +112,7 @@ DataSetImportFromtxt = function(
 
       f <- read.delim(file =samp, header = FALSE)
 
-      f = checkfileColumns(f)
+      f = checkfileColumns(f, samp)
 
       myG = GRanges(seqnames =  f$V1,
                     ranges = IRanges(start = f$V2, end = f$V2),

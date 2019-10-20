@@ -68,9 +68,9 @@ data("ATseqlengths")
 
 
 myDat = DataSetImportFromtxt(experimentDesign = expDesign,
-                             bin.length = 200,
+                             bin.length = 100,
                              min.samples = 2,
-                             quant = .2,
+                             quant = 0.2,
                              min.counts = 5,
                              seqlengths = ATseqlengths)
 ```

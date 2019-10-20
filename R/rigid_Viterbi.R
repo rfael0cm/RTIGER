@@ -131,7 +131,7 @@ rigid_Viterbi = function (psimat, transmat, pivec = NULL, rigid = 1){
   currentstate = states[which.max(phi[,currentpos])]
   viterbipath[currentpos] = currentstate
   loglikelihood = phi[currentstate,currentpos]
-  repeat{
+  while(currentpos != 1){
     zur = back[currentstate,currentpos]
     if (zur == currentstate) {
       currentpos = currentpos - 1
@@ -142,7 +142,7 @@ rigid_Viterbi = function (psimat, transmat, pivec = NULL, rigid = 1){
       currentpos = jump
       currentstate = zur
     }
-    if (currentpos == 1) break()
+    # if (currentpos == 1) break()
   }
 
   return(list(viterbipath=viterbipath,loglikelihood=loglikelihood))

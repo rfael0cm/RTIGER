@@ -589,8 +589,10 @@ EMalgorithm = function(observations, info,
     pim_trace[1,] = params$pim
   }
   iteration = 1
-
-  repeat{
+  difference = 1
+  
+  while(differenz > eps & iteration < max.iter) {
+    
     if(verbose) cat("Iteration: ", iteration, "\n")
     res = wrap_fwbw(observations,info,params)
     res = c(res,posterior_markers(res$alpha,res$beta,res$psimat,info,params))
@@ -646,11 +648,7 @@ EMalgorithm = function(observations, info,
       print(table(unlist(marker_annotation))/length(unlist(marker_annotation)))
       cat("\n")
     }
-    if (differenz < eps) break()
-    if(iteration > max.iter) {
-      cat("\nReached maximum number of iterations (",max.iter,") without convergence.\n",sep="")
-      break()
-    }
+   
   } # repeat
 
   # maximum posterior decoding for marker states M_t
