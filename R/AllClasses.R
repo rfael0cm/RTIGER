@@ -158,7 +158,7 @@ DataSetImportFromtxt = function(
 
     total = sapply(listGR, function(x) as.numeric(x$total))
     print(class(total))
-    # if(class(total) == "list") total = unlist(total)
+    
 
     old.bin.length = bin.length
     while(criterion(total, quant, min.counts)){
@@ -171,7 +171,7 @@ DataSetImportFromtxt = function(
       })
 
       total = sapply(listGR, function(x) as.numeric(x$total))
-      # if(class(total) == "list") total = unlist(total)
+     
     } # while loop
 
   } # !is.null(bin.length)
