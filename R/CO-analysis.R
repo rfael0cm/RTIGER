@@ -45,7 +45,7 @@ haplotypes.width = function(object){
     sapply(seqlevels(samp), function(chr){
       newsamp = samp[seqnames(samp) == chr]
       sampGR = try(Vit2GrangesGen(newsamp, "Viterbi"), silent = TRUE)
-      if(class(sampGR) == "try-error") COs = 0
+      if(is(sampGR, "try-error")) COs = 0
       else{
         COs = width(sampGR)
       }
@@ -84,7 +84,7 @@ calcDoubleCOnumber = function(object, samples = NULL){
       newsamp = samp[seqnames(samp) == chr]
       vit = try(Vit2GrangesGen(newsamp, "Viterbi"), silent = TRUE)
 
-      if(class(vit) == "try-error") hetpos = 0
+      if(is(vit, "try-error")) hetpos = 0
       else{
         hetpos = which(vit$Viterbi == "het")
       } # end else
@@ -133,7 +133,7 @@ width.DoubleCO = function(object, samples = NULL){
       newsamp = samp[seqnames(samp) == chr]
       vit = try(Vit2GrangesGen(newsamp, "Viterbi"), silent = TRUE)
       
-      if(class(vit) == "try-error") hetpos = 0
+      if(is(vit, "try-error")) hetpos = 0
       else{
         hetpos = which(vit$Viterbi == "het")
       } # end else

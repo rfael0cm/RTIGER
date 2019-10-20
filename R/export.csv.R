@@ -50,8 +50,8 @@ write.geno.csv = function(object, file, samples = NULL, chr = NULL){
 
 
 is.rtiger = function(object){
-  res = class(object) == "RTIGER"
-  res2 = class(object) == "RViterbi"
+  res = is(object,"RTIGER")
+  res2 = is(object, "RViterbi")
   fres = res | res2
 
   return(fres)
@@ -81,8 +81,8 @@ is.rtiger = function(object){
 
 
 write.marker.geno.csv = function(rtigerobj, rviterbiobj, file, samples = NULL, chr = NULL){
-  if(class(rtigerobj) != "RTIGER") stop("rtiger is not a RTIGER object")
-  if(class(rviterbiobj) != "RViterbi") stop("rviterbiobj is not a RViterbi")
+  if(!is(rtigerobj, "RTIGER") ) stop("rtiger is not a RTIGER object")
+  if(!is(rviterbiobj,"RViterbi")) stop("rviterbiobj is not a RViterbi")
   viterbis = rviterbiobj@Viterbi
   mark.gr = rtigerobj@RawData
   

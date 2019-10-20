@@ -51,7 +51,7 @@ plotGenotype = function(object,
 
   names(col) = c("pat", "mat", "het")
 
-  myclass = ifelse(class(object) == "RTIGER", "Viterbi","R-Viterbi")
+  myclass = ifelse(is(object,"RTIGER"), "Viterbi","R-Viterbi")
   if(myclass == "R-Viterbi") myclass = paste(myclass, object@Rparameter)
   vitGviz = AnnotationTrack(Viterbi, name = myclass,
                             fill = col[Viterbi$Viterbi],

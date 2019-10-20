@@ -23,8 +23,8 @@
 
 
 conf.intervals = function(rtigerobj, rviterbiobj, conf = 0.95, max.width = 3, samples = NULL){
-  if(class(rtigerobj) != "RTIGER") stop("rtiger is not a RTIGER object")
-  if(class(rviterbiobj) != "RViterbi") stop("rviterbiobj is not a RViterbi")
+  if(!is(rtigerobj,"RTIGER")) stop("rtiger is not a RTIGER object")
+  if(!is(rviterbiobj, "RViterbi")) stop("rviterbiobj is not a RViterbi")
   
   info = rtigerobj@info
   params = rtigerobj@Model$params

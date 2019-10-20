@@ -1,15 +1,22 @@
 ---
-title: "The R-TIGER package"
-author: "Rafael Campos-Martin"
-date: ""
-output: 
-  pdf_document: 
-    highlight: pygments
-    number_sections: yes
-    toc: yes
+title: "RTIGER"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RTIGER}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
- 
- 
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(RTIGER, quietly = TRUE)
+```
 # Introduction
 
 Meiotic recombination is an essential mechanism in the sexual reproduction of
@@ -31,14 +38,13 @@ branches of molecular biology such as medicine, agriculture, etc. [REF] The aim
 of this package is to offer a possible solution for the genotyping of recombinant
 populations, generated from ancestors with known genotype, by sparse sequencing of their genomes.
 
-# Genotyping seven sequencing samples from Arabidopsis Thaliana
+# Genotyping three sequencing samples from Arabidopsis Thaliana
 
 As an example, we will show how to analyze the genotype of seven different plants of *Arabidopsis Thaliana*. The bam files have been previously processed to extract the SNP information at each position. Our package works with txt files which contain six columns. The first column defines the chromosome, second the position of the SNP third the allele of one of the parents, the read counts that support such allele, the allele of the second parent and the allele that supports these second allele.
 
 ```{r quick start, include=TRUE}
-library(RTIGER)
 path = system.file("extdata",  package = "RTIGER")
-files = list.files(path, full.names = T)[1:3]
+files = list.files(path, full.names = TRUE)
 
 file.example = read.delim(files[1], header = FALSE)
 head(file.example)
@@ -49,7 +55,7 @@ head(file.example)
 In order to initialize our model we need a data frame with minimum two columns. The files columns, which contains the full path to the files of each sample and the name column, which has a shorter name by which we will refer to each sample. In our example, we will use the file name as name of the sample:
 
 ```{r loading data, include = TRUE}
-expDesign = data.frame(files = files, name = as.character(sapply(files, function(samp)  unlist(strsplit(unlist(strsplit(samp, split = ".", fixed = T))[2], split = "/"))[4])))
+expDesign = data.frame(files = files, name = list.files(path))
 
 expDesign
 ```
@@ -57,7 +63,7 @@ expDesign
 This together with the sequence length of each chromosome of our organism is all we need to start the package. Moreover, we will need to decide some thresholds by which the chromosomes will be binned in order to increase the sequencing counts at each position.
 
 ```{r initializing mydat, include =TRUE}
-library(Rpackages, quietly = TRUE)
+
 data("ATseqlengths")
 
 
@@ -81,7 +87,6 @@ myDat
 Our threshold previously set, is applied to all the observations as a whole. But does it apply to each individual sample? What is the library size for each sample? 
 We can learn a bit more about our samples using a simple function:
 
-
 The three barplots in red are samples that do not pass the threshold set for all observations. That means that their quantile 20% is lower that 5. This could create problems in further analysis since lower library size will produce higher number of false positives when we want to infer the number of COs.
 
 Since this is an example, we will continue with those samples.
@@ -95,22 +100,20 @@ myDat = fitModel(myDat,
                  max.iter = 1, 
                  verbose = TRUE)
 
-
-
 myAnalysis = analysis.samples(myDat)
 
 myAnalysis$lib.size
 
 barplot(myAnalysis$lib.size, col = (!myAnalysis$passThresh) +1, las = 2)
-```
 
+```
 
 ## Plotting
 
 During the fitting the single observations have been decoded into the 3 possible states: homozygous parent one, homozygous parent two or heterozygous. We can plot the result for chromosome 3 of the sample input_corrected3647_AA_run513_GTAGAGGA_S20_L007
 
 ```{r plot simple}
-samp = "input_corrected3647_AA_run513_GTAGAGGA_S20_L007"
+samp = sample(myDat@info$sample_names, 1)
 chr = 3
 
 plotGenotype(myDat, samp = samp, chr = chr)
