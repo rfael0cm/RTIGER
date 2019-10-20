@@ -649,7 +649,7 @@ EMalgorithm = function(observations, info,
       cat("\n")
     }
    
-  } # repeat
+  } # while
 
   # maximum posterior decoding for marker states M_t
 
@@ -696,7 +696,7 @@ EMalgorithm = function(observations, info,
 #' path = system.file("extdata",  package = "RTIGER")
 #' files = list.files(path, full.names = TRUE)[1:3]
 #' expDesign = data.frame(files = files, name = list.files(path)[1:3])
-#' myDat = DataSetImportFromtxt(experimentDesign = expDesign, bin.length = 100, seqlengths = ATseqlengths)
+#' myDat = DataSetImportFromtxt(experimentDesign = expDesign, bin.length = 100, seqlengths = ATseqlengths[1:4])
 #' myDat = fitModel(myDat, max.iter = 1)
 #' @export fitModel
 #'

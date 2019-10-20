@@ -72,7 +72,7 @@ myDat = DataSetImportFromtxt(experimentDesign = expDesign,
                              min.samples = 2,
                              quant = 0.2,
                              min.counts = 5,
-                             seqlengths = ATseqlengths)
+                             seqlengths = ATseqlengths[1:4])
 ```
 
 In our initialization, we have specified that the bins should start with 200 nt and increase if the minimum condition does not hold. The condition we have used is that only 20% (quant) of the observations should have less than 5 (min.counts) counts. Also, each position must be supported by at least 2 samples to be taken in account.
