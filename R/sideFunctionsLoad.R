@@ -9,7 +9,7 @@ checkfileColumns = function(f){
   }
 
   if(is(f$V4, "integer") | is(f$V6, "integer")){
-    stop(cate(paste("Either one or both of the allele counts in file ", samp, " are not integers.\nAllele counts must be integers!")))
+    stop(cat(paste("Either one or both of the allele counts in file ", samp, " are not integers.\nAllele counts must be integers!")))
   } # If values are integers
 
   f <- f[rowSums(f[,c(4,6)]) != 0, ]
