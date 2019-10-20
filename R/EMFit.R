@@ -591,7 +591,7 @@ EMalgorithm = function(observations, info,
   iteration = 1
   differenz = 1
   
-  while(differenz > eps & iteration < max.iter) {
+  while(differenz > eps & iteration <= max.iter) {
     
     if(verbose) cat("Iteration: ", iteration, "\n")
     res = wrap_fwbw(observations,info,params)
