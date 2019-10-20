@@ -3,12 +3,12 @@
 #' @keywords internal
 #' @noRd
 #' 
-checkfileColumns = function(f){
+checkfileColumns = function(f,samp){
   if(!is(f$V2, "integer")){
     stop(cat(paste("Second column in file ", samp, " is not an integer.\nGenomic positions must be integers!" )))
   }
 
-  if(is(f$V4, "integer") | is(f$V6, "integer")){
+  if(!is(f$V4, "integer") | !is(f$V6, "integer")){
     stop(cat(paste("Either one or both of the allele counts in file ", samp, " are not integers.\nAllele counts must be integers!")))
   } # If values are integers
 
