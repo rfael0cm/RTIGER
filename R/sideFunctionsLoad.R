@@ -4,7 +4,7 @@
 #' @noRd
 #' 
 checkfileColumns = function(f){
-  if(!is(f$V2, "integer"){
+  if(!is(f$V2, "integer")){
     stop(cat(paste("Second column in file ", samp, " is not an integer.\nGenomic positions must be integers!" )))
   }
 
