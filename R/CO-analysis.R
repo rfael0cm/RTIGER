@@ -49,7 +49,7 @@ haplotypes.width = function(object){
       else{
         COs = width(sampGR)
       }
-      # COs = ifelse(class(sampGR) == "try-error", 0,  width(sampGR))
+      
       return(COs)
     })
   })
