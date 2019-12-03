@@ -132,7 +132,7 @@ RawDataSetImport = function(
   
   info = create_info(obs)
   
-  filteringThreshold = list(min.counts = min.counts, quantile = quant, min.samples = min.samples)
+  filteringThreshold = list(min.samples = min.samples)
   
   myObj <- .RTIGER(RawData = rawGR, FilteredData = list(as.GR = newGoodGR, as.mat = obs), info = info, FilteringThreshold = filteringThreshold, Model =list(), Viterbi = list())
   return(myObj)
