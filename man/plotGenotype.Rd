@@ -20,6 +20,10 @@ plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = 
 \item{main}{an overall title for the plot. If null, the sample and chromosome are the default.}
 
 \item{showGenAxis}{boolean parameter whether or not show the genome axis.}
+
+\item{ratio}{boolean parameter wether or not to plot the ratio counts}
+
+\item{window}{if ratio TRUE, what is the window for the sliding window to be computed of the ratios.}
 }
 \value{
 plot with the genomic segmentation for chromosome chr in sample samp.

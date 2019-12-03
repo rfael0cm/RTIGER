@@ -1,3 +1,30 @@
+#'
+#'This function creates an RTIGER Object with raw reads
+#'
+#' @param experimentDesign Data frame with minimum two columns: files and name
+#' @param observations A list of samples, which each sample is a list of matrix. Each matrix is a 2 by N markers. The first row is the parent 1 allele count and the second row is the total allele count.
+#' @param GenRanges A GenomicRanges object with the positions of each marker.
+#' @param min.samples Minumum number of samples supporting an observation to be kept. Default is 1 sample.
+#' @param seqlengths The genomic lengths of each chromosome (As in GenomicRanges).
+#' 
+#' 
+#' @return A RTiger object with Genomic Ranges for the filtered and Raw data
+#' @usage RawSetImport(experimentDesign = NULL, observations = NULL, GenRanges = NULL,min.samples = 1, seqlengths = NULL)
+#' 
+#'
+#' @examples 
+#' 
+#' data("ATseqlengths")
+#' path = system.file("extdata",  package = "RTIGER")
+#' files = list.files(path, full.names = TRUE)[1:3]
+#' expDesign = data.frame(files = files, name = list.files(path)[1:3])
+#' myDat = RawDataSetImport(experimentDesign = expDesign, bin.length = 100, seqlengths = ATseqlengths[1:4])
+#' 
+#' 
+#' @export RawDataSetImport
+#'
+
+
 RawDataSetImport = function(
   experimentDesign = NULL,
   observations = NULL,

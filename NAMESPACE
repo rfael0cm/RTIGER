@@ -12,6 +12,7 @@ export(calcCOnumber)
 export(calcDoubleCOnumber)
 export(haplotypes.width)
 export(width.DoubleCO)
+export(RawDataSetImport)
 exportClasses(RTIGER)
 exportClasses(RViterbi)
 
