@@ -9,7 +9,7 @@ License: GPL(>=2)
 biocViews: HiddenMarkovModel, GenomeAnnotation, Sequencing
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.6), GenomicRanges, TailRank
+Depends: R (>= 3.4), GenomicRanges, TailRank
 Imports: STAN, S4Vectors, methods, Gviz, rtracklayer
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr

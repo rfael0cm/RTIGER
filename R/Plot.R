@@ -13,6 +13,8 @@
 #' @param size size of each  panel (see Gviz documentation)
 #' @param main an overall title for the plot. If null, the sample and chromosome are the default.
 #' @param showGenAxis boolean parameter whether or not show the genome axis.
+#' @param ratio boolean parameter wether or not to plot the ratio counts
+#' @param window if ratio TRUE, what is the window for the sliding window to be computed of the ratios.
 #' 
 #' @return plot with the genomic segmentation for chromosome chr in sample samp.
 #' @usage plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = c(1,1), main = NULL, showGenAxis = FALSE)
@@ -32,33 +34,61 @@ plotGenotype = function(object,
                         col = c("red", "blue", "mediumorchid4"),
                         size = c(1,1),
                         main = NULL,
-                        showGenAxis = FALSE
+                        showGenAxis = FALSE,
+                        ratio = FALSE,
+                        window = 10
 ){
   DataViterbi_GR = object@Viterbi
-
+  
   FinalRes_chr = DataViterbi_GR[[samp]]
   FinalRes_chr = FinalRes_chr[seqnames(FinalRes_chr) == chr]
-
-  Viterbi = Vit2GrangesGen(FinalRes_chr, value = "Viterbi")
-
-
+  
+  if(ratio){
+    ratio_V = FinalRes_chr$P1.Allele.Count/(FinalRes_chr$P1.Allele.Count + FinalRes_chr$P2.Allele.Count)
+    ratio_V = ((ratio_V - .5)/.5)*100
+    ratio_V = myrunningMean(ratio_V, window)
+    posRatio = ratio_V
+    posRatio[posRatio < 0] = NA
+    negRatio = ratio_V
+    negRatio[negRatio >= 0 ] = NA
+    "P1.Allele.Count"
+    # rat io[is.na(ratio)] = 0
+    # FinalRes_chr$ratio = ratio_V
+    
+    myratio = FinalRes_chr
+    myratio$P1.Allele.Count = posRatio
+    myratio$P2.Allele.Count = negRatio
+    myratio = myratio[,c("P1.Allele.Count", "P2.Allele.Count")]
+    ratlim = c(-100,100)
+    ratgviz = DataTrack(myratio, type = "l", col = col[1:2], name = "Ratio", ylim = ratlim)
+    size = c(1,1,1)
+    
+  }
+  
+  Viterbi = RTIGER:::Vit2GrangesGen(FinalRes_chr, value = "Viterbi")
+  
+  
   dat = FinalRes_chr[,c("P1.Allele.Count", "P2.Allele.Count")]
   dat$P2.Allele.Count = - dat$P2.Allele.Count
-
+  
   lim = max(abs(as.matrix(mcols(dat))), na.rm = TRUE) + 2
-
+  
   datgviz = DataTrack(dat, type = "h", name = "Data", col = col[1:2], ylim = c(-lim, lim))
-
+  
   names(col) = c("pat", "mat", "het")
-
+  
   myclass = ifelse(is(object,"RTIGER"), "Viterbi","R-Viterbi")
   if(myclass == "R-Viterbi") myclass = paste(myclass, object@Rparameter)
   vitGviz = AnnotationTrack(Viterbi, name = myclass,
                             fill = col[Viterbi$Viterbi],
                             col = "transparent", stacking = "dense")
-
+  
   mySize = size
-  mytracks = c(datgviz, vitGviz)
+  mytracks =  c(datgviz, vitGviz)
+  if(ratio){
+    mytracks = c(datgviz, ratgviz, vitGviz)
+  }
+  
   if(showGenAxis){
     gtrack <- GenomeAxisTrack()
     mytracks = c(gtrack, mytracks)
@@ -77,30 +107,13 @@ plotGenotype = function(object,
              showId=TRUE)
 }
 
-
-
-
-Vit2GrangesGen = function (FinalRes_chr, value)
+myrunningMean = function(x, winHalfSize = 2) 
 {
-  chr = seqnames(FinalRes_chr)[1]
-  myRle = rle(mcols(FinalRes_chr)[[value]])
-  len = myRle$lengths
-  vals = myRle$values
-  cum = len[1]
-  if(length(len) > 1){
-    for(i in 2:length(len)) cum[i] = cum[i-1] + len[i]
+  out = x
+  for (i in 1:length(x)) {
+    start = (max(c(1, i - winHalfSize)))
+    end = (min(c(length(x), i + winHalfSize)))
+    out[i] = mean(x[start:end], na.rm = TRUE)
   }
-
-  starts = start(FinalRes_chr)
-  ends = end(FinalRes_chr)
-  good.ends = ends[cum]
-  good.start = vector(length = length(len))
-  good.start[1] = starts[1]
-  if(length(len) > 1) good.start[2:length(good.start)] = starts[cum[-length(cum)] + 1]
-  myGR = data.frame(seqnames = rep(chr, length(good.start)),
-                    start = good.start,
-                    end = good.ends)
-  myGR[[value]] = vals
-  myGR = GRanges(myGR)
-  return(myGR)
+  out
 }
