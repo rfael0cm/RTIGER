@@ -117,3 +117,28 @@ myrunningMean = function(x, winHalfSize = 2)
   }
   out
 }
+
+
+Vit2GrangesGen = function (FinalRes_chr, value)
+{
+  chr = seqnames(FinalRes_chr)[1]
+  myRle = rle(mcols(FinalRes_chr)[[value]])
+  len = myRle$lengths
+  vals = myRle$values
+  cum = len[1]
+  if(length(len) > 1){
+    for(i in 2:length(len)) cum[i] = cum[i-1] + len[i]
+  }
+  starts = start(FinalRes_chr)
+  ends = end(FinalRes_chr)
+  good.ends = ends[cum]
+  good.start = vector(length = length(len))
+  good.start[1] = starts[1]
+  if(length(len) > 1) good.start[2:length(good.start)] = starts[cum[-length(cum)] + 1]
+  myGR = data.frame(seqnames = rep(chr, length(good.start)),
+                    start = good.start,
+                    end = good.ends)
+  myGR[[value]] = vals
+  myGR = GRanges(myGR)
+  return(myGR)
+}
