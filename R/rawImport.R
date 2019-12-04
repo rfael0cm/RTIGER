@@ -49,14 +49,14 @@ RawDataSetImport = function(
       
       f <- read.delim(file =samp, header = FALSE)
       
-      f = checkfileColumns(f, samp)
+      f = RTIGER:::checkfileColumns(f, samp)
       
       myG = GRanges(seqnames =  f$V1,
                     ranges = IRanges(start = f$V2, end = f$V2),
                     P1.Allele = f$V3,
                     P1.Allele.Count = f$V4,
                     P2.Allele = f$V5,
-                    P2.Allele.Count = f$V6,
+                    total = f$V6 + f$V4,
                     seqlengths = seqlengths
       )
       
