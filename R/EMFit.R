@@ -113,6 +113,7 @@ wrap_fwbw = function(obs,info,params){
   names(nbetas) = part_names
 
   for (part in part_names){
+    # cat(part, "\n")
     marker_names = info$marker_names[[part]]
     marker_nr = length(marker_names)
     alpha_complete[[part]] = array(0,dim=c(sample_nr,ncol=marker_nr,length(vstates)),
@@ -131,8 +132,9 @@ wrap_fwbw = function(obs,info,params){
                             dimnames = list( sample_names, marker_names))
 
     for (samp in sample_names){
+      # cat(samp, "\n")
       # cat(samp, " ", part, "\n")
-      res = forwardbackward(obs[[samp]][[part]],params)
+      res = RTIGER:::forwardbackward(obs[[samp]][[part]],params)
       alpha_complete[[part]][samp,marker_names,vstates] = t(res$alpha[vstates,marker_names])
       beta_complete[[part]][samp,marker_names,vstates] = t(res$beta[vstates,marker_names])
       psimat_complete[[part]][samp,marker_names,psistates] = t(res$psimat[psistates,marker_names])
@@ -574,7 +576,7 @@ EMalgorithm = function(observations, info,
                        eps=0.01, max.iter=50,
                        trace=FALSE,
                        verbose = FALSE){
-  params = generate_params(initial_params,randomize)
+  params = RTIGER:::generate_params(initial_params,randomize)
 
   if (trace) {
     a_trace = matrix(0,nrow=max.iter+1,ncol=9)
@@ -594,7 +596,7 @@ EMalgorithm = function(observations, info,
   while(differenz > eps & iteration <= max.iter) {
     
     if(verbose) cat("Iteration: ", iteration, "\n")
-    res = wrap_fwbw(observations,info,params)
+    res = RTIGER:::wrap_fwbw(observations,info,params)
     res = c(res,posterior_markers(res$alpha,res$beta,res$psimat,info,params))
     res = c(res,zeta_function(res$alpha,res$beta,res$psimat,info,params))
     res = c(res,tau_function(res$zeta,res$beta,res$psimat,res$mu,info,params))
@@ -711,7 +713,7 @@ fitModel = function( object,
                     verbose = FALSE) {
   observations = object@FilteredData$as.mat
   info = object@info
-  if(is.null(initial_params)) initial_params = generate_params(randomize = randomize)
+  if(is.null(initial_params)) initial_params = RTIGER:::generate_params(randomize = randomize)
 
   res = EMalgorithm(observations = observations,
                     info = info,

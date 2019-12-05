@@ -12,11 +12,34 @@ checkfileColumns = function(f,samp){
     stop(cat(paste("Either one or both of the allele counts in file ", samp, " are not integers.\nAllele counts must be integers!")))
   } # If values are integers
 
-  f <- f[rowSums(f[,c(4,6)]) != 0, ]
+  # f <- f[rowSums(f[,c(4,6)]) != 0, ]
   f <- f[!duplicated(f$V2),]
 
   return(f)
 }
+
+#' Checks if the txt files from input have the correct format for raw data
+#'
+#' @keywords internal
+#' @noRd
+#' 
+checkfileColumnsRaw = function(f,samp){
+  if(!is(f$V2, "integer")){
+    stop(cat(paste("Second column in file ", samp, " is not an integer.\nGenomic positions must be integers!" )))
+  }
+  
+  if(!is(f$V4, "integer") | !is(f$V6, "integer")){
+    stop(cat(paste("Either one or both of the allele counts in file ", samp, " are not integers.\nAllele counts must be integers!")))
+  } # If values are integers
+  
+  f$V4[rowSums(f[,c(4,6)]) == 0] = NA
+  f$V6[rowSums(f[,c(4,6)], na.rm = T) == 0] = NA
+  
+  f <- f[!duplicated(f$V2),]
+  
+  return(f)
+}
+
 
 #' Checks the criterion in datasetimportFromtxt
 #'
