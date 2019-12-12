@@ -10,7 +10,7 @@ biocViews: HiddenMarkovModel, GenomeAnnotation, Sequencing
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.4), GenomicRanges, TailRank
-Imports: STAN, S4Vectors, methods, Gviz, rtracklayer
+Imports: STAN, S4Vectors, methods, Gviz, rtracklayer, e1071
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Suggests: 

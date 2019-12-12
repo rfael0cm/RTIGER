@@ -16,6 +16,7 @@ export(RawDataSetImport)
 exportClasses(RTIGER)
 exportClasses(RViterbi)
 
+import(e1071)
 import(STAN)
 import(S4Vectors)
 import(methods)

@@ -19,83 +19,112 @@
 #' This funciton creates an RViterbi object. 
 #'
 #' @param object an RTIGER object with the filtered data
-#' @param rigidity rigidity parameter. Number of consecutive iterations in state s before using the transition matrix.
+#' @param Rs rigidity values to be checked. Number of consecutive iterations in state s before using the transition matrix.
 #' @return returns and RViterbi object with the new viterbi path with rigidity R.
-#' @usage R.Viterbi(object, rigidity = NULL)
+#' @usage R.Viterbi(object, Rs)
 #' 
 #' @examples 
 #' 
 #' data("fittedExample")
-#' RVit = R.Viterbi(myDat, rigidity = 3)
+#' RVit = R.Viterbi(myDat, Rs = 3:4)
 #' 
 #' @export R.Viterbi
 #'
 #'
 
 
-R.Viterbi = function(object, rigidity = NULL){
-  rigid = rigidity
-
-  info = object@info
-  sampleN = info$sample_names
-  chrN = info$part_names
-  chrL = info$part_lengths
-  anno = seqlengths(object@FilteredData$as.GR[[1]])
-
-  if (rigid==1) {stop("Standard Viterbi is computing after model fitting.")}
-
-  tiles = width(object@FilteredData$as.GR[[1]])[1]
-  goodObs = object@FilteredData$as.mat
-  psis = object@Model$psi
-  transmat = object@Model$params$a
-  pivec = object@Model$params$piv
-
-  newvit = lapply(psis, function(chr){
-    chrvit = apply(chr, 1, function(samp) rigid_Viterbi(psimat = t(samp[, c("pat", "het", "mat")]), transmat = transmat, pivec = pivec, rigid = rigid))
-    # rownames(chrvit) = dimnames(chr)[[2]]
-    return(chrvit)
-  }) #lapply pisis
-
-  loglike = sum(unlist(lapply(newvit, function(chr) unlist(lapply(chr, function(samp) samp$loglikelihood)))))
-
-  vits = vector("list", length(chrN))
-  names(vits) = chrN
-  for(chr in chrN){
-    vits[[chr]] = matrix(NA, nrow = dim(psis[[chr]])[2],
-                         ncol = length(sampleN),
-                         dimnames = list(dimnames(psis[[chr]])[[2]], sampleN))
-    for(samp in sampleN){
-      vits[[chr]][,samp] = newvit[[chr]][[samp]]$viterbipath
-    }
-
+R.Viterbi = function(object, Rs = seq(70,400,20)){
+  
+  
+  myRs = Rs
+  
+  myViterbis = list()
+  for(i in myRs){
+    myViterbis[[as.character(i)]] = myRvit(myDat, rigidity = i)
   }
-  # loglike = 0 ## TODO!! IMPLEMENT LOGLIKE
-  Viterbis = do.call(rbind, vits)
+  
+  
+  logslikes = sapply(myViterbis, function(i) i@LogLike)
+  
+  viterbisPaths = sapply(myViterbis, function(i) as.vector(sapply(i@Viterbi, function(x) x$Viterbi)))
+  
+  mydist = vector(length = length(myRs))
+  deltalog = vector(length =  length(myRs))
+  
+  mydist[1] = NA
+  deltalog[1] = NA
+  
+  for(i in 2:length(myRs)){
+    mydist[i] = hamming.distance(viterbisPaths[,i-1], viterbisPaths[,i])
+    deltalog[i] = logslikes[i] - logslikes[i-1]
+  }
+  Rvit = myViterbis[[as.character(myRs[which.min(deltalog/mydist)])]]
+  return(Rvit)
+  
+  myRvit = function(object, rigid){
+    info = object@info
+    sampleN = info$sample_names
+    chrN = info$part_names
+    chrL = info$part_lengths
+    anno = seqlengths(object@FilteredData$as.GR[[1]])
+    
+    if (rigid==1) {stop("Standard Viterbi is computing after model fitting.")}
+    
+    tiles = width(object@FilteredData$as.GR[[1]])[1]
+    goodObs = object@FilteredData$as.mat
+    psis = object@Model$psi
+    transmat = object@Model$params$a
+    pivec = object@Model$params$piv
+    
+    newvit = lapply(psis, function(chr){
+      chrvit = apply(chr, 1, function(samp) rigid_Viterbi(psimat = t(samp[, c("pat", "het", "mat")]), transmat = transmat, pivec = pivec, rigid = rigid))
+      # rownames(chrvit) = dimnames(chr)[[2]]
+      return(chrvit)
+    }) #lapply pisis
+    
+    loglike = sum(unlist(lapply(newvit, function(chr) unlist(lapply(chr, function(samp) samp$loglikelihood)))))
+    
+    vits = vector("list", length(chrN))
+    names(vits) = chrN
+    for(chr in chrN){
+      vits[[chr]] = matrix(NA, nrow = dim(psis[[chr]])[2],
+                           ncol = length(sampleN),
+                           dimnames = list(dimnames(psis[[chr]])[[2]], sampleN))
+      for(samp in sampleN){
+        vits[[chr]][,samp] = newvit[[chr]][[samp]]$viterbipath
+      }
+      
+    }
+    # loglike = 0 ## TODO!! IMPLEMENT LOGLIKE
+    Viterbis = do.call(rbind, vits)
+    
+    DataViterbi_GR = lapply(colnames(Viterbis), function(x){
+      pos = unlist(strsplit(rownames(Viterbis), split = "_"))
+      mat = t(do.call(cbind, goodObs[[x]]))
+      res = GRanges(seqnames = pos[seq(1,length(pos), by = 2)],
+                    IRanges(start = as.numeric(pos[seq(2,length(pos), by = 2)]), width = tiles),
+                    P1.Allele.Count = mat[,1],
+                    P2.Allele.Count = mat[,2] - mat[,1],
+                    Viterbi = Viterbis[,x],
+                    # PostDec = postDec[,x],
+                    seqlengths = anno
+      )
+      return(res)
+      
+      
+    })
+    names(DataViterbi_GR) = colnames(Viterbis)
+    
+    
+    
+    myObj = .RViterbi(Rparameter = rigidity,
+                      LogLike = loglike,
+                      Viterbi = DataViterbi_GR)
+    
+    return(myObj)
+  }
 
-  DataViterbi_GR = lapply(colnames(Viterbis), function(x){
-    pos = unlist(strsplit(rownames(Viterbis), split = "_"))
-    mat = t(do.call(cbind, goodObs[[x]]))
-    res = GRanges(seqnames = pos[seq(1,length(pos), by = 2)],
-                  IRanges(start = as.numeric(pos[seq(2,length(pos), by = 2)]), width = tiles),
-                  P1.Allele.Count = mat[,1],
-                  P2.Allele.Count = mat[,2] - mat[,1],
-                  Viterbi = Viterbis[,x],
-                  # PostDec = postDec[,x],
-                  seqlengths = anno
-                  )
-    return(res)
-
-
-  })
-  names(DataViterbi_GR) = colnames(Viterbis)
-
-
-
-  myObj = .RViterbi(Rparameter = rigidity,
-                    LogLike = loglike,
-                    Viterbi = DataViterbi_GR)
-
-  return(myObj)
+  
 
 
 }
