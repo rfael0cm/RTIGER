@@ -1,3 +1,4 @@
+export(state_ratios)
 export(write.marker.geno.csv)
 export(write.geno.csv)
 export(conf.intervals)
