@@ -18,7 +18,7 @@
 #' path = system.file("extdata",  package = "RTIGER")
 #' files = list.files(path, full.names = TRUE)[1:3]
 #' expDesign = data.frame(files = files, name = list.files(path)[1:3])
-#' myDat = RawDataSetImport(experimentDesign = expDesign, bin.length = 100, seqlengths = ATseqlengths[1:4])
+#' myDat = RawDataSetImport(experimentDesign = expDesign, seqlengths = ATseqlengths[1:4])
 #' 
 #' 
 #' @export RawDataSetImport
@@ -49,7 +49,7 @@ RawDataSetImport = function(
       
       f <- read.delim(file =samp, header = FALSE)
       
-      f = checkfileColumnsRaw(f, samp)
+      f = RTIGER:::checkfileColumnsRaw(f, samp)
       
       myG = GRanges(seqnames =  f$V1,
                     ranges = IRanges(start = f$V2, end = f$V2),
@@ -82,7 +82,7 @@ RawDataSetImport = function(
                     P2.Allele.Count = obs[,2] - obs[,1]
                     # seqlengths = seqlengths
       )
-      
+      myG = sort(myG)
       return(myG)
     }) # end sapply rawGR
     
@@ -99,15 +99,30 @@ RawDataSetImport = function(
   goods = which(table(chrPos) >= min.samples) # Filter positions by the number of samples that have sequences that position
   
   goodNam = names(goods)
+  myseq = unlist(strsplit(goodNam, split = "_"))
+  myx = myseq[seq(1, length(myseq), 2)]
+  myy = as.numeric(myseq[seq(2,length(myseq), 2)])
+  mym = GRanges(seqnames = myx, IRanges(start = myy,  width = 1), strand = "*", P1.Allele = factor("",levels = c(".", "A","C","G", "T")), P1.Allele.Count = 0, P2.Allele = factor("",levels = c(".", "A","C","G", "T")), total = 0, chrPos = goodNam)
+  mym = sort(mym)
+  mym = as.data.frame(mym)
   
   newGoodGR = lapply(listGR, function(myG){
     m = as.data.frame(myG)
     m$chrPos = paste(m$seqnames, m$start, sep = "_")
-    m = m[m$chrPos %in% goodNam, ]
-    m = GRanges(m)
-    seqlengths(m) = seqlengths(myG)
-    m = sort(m)
-    return(m)
+    myGR = mym
+    myGR$P1.Allele[myGR$chrPos %in% m$chrPos] = as.character(m$P1.Allele[m$chrPos %in% myGR$chrPos])
+    myGR$P2.Allele[myGR$chrPos %in% m$chrPos] = as.character(m$P2.Allele[m$chrPos %in% myGR$chrPos])
+    myGR$P1.Allele.Count[myGR$chrPos %in% m$chrPos] = m$P1.Allele.Count[m$chrPos %in% myGR$chrPos]
+    myGR$total[myGR$chrPos %in% m$chrPos] = m$total[m$chrPos %in% myGR$chrPos]
+    myGR = GRanges(myGR)
+    seqlengths(myGR) = seqlengths(myG)
+    myGR = sort(myGR)
+    return(myGR)
+    # m = m[m$chrPos %in% goodNam, ]
+    # m = GRanges(m)
+    # seqlengths(m) = seqlengths(myG)
+    # m = sort(m)
+    # return(m)
   })
   
   obs = lapply(newGoodGR, function(samp){

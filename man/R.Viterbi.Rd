@@ -4,12 +4,12 @@
 \alias{R.Viterbi}
 \title{This funciton creates an RViterbi object.}
 \usage{
-R.Viterbi(object, rigidity = NULL)
+R.Viterbi(object, Rs)
 }
 \arguments{
 \item{object}{an RTIGER object with the filtered data}
 
-\item{rigidity}{rigidity parameter. Number of consecutive iterations in state s before using the transition matrix.}
+\item{Rs}{rigidity values to be checked. Number of consecutive iterations in state s before using the transition matrix.}
 }
 \value{
 returns and RViterbi object with the new viterbi path with rigidity R.
@@ -20,6 +20,6 @@ This funciton creates an RViterbi object.
 \examples{
 
 data("fittedExample")
-RVit = R.Viterbi(myDat, rigidity = 3)
+RVit = R.Viterbi(myDat, Rs = 3:4)
 
 }
