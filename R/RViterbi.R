@@ -40,7 +40,7 @@ R.Viterbi = function(object, Rs = seq(70,400,20)){
   
   myViterbis = list()
   for(i in myRs){
-    myViterbis[[as.character(i)]] = myRvit(myDat, rigid = i)
+    myViterbis[[as.character(i)]] = myRvit(object, rigid = i)
   }
   
   
