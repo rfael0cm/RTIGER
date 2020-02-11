@@ -33,13 +33,14 @@
 #'
 
 
-R.Viterbi = function(object, Rs = seq(70,400,20)){
+R.Viterbi = function(object, Rs = seq(70,400,20), verbose = FALSE){
   
   
   myRs = Rs
   
   myViterbis = list()
   for(i in myRs){
+    if(verbose) cat("Using R:", i, "\n\n")
     myViterbis[[as.character(i)]] = myRvit(object, rigid = i)
   }
   
