@@ -33,6 +33,7 @@
 #'
 
 
+
 R.Viterbi = function(object, Rs = seq(70,400,20), verbose = FALSE){
   
   
@@ -44,22 +45,25 @@ R.Viterbi = function(object, Rs = seq(70,400,20), verbose = FALSE){
     myViterbis[[as.character(i)]] = myRvit(object, rigid = i)
   }
   
+  if(length(Rs) > 1){
+    logslikes = sapply(myViterbis, function(i) i@LogLike)
+    
+    viterbisPaths = sapply(myViterbis, function(i) as.vector(sapply(i@Viterbi, function(x) x$Viterbi)))
+    
+    mydist = vector(length = length(myRs))
+    deltalog = vector(length =  length(myRs))
+    
+    mydist[1] = NA
+    deltalog[1] = NA
+    
+    for(i in 2:length(myRs)){
+      mydist[i] = hamming.distance(viterbisPaths[,i-1], viterbisPaths[,i])
+      deltalog[i] = logslikes[i] - logslikes[i-1]
+    }
+    Rvit = myViterbis[[as.character(myRs[which.min(deltalog/mydist)])]]
+  } else{ Rvit = myViterbis[[1]]}
   
-  logslikes = sapply(myViterbis, function(i) i@LogLike)
-  
-  viterbisPaths = sapply(myViterbis, function(i) as.vector(sapply(i@Viterbi, function(x) x$Viterbi)))
-  
-  mydist = vector(length = length(myRs))
-  deltalog = vector(length =  length(myRs))
-  
-  mydist[1] = NA
-  deltalog[1] = NA
-  
-  for(i in 2:length(myRs)){
-    mydist[i] = hamming.distance(viterbisPaths[,i-1], viterbisPaths[,i])
-    deltalog[i] = logslikes[i] - logslikes[i-1]
-  }
-  Rvit = myViterbis[[as.character(myRs[which.min(deltalog/mydist)])]]
+  Rvit = Rvit
   return(Rvit)
   
   # myRvit = function(object, rigid){
@@ -177,7 +181,8 @@ myRvit = function(object, rigid){
                   P2.Allele.Count = mat[,2] - mat[,1],
                   Viterbi = Viterbis[,x],
                   # PostDec = postDec[,x],
-                  seqlengths = anno
+                  seqlengths = anno,
+                  suggest.trim = TRUE
     )
     return(res)
     
