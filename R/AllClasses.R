@@ -162,7 +162,7 @@ DataSetImportFromtxt = function(
     
 
     old.bin.length = bin.length
-    while(criterion(total, quant, min.counts) | max.bin.lengt > bin.length){
+    while(criterion(total, quant, min.counts) & max.bin.length > bin.length){
       bin.length = bin.length + old.bin.length
 
 
