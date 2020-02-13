@@ -60,6 +60,7 @@ DataSetImportFromtxt = function(
   observations = NULL,
   GenRanges = NULL,
   bin.length = NULL,
+  max.bin.length = NULL,
   min.samples = 1,
   min.counts = 10,
   quant = .2,
@@ -69,7 +70,7 @@ DataSetImportFromtxt = function(
   if( is.null(experimentDesign) & is.null(observations)){
     stop("No file information found!")
   }
-
+  if(is.null(max.bin.length)) max.bin.length = max(seqlengths)
 # Check path and patterns -------------------------------------------------
 
 
@@ -161,7 +162,7 @@ DataSetImportFromtxt = function(
     
 
     old.bin.length = bin.length
-    while(criterion(total, quant, min.counts)){
+    while(criterion(total, quant, min.counts) | max.bin.lengt > bin.length){
       bin.length = bin.length + old.bin.length
 
 
