@@ -1,0 +1,68 @@
+#####################################################################################################################################
+Installation (Maybe this would go in the reference manual):
+    Pre-requisites:
+        Julia:
+            Installation guide?
+            Version number? Other dependencies? Their version number?
+        R (version number?):
+            dependencies, version numbers? Probably would be installed by installer? Any other thing that could be problematic when installing?
+        Anything else?
+
+#####################################################################################################################################
+
+Input Data:
+    Top level input: file containing paths to allele count files
+        Example: file
+            one path per row    (In code, check for the existence and access right of each path. Inform about all paths that are not accessible. Also perform sanity check for the allele count file.)
+    
+    Describe allele count file:
+        Format: ChrID   Position (INT)    Reference_Allele (CHAR: {A|C|G|T})    Reference_Allele_Count (INT)  Alternate_Allele (CHAR: {A|C|G|T})    Alternate_Allele_Count (INT)
+        Maybe, describe how the information in this would be used for CO identification, i.e. HMM would be created where each base (position) would be an observation. I find the fact that RTIGER can process different populations with different CO distribution in one go, very exciting. This also makes it easier to use compared to TIGER (the current competition). Might be worth to discuss this here. However, this also has limitations (could not combine Chr4 and ChrAll populations). These would need to be mentioned as well.
+        Do we have estimates on how RTIGER performance varies with number of samples? Markers? Is it possible to use it for 1 sample with only 100 markers (rows in allele_count file)? Might be important to describe this here.
+    
+    Describe how to create allele count file ???
+        Do we want to do this? If yes, then this would involve sharing multiple model scripts for:
+            1) Generating Marker list
+                Marker filtering: which markers to remove, how number of markers reflect CO-identification interval
+            2) Getting allele count at marker positions for each sample        
+
+#####################################################################################################################################        
+
+Running RTIGER:
+    ## Simple Run
+        #Load RTIGER
+        library(RTIGER)
+        
+        #define path of file containing paths for allele_count
+        allele_count_paths <- '/PATH/TO/FILE'
+        
+        #run RTIGER
+        rtiger_out <- RTIGER(allele_count_paths, rigidity=R)    ## More parameters?
+        
+        Describe how rigidity works. Strategies to select optimal rigidity?
+        (Maybe, also show effects of changing Rigidity values)
+        
+        Would RTIGER generate plots directly? If yes, then they might be described here.
+        
+        Would RTIGER generate CO-Lists directly? If yes, then they might be described here.
+        
+        Maybe, also decribe the rtiger_out object. Is it something that the user can use for doing post-processing itself?
+        
+
+    ## Examples of using other running modes for RTIGER (changing parameters)?
+    
+    ## Generating CO-Lists from rtiger_out object (if not generated automatically)
+    
+    ## Description of using other ease-of-life features provided by RTIGER    
+    
+   
+#####################################################################################################################################        
+
+Cite:
+    Citation        
+    
+#####################################################################################################################################
+
+Session info
+
+#####################################################################################################################################

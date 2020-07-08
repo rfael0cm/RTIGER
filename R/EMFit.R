@@ -704,9 +704,9 @@ EMalgorithm = function(observations, info,
 #'
 #'
 
-fitModel = function( object,
-                     initial_params = NULL,
-                     randomize = FALSE,
+fitModel = function(object,
+                    initial_params = NULL,
+                    randomize = FALSE,
                     eps = 0.01,
                     max.iter = 50,
                     trace = FALSE,
