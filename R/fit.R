@@ -1,3 +1,19 @@
+
+#' Call Julia code to fit the values
+#' @param rtigerobj an RTIGER object.
+#' @param max.iter maximum number of iterations to acomplish by the EM.
+#' @param eps differnece threshold to halt the EM.
+#' @param trace logical value whether to trace the changes in the parameters along the iterations.
+#' @param all logical value whether to use all data to fit the model.
+#' @param random if all FALSE use random samples.
+#' @param specific if all FALSE use specific samples.
+#' @param nsamples if random TRUE, how many samples to use.
+#' @param post.processing logical value, whether to run post.processing process.
+#'
+#' @keywords internal
+#' @noRd
+#'
+
 fit = function(rtigerobj, max.iter, eps, trace, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE){
   params = rtigerobj@params
   obs = rtigerobj@matobs
