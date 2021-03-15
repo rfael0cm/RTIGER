@@ -26,5 +26,5 @@ import(reshape2)
 import(ggplot2)
 import(IRanges)
 import(GenomeInfoDb)
-globalVariables(c("Sample", "COs", "Chr", "value"))
+
 
