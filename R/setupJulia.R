@@ -1,6 +1,4 @@
 #' Installs the needed packages in JULIA to run the EM algorithm for rHMM.
-#' @example
-#' setupJulia()
 #'
 #' @export setupJulia
 setupJulia = function(){
@@ -15,8 +13,6 @@ setupJulia = function(){
 
 #' Function needed before using RTIGER() function. It loads the scripts in Julia that fit the rHMM.
 #'
-#' @example
-#' sourceJulia()
 #'
 #' @export sourceJulia
 #'

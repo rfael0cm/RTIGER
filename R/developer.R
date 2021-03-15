@@ -1,6 +1,25 @@
 # Psi should be in the same form as the observations in the normal function
 # List with samples with lists with Chromosome with a nstates x T Matrix
-dev=function(psi,rigidity=NULL,nstates=3,transition=NULL,start=NULL){
+
+#'
+#' Function to developers. It runs one EM step
+#'
+#' @param psi list of psi probabilities.
+#' @param rigidity Rigidity value.
+#' @param nstates Number of states.
+#' @param transition transition matrix
+#' @param start initial probabilities
+#'
+#' @return List with updates probabilites
+#'
+#'
+#' @usage dev.(psi, rigidity = NULL, nstates = 3, transition = NULL, start = NULL)
+#'
+#'
+#'
+#' @export dev
+#'
+dev= function(psi,rigidity=NULL,nstates=3,transition=NULL,start=NULL){
 
   #Checks:
   if(is.null(rigidity)) stop("Rigidity must be specified. This is a data specific parameter. Check vignette.\n")

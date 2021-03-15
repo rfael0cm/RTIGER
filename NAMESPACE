@@ -6,6 +6,7 @@ export(plotGenotype)
 export(calcCOnumber)
 export(state_ratios)
 export(export2IGV)
+export(dev)
 exportClasses(RTIGER)
 
 
