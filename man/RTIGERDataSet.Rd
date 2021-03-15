@@ -11,16 +11,36 @@ This class is a generic container for RTIGER analysis
 \section{Slots}{
 
 \describe{
-\item{\code{RawData}}{Raw data}
+\item{\code{matobs}}{Nested lists. the first level is a list of samples. For each sample there are 5 matrices that contains the allele counts for each position.}
 
-\item{\code{FilteredData}}{List containing the filtered data based on the minimum number of samples supporting the each position and summing over the bin size.}
+\item{\code{params}}{a list with the parameters after training.
+\itemize{
+#' \item nstates: number of states.
+\item logtransition: log transformed transition matrix.
+\item paraBetaAlpha: Alpha value for the beta distribution.
+\item paraBetaBeta: Beta value for the beta distribution.
+\item rigidity: Rigity selected by the user.
+\item logpi log transfrom initial probabilities.
+\item transition: transition probability matrix.
+\item pi: Initial probabilities.
+}}
 
-\item{\code{FilteringThreshold}}{List of the parameters used to decide the bin size.}
-
-\item{\code{info}}{List with information about the samples.}
-
-\item{\code{Model}}{fitted model to the data.}
+\item{\code{info}}{List with phenotipic data of the samples.
+\itemize{
+#' \item sample_names.
+\item part_names names of the chromosomes. Obtained from the raw data.
+\item marker_names: Specific names for the markers. Chr_pos.
+\item sample_nr Number of samples on the data set.
+\item part_nr number of chromosomes
+\item part_lenghts length of each chromsome
+\item NAs_matrices Matrix that specifies where an NA is in each sample.
+\item expDesing data frame introduced by the user.
+}}
 
 \item{\code{Viterbi}}{List of chromosomes with the viterbi path per sample.}
+
+\item{\code{Probabilities}}{Computed probabilites for the EM algorithm.}
+
+\item{\code{num.iter}}{Number of iterations needed to stop the EM algorithm.}
 }}
 

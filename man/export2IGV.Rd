@@ -14,6 +14,8 @@ export2IGV(object, sample, dir = NULL, ratio = FALSE, newn = NULL)
 \item{dir}{character with the chromosome to plot. If left null, it will create a folder with the name of the sample.}
 
 \item{ratio}{boolean variable. Whether the ratio P1/total should be created as well.}
+
+\item{newn}{named vector with the new and shorter names for the samples.}
 }
 \value{
 a folder with files to visualize results in igv.

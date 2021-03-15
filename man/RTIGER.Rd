@@ -29,6 +29,8 @@ RTIGER(expDesign, rigidity=NULL, outputdir=NULL, nstates = 3, seqlengths = NULL,
 
 \item{random}{Logical value. Choose randomly a subset of the complete dataset to fit the rHMM. Default FALSE}
 
+\item{specific}{Logical value to specify which samples to take.}
+
 \item{nsamples}{if random TRUE, how many samples should be taken randomly.}
 
 \item{post.processing}{Logical value. Whether to run an extra step that fine maps the segment borthers. Default TRUE}

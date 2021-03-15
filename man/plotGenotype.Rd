@@ -4,7 +4,7 @@
 \alias{plotGenotype}
 \title{This funciton creates an RViterbi object.}
 \usage{
-plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = c(1,1), main = NULL, showGenAxis = FALSE, ratio = FALSE, window = 10)
+plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = c(1,1), main = NULL, showGenAxis = TRUE, ratio = FALSE, window = 10)
 }
 \arguments{
 \item{object}{an RTIGER or RViterbi object with the filtered data}

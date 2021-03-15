@@ -17,7 +17,7 @@
 #' @param window if ratio TRUE, what is the window for the sliding window to be computed of the ratios.
 #'
 #' @return plot with the genomic segmentation for chromosome chr in sample samp.
-#' @usage plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = c(1,1), main = NULL, showGenAxis = FALSE, ratio = FALSE, window = 10)
+#' @usage plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = c(1,1), main = NULL, showGenAxis = TRUE, ratio = FALSE, window = 10)
 #'
 #' @examples
 #'

@@ -10,7 +10,7 @@
 #' @examples
 #'
 #' data("fittedExample")
-#' co.num = calcCOnumber(RVit)
+#' co.num = calcCOnumber(myDat)
 #'
 #' @export calcCOnumber
 #'

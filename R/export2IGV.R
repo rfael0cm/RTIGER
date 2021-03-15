@@ -5,6 +5,7 @@
 #' @param sample character with the sample name as specified in the experimentalDesign
 #' @param dir character with the chromosome to plot. If left null, it will create a folder with the name of the sample.
 #' @param ratio boolean variable. Whether the ratio P1/total should be created as well.
+#' @param newn named vector with the new and shorter names for the samples.
 #'
 #' @return a folder with files to visualize results in igv.
 #' @usage export2IGV(object, sample, dir = NULL, ratio = FALSE, newn = NULL)
