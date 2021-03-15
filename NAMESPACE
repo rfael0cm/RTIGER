@@ -9,8 +9,11 @@ export(export2IGV)
 exportClasses(RTIGER)
 
 
+importFrom("grDevices", "dev.off", "pdf", "rgb")
+importFrom("graphics", "legend", "points")
+importFrom("stats", "runif")
+importFrom("utils", "read.delim", "write.table")
 import(e1071)
-import(S4Vectors)
 import(methods)
 import(Gviz)
 import(rtracklayer)
@@ -23,4 +26,5 @@ import(reshape2)
 import(ggplot2)
 import(IRanges)
 import(GenomeInfoDb)
+globalVariables(c("Sample", "COs", "Chr", "value"))
 
