@@ -13,7 +13,7 @@
 #' @return List with updates probabilites
 #'
 #'
-#' @usage dev.(psi, rigidity = NULL, nstates = 3, transition = NULL, start = NULL)
+#' @usage dev(psi, rigidity = NULL, nstates = 3, transition = NULL, start = NULL)
 #'
 #'
 #'

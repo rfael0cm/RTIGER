@@ -4,7 +4,7 @@
 \alias{dev}
 \title{Function to developers. It runs one EM step}
 \usage{
-dev.(psi, rigidity = NULL, nstates = 3, transition = NULL, start = NULL)
+dev(psi, rigidity = NULL, nstates = 3, transition = NULL, start = NULL)
 }
 \arguments{
 \item{psi}{list of psi probabilities.}
