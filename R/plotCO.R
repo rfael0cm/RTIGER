@@ -32,12 +32,17 @@ calcCOnumber = function(object){
 plotCOs = function(object, file){
   Cos = calcCOnumber(object = object)
   Cos = melt(Cos)
+  rev.newn = object@info$expDesign$OName
+  names(rev.newn) = object@info$expDesign$name
   colnames(Cos) = c("Chr", "Sample", "value")
+  Cos$Sample = rev.newn[Cos$Sample]
   p <- ggplot(Cos, aes( x = factor(Chr), y = value)) +
     geom_boxplot() +
     # theme(legend.position = "none")+
     xlab("chromosome") +
-    ylab("Number of double CO")
+    ylab("Number of COs")+
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          panel.background = element_blank(), axis.line = element_line(colour = "black"))
   pdf(file)
   print(p)
   dev.off()

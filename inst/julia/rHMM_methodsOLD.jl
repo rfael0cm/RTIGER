@@ -203,9 +203,9 @@ function gamma(
     logalpha::Array,
     logbeta::Array,
     rigidity::Integer,
-    sample,
-    chromosom,
-    iteration,
+    sample=0,
+    chromosom=0,
+    iteration=1,
 )
     T = size(zeta)[1]
     nstates = size(zeta)[2]
@@ -990,19 +990,26 @@ First Guess of the parameters, for runing the Code just in Julia and not from R
 """
 function erstePara(
     nstates,
-    rigidity,
+    rigidity;
     aBeta = [0.25; 0.75],
     bBeta = [0.75; 0.25],
     diagdom = 10,
+    equalstart=false,
 )
     A = 0.1 * ones(nstates, nstates) + diagdom * Diagonal(vec(ones(nstates, 1)))
     A = A + rand(nstates, nstates) ./ 100
     # A = rand(nstates, nstates) + diagdom * Diagonal(vec(rand(nstates, 1)))
     A = A ./ sum(A, dims = 2)
-    pi = rand(nstates, 1)
-    pi = pi ./ sum(pi, dims = 1)
+    if equalstart
+        pi = 1/nstates*ones(nstates,1)
+    else
+        pi = rand(nstates, 1)
+        pi = pi ./ sum(pi, dims = 1)
+    end
+
     logpara = Dict(
         :logpi => log.(pi),
+        :transition => A,
         :logtransition => log.(A),
         :paraBetaAlpha => aBeta,
         :paraBetaBeta => bBeta,
@@ -1010,4 +1017,55 @@ function erstePara(
         :rigidity => rigidity,
     )
     return logpara
+end
+
+function EMdev(logpsi,inital_parameter)
+    #reading the input parameter
+    parameter=copy(inital_parameter)
+    logAnfang = log.(parameter[:pi])
+    logTransition = log.(parameter[:transition])
+    nstates = parameter[:nstates]
+    rigidity=parameter[:rigidity]
+    samples=keys(logpsi)
+    Z=Dict()
+    G=Dict()
+    for s in samples
+        Z[s]=Dict()
+        G[s]=Dict()
+        for c in keys(logpsi[s])
+            lpsi=logpsi[s][c]
+            if size(lpsi)[1]!=nstates
+                lpsi=Array(lpsi')
+
+            end
+            logPSI = productpsi(lpsi, rigidity)
+            T=size(lpsi)[2]
+            # Calculation of alpha, beta, zeta and gamma
+            alpha = forward(
+                T,
+                rigidity,
+                nstates,
+                logAnfang,
+                logPSI,
+                logTransition,
+                lpsi,
+            )
+            beta =
+                backward(T, rigidity, nstates, logPSI, logTransition, lpsi)
+            zetac = zeta(alpha, beta, logTransition, logPSI, lpsi, rigidity)
+            gammac = gamma(zetac, alpha, beta, rigidity)
+
+            #Save in global lists
+            Z[s][c]=zetac
+            G[s][c]=gammac
+        end
+
+    end
+
+    Anew = transitionMultiple(Z, rigidity, nstates)
+    PInew = startMultiple(G, nstates)
+    parameter[:pi]=PInew
+    parameter[:transition]=Anew
+    ret=Dict(:gamma=>G,:parameter=>parameter)
+    return ret
 end

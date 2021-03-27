@@ -510,10 +510,13 @@ function viterbi(PI::Array, PSI::Array, psi::Array, A::Array, r::Integer)
     while t > 1
         pointer = b[v[t], t]
         if pointer != v[t]
-            v[max(t - r, 1):t-1] .= v[t]
-            t = t - r
-            if t < 2
-                break
+            if r>1
+                v[max(t - r+1, 1):t-1] .= v[t]
+                # v[max(t - r, 1):t-1] .= pointer
+                t = t - r+1
+                if t < 2
+                    break
+                end
             end
         end
         v[t-1] = pointer
@@ -521,6 +524,16 @@ function viterbi(PI::Array, PSI::Array, psi::Array, A::Array, r::Integer)
         if t < 2
             break
         end
+        # if pointer!=v[t]
+        #     v[max(t-r,1):t-1].=pointer
+        #     t=t-r
+        # else
+        #     v[t-1]=pointer
+        #     t=t-1
+        # end
+        # if t<2
+        #     break
+        # end
 
     end
 
@@ -676,8 +689,8 @@ function postprocessing(
     viterbi::AbstractDict,
     parameter::AbstractDict,
 )
-    ri = parameter[:rigidity]
-    r = round(Int, 1.2 * ri, RoundUp)
+    # ri = parameter[:rigidity]
+    # r = round(Int, 2 * ri, RoundUp)
     postviterbi = Dict()
     changes = []
     for sample in keys(viterbi)
@@ -685,48 +698,43 @@ function postprocessing(
         for chr in keys(viterbi[sample])
             vit = viterbi[sample][chr]
             seg = segmente(vit)
-            crit = findall(x -> x < r, seg[2:size(seg)[1], 3])
-            if length(crit) > 0
-                ob = observation[sample][chr]
-                psi = getlogpsi(
-                    ob,
-                    parameter[:paraBetaAlpha],
-                    parameter[:paraBetaBeta],
-                )
-                for i in crit
-                    a = 0
-                    if i != 1 & !in(i - 1, crit)
-                        # Left border
-                        decision = psi[:, seg[i, 1]:seg[i+1, 2]]
-                        a = findsplit(seg[i, 4], seg[i+1, 4], decision)
-                        # shift of the left border
-                        seg[i, 2] = Int(seg[i, 1] + a - 2)
-                        seg[i, 3] = Int(a-1)
-                        seg[i+1, 1] = Int(seg[i, 1] + a-1)
-                        seg[i+1, 3] = Int(seg[i+1, 2] - seg[i+1, 1] + 1)
-                    end
-                    if i != size(seg)[1]-1
-                        # Right Border
-                        decision = psi[:, seg[i+1, 1]:seg[i+2, 2]]
-                        e = findsplit(seg[i+1, 4], seg[i+2, 4], decision)
-                        #shift of the right border
-                        seg[i+1, 2] = Int(seg[i+1, 1] + e - 2)
-                        seg[i+1, 3] = Int(seg[i+1, 2] - seg[i+1, 1] + 1)
-                        seg[i+2, 1] = Int(seg[i+1, 2] + 1)
-                        seg[i+2, 3] = Int(seg[i+2, 2] - seg[i+2, 1] + 1)
-                    end
-
-
+            # crit = findall(x -> x < r, seg[2:size(seg)[1], 3])
+            # if length(crit) > 0
+            ob = observation[sample][chr]
+            psi = getlogpsi(
+                ob,
+                parameter[:paraBetaAlpha],
+                parameter[:paraBetaBeta],
+            )
+            # for i in crit
+            for i in 1:size(seg)[1]-1
+                a = 0
+                # if i != 1 & !in(i - 1, crit)
+                #     # Left border
+                #     decision = psi[:, seg[i, 1]:seg[i+1, 2]]
+                #     a = findsplit(seg[i, 4], seg[i+1, 4], decision)
+                #     # shift of the left border
+                #     seg[i, 2] = Int(seg[i, 1] + a - 2)
+                #     seg[i, 3] = Int(a-1)
+                #     seg[i+1, 1] = Int(seg[i, 1] + a-1)
+                #     seg[i+1, 3] = Int(seg[i+1, 2] - seg[i+1, 1] + 1)
+                # end
+                if i != size(seg)[1] - 1
+                    # Right Border
+                    decision = psi[:, seg[i+1, 1]:seg[i+2, 2]]
+                    e = findsplit(seg[i+1, 4], seg[i+2, 4], decision)
+                    #shift of the right border
+                    seg[i+1, 2] = Int(seg[i+1, 1] + e - 2)
+                    seg[i+1, 3] = Int(seg[i+1, 2] - seg[i+1, 1] + 1)
+                    seg[i+2, 1] = Int(seg[i+1, 2] + 1)
+                    seg[i+2, 3] = Int(seg[i+2, 2] - seg[i+2, 1] + 1)
                 end
-                postviterbi[sample][chr] = getVitSeg(seg)
-                push!(
-                    changes,
-                    string("sample: ", sample, " in chromosome: ", chr),
-                )
-
-            else
-                postviterbi[sample][chr] = vit
             end
+            postviterbi[sample][chr] = getVitSeg(seg)
+            push!(changes, string("sample: ", sample, " in chromosome: ", chr))
+            # else
+            #     postviterbi[sample][chr] = vit
+            # end
         end
     end
     return postviterbi #, changes
@@ -998,7 +1006,6 @@ function erstePara(
 )
     A = 0.1 * ones(nstates, nstates) + diagdom * Diagonal(vec(ones(nstates, 1)))
     A = A + rand(nstates, nstates) ./ 100
-    # A = rand(nstates, nstates) + diagdom * Diagonal(vec(rand(nstates, 1)))
     A = A ./ sum(A, dims = 2)
     if equalstart
         pi = 1/nstates*ones(nstates,1)

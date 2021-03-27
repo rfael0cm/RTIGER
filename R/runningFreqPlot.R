@@ -11,7 +11,7 @@ running.freq = function(x, tiles = 4e5, info){
       mcols(myt)[,samp ] = 0
       mcols(myt)[[samp]][as.numeric(names(tp))] = tp
     }
-    myt$co.freq = apply(mcols(myt), 1, function(x) sum(x)/ncol(mcols(myt)))
+    myt$co.freq = apply(mcols(myt), 1, function(x) sum(x)/(tiles/1e3))
     listgr[[chr]] = myt
   }
   return(listgr)
@@ -31,7 +31,7 @@ plotFreqgen = function(myx, tiles, file, groups = NULL, info){
 
       dat = FinalRes_chr[,c("co.freq")]
 
-      datgviz = DataTrack(dat, type = "l", name = "CO freq", col = c("#fc8d62"))
+      datgviz = DataTrack(dat, type = "l", name = "COs per MB", col = c("#fc8d62"))
       axistrack = GenomeAxisTrack()
 
       mySize = c(.3,1)

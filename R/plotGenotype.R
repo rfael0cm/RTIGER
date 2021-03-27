@@ -99,7 +99,15 @@ plotGenotype = function(object,
 
   }
 
-  if(is.null(main)) main = paste(samp, "\n", chr)
+  if(is.null(main)){
+    sample.name = samp
+    if("OName" %in%  colnames(object@info$expDesign)){
+      rev.newn = object@info$expDesign$OName
+      names(rev.newn) = object@info$expDesign$name
+      sample.name = rev.newn[samp]
+    }
+    main = paste(sample.name, "\n", chr)
+  }
   plotTracks(mytracks, groups = colnames(mcols(dat)),
              background.title="darkgrey", lwd=2,
              to= seqlengths(FinalRes_chr)[chr] ,
