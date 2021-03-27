@@ -21,8 +21,7 @@
 #' @usage RTIGER(expDesign, rigidity=NULL, outputdir=NULL, nstates = 3, seqlengths = NULL, eps=0.01, max.iter=50, trace = FALSE, tiles = 4e5, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE)
 #'
 #' @examples
-#'
-#'
+#'\dontrun{
 #' data("ATseqlengths")
 #' sourceJulia()
 #' path = system.file("extdata",  package = "RTIGER")
@@ -36,6 +35,8 @@
 #'               rigidity = 4,
 #'               max.iter = 2,
 #'              trace = FALSE)
+#'}
+#'
 #' @export RTIGER
 #'
 
