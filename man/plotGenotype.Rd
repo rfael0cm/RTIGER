@@ -35,5 +35,5 @@ This funciton creates an RViterbi object.
 
 data("fittedExample")
 info = myDat@info
-plotGenotype(myDat, samp = info$sample_names[1], info$part_names[1])
+plotGenotype(myDat, samp = info$sample_names[1],chr = info$part_names[1])
 }

@@ -31,11 +31,11 @@ generate_params = function(params=list(), rigidity, nstates,randomize = TRUE){
   if (is.null(params$alpha)){
     psi = vector("list", nstates)
     priorstrength = 1 + randomize*runif(1,min = -0.5, max = 0.5)
-    alphavec = ifelse(rep(nstates == 3, nstates), as.vector(c(20,20,1)), sample(c(20,1), nstates, replace = T))
+    alphavec = ifelse(rep(nstates == 3, nstates), as.vector(c(20,20,1)), sample(c(20,1), nstates, replace = TRUE))
     alphavec = alphavec +  randomize*runif(nstates,min = -.5, max = .5)
     alpha_s = alphavec * priorstrength
     names(alpha_s) = vstates
-    betavec = ifelse(rep(nstates == 3, nstates), as.vector(c(1,20,20)), sample(c(20,1), nstates, replace = T))
+    betavec = ifelse(rep(nstates == 3, nstates), as.vector(c(1,20,20)), sample(c(20,1), nstates, replace = TRUE))
     betavec = betavec +  randomize*runif(nstates ,min = -.5, max = .5)
     beta_s = betavec * priorstrength
     names(beta_s) = vstates
@@ -99,7 +99,7 @@ checkfileColumnsRaw = function(f,samp){
   } # If values are integers
 
   f$V4[rowSums(f[,c(4,6)]) == 0] = NA
-  f$V6[rowSums(f[,c(4,6)], na.rm = T) == 0] = NA
+  f$V6[rowSums(f[,c(4,6)], na.rm = TRUE) == 0] = NA
 
   f <- f[!duplicated(f$V2),]
 

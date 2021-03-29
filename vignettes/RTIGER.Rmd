@@ -1,17 +1,22 @@
 ---
-title: "A quick guide to RTIGER"
-date: "9/21/2020"
-output:
-  pdf_document: 
-    keep_tex: true
-  html_document: default
-  word_document: default
-editor_options:
-  chunk_output_type: console
+title: "RTIGER"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RTIGER}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = TRUE
+)
+```
+
+```{r setup}
+library(RTIGER)
 ```
 \
 
@@ -177,5 +182,4 @@ myres = RTIGER(expDesign = expDesign,
 ```{r echo=FALSE, eval=TRUE}
 sessionInfo()
 ```
-
 

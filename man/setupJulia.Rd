@@ -6,6 +6,9 @@
 \usage{
 setupJulia()
 }
+\value{
+empty
+}
 \description{
 Installs the needed packages in JULIA to run the EM algorithm for rHMM.
 }

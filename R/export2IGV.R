@@ -82,7 +82,7 @@ export2IGV = function( object, sample, dir = NULL, ratio = FALSE, newn = NULL){
 
     export.bw(Viterbi[,"score"], ratiofile)
   }
-  write.table(df, file= Comp.statesfile, quote=F, sep="\t", row.names=F, col.names=F)
+  write.table(df, file= Comp.statesfile, quote=FALSE, sep="\t", row.names=FALSE, col.names=FALSE)
   export.bed(P1.states, P1.statesfile)
   export.bed(P2.states, P2.statesfile)
   export.bed(Het.states, Het.statesfile)

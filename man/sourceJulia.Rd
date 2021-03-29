@@ -6,6 +6,9 @@
 \usage{
 sourceJulia()
 }
+\value{
+empty
+}
 \description{
 Function needed before using RTIGER() function. It loads the scripts in Julia that fit the rHMM.
 }

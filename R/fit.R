@@ -10,8 +10,17 @@
 #' @param nsamples if random TRUE, how many samples to use.
 #' @param post.processing logical value, whether to run post.processing process.
 #'
-#' @keywords internal
-#' @noRd
+#' @return RTIGER object
+#' @usage fit(rtigerobj, max.iter , eps, trace, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE)
+#'
+#' @examples
+#'
+#'data("fittedExample")
+#' sourceJulia()
+#' myfit = fit(myDat, max.iter = 2, eps=0.01, trace = TRUE, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE)
+#'
+#'
+#' @export fit
 #'
 
 fit = function(rtigerobj, max.iter, eps, trace, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE){

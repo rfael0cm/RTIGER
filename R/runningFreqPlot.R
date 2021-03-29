@@ -52,7 +52,7 @@ plotFreqgen = function(myx, tiles, file, groups = NULL, info){
     # cat("Closing the file.\n")
   } else{
     cat("I enter else\n")
-    if(class(groups) != factor) groups = as.factor(groups)
+    if(!is.factor(groups)) groups = as.factor(groups)
     dat = lapply(levels(groups), function(group){
       myg = total.running[groups == group]
     })

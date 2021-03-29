@@ -40,8 +40,6 @@
 #' @export RTIGER
 #'
 
-
-
 RTIGER = function(expDesign,
                   rigidity=NULL,
                   outputdir=NULL,
@@ -152,7 +150,7 @@ RTIGER = function(expDesign,
   cat("Creating bed and IGV output formats.\n")
   for(samp in info$sample_names){
 
-    export2IGV(myDat, sample = samp, dir = outputdir, ratio = T, newn = newn)
+    export2IGV(myDat, sample = samp, dir = outputdir, ratio = TRUE, newn = newn)
   }
 
 
@@ -189,7 +187,7 @@ RTIGER = function(expDesign,
       pdf(myf)
 
       if(length(patrat) > 0){
-        hist(patrat, probability = T, col = rgb(1,0,0,0.25), main = "P1 homozygous states", xlab = "Allele ratio", xlim = c(0,100))
+        hist(patrat, probability = TRUE, col = rgb(1,0,0,0.25), main = "P1 homozygous states", xlab = "Allele ratio", xlim = c(0,100))
         points(x,y[,"pat"],type="l",col=ecolors[1])
         legend("topleft",c("Fitted P1 distribution"),
                lty = 1, col = c("red"), cex = .7)

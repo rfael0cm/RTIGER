@@ -29,7 +29,25 @@ calcCOnumber = function(object){
 
 }
 
-plotCOs = function(object, file){
+#'
+#' Obtain number of Cross-Over events per sample and chromosome.
+#'
+#' @param object a RViterbi object.
+#' @param file file where to save the plot for CO numbers
+#' @return a plot
+#'
+#'
+#' @usage plotCOs(object, file = NULL)
+#'
+#' @examples
+#'
+#' data("fittedExample")
+#' co.num = calcCOnumber(myDat)
+#'
+#' @export plotCOs
+#'
+
+plotCOs = function(object, file = NULL){
   Cos = calcCOnumber(object = object)
   Cos = melt(Cos)
   rev.newn = object@info$expDesign$OName
@@ -43,7 +61,7 @@ plotCOs = function(object, file){
     ylab("Number of COs")+
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           panel.background = element_blank(), axis.line = element_line(colour = "black"))
-  pdf(file)
+  if(!is.null(file)) pdf(file)
   print(p)
-  dev.off()
+  if(!is.null(file)) dev.off()
 }

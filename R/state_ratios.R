@@ -8,10 +8,8 @@
 #'
 #' @examples
 #'
-#' data("fittedExample")
+#'data("fittedExample")
 #' myratios = state_ratios(myDat)
-#' @export state_ratios
-#'
 #'
 
 state_ratios = function(rtigerobj){

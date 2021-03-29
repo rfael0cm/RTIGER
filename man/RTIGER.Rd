@@ -44,8 +44,7 @@ Matrix m x n. M number of samples and N chromosomes.
 Load, Fit, and plot
 }
 \examples{
-
-
+\dontrun{
 data("ATseqlengths")
 sourceJulia()
 path = system.file("extdata",  package = "RTIGER")
@@ -59,4 +58,6 @@ myres = RTIGER(expDesign = expDesign,
               rigidity = 4,
               max.iter = 2,
              trace = FALSE)
+}
+
 }

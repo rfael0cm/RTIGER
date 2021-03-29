@@ -4,9 +4,13 @@ export(sourceJulia)
 export(setupJulia)
 export(plotGenotype)
 export(calcCOnumber)
-export(state_ratios)
-export(export2IGV)
 export(dev)
+export(export2IGV)
+export(fit)
+export(state_ratios)
+export(plotCOs)
+export(generateObject)
+
 exportClasses(RTIGER)
 
 
@@ -27,5 +31,7 @@ import(reshape2)
 import(ggplot2)
 import(IRanges)
 import(GenomeInfoDb)
+import(S4Vectors)
+import(qpdf)
 
 

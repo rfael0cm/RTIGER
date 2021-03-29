@@ -19,4 +19,5 @@ This funciton computes the mean raatio per state and sample
 
 data("fittedExample")
 myratios = state_ratios(myDat)
+
 }

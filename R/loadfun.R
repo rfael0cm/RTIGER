@@ -1,6 +1,29 @@
-#####################################################################
-############# LOAD FUNCTION ########################################
-####################################################################
+#'
+#' Load data
+#'
+#' @param experimentDesign a data Frame that contains minimum a column with the files direction (name of the column files) and another with a shorter name to be used inside the function.
+#' @param rigidity an integer number specifying the rigidity parameter to be used.
+#' @param nstates the number of states to be fitted in the model. A standard setting would use 3 states (Homozygous1, Heterozygous, and Homozygous2).
+#' @param seqlengths a named vector with the chromosome lenghts of the organism that the user is working with.
+#' @return Matrix m x n. M number of samples and N chromosomes.
+#'
+#' #' @return RTIGER object
+#' @usage generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL, seqlengths = NUL)
+#'
+#' @examples
+#' data("ATseqlengths")
+#' path = system.file("extdata",  package = "RTIGER")
+#' files = list.files(path, full.names = TRUE)
+#' nam = sapply(list.files(path ), function(x) unlist(strsplit(x, split = "[.]"))[1])
+#' expDesign = data.frame(files = files, name = nam)
+#' names(ATseqlengths) = paste0("Chr", 1:5)
+#' myres = generateObject(experimentDesign = expDesign,
+#'               seqlengths = ATseqlengths,
+#'               rigidity = 10
+#')
+#'
+#' @export generateObject
+#'
 
 generateObject = function(experimentDesign = NULL, nstates = 3, rigidity = NULL, seqlengths = NULL){
   if( is.null(experimentDesign) ){
