@@ -8,7 +8,7 @@
 #' @return Matrix m x n. M number of samples and N chromosomes.
 #'
 #' #' @return RTIGER object
-#' @usage generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL, seqlengths = NUL)
+#' @usage generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL, seqlengths = NULL)
 #'
 #' @examples
 #' data("ATseqlengths")

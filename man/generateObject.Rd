@@ -4,7 +4,7 @@
 \alias{generateObject}
 \title{Load data}
 \usage{
-generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL, seqlengths = NUL)
+generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL, seqlengths = NULL)
 }
 \arguments{
 \item{experimentDesign}{a data Frame that contains minimum a column with the files direction (name of the column files) and another with a shorter name to be used inside the function.}
