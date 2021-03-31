@@ -68,7 +68,7 @@ SNPs in repetitive regions should be filtered out. Further, as crossing-over usu
 #### Setting up Julia environment:
 RTIGER uses Julia to perform computationally intensive model training. All Julia packages that are used by RTIGER can be installed using using:
 ```{r echo= TRUE, eval=FALSE}
-library(RTIGERJ)
+library(RTIGER)
 setupJulia()
 ```
 This step is **necessary** when using RTIGER for the first time, but can be skipped for later analysis as all required Julia packages would already be installed.
@@ -87,7 +87,7 @@ The primary input for RTIGER is a data-frame termed `expDesign`. The first colum
 ```{r echo = TRUE}
 # Get paths to example allele count files originating from a
 # cross between Col-0 and Ler accession of the A.thaliana
-file_paths = list.files(system.file("extdata",  package = "RTIGERJ"), full.names = TRUE)
+file_paths = list.files(system.file("extdata",  package = "RTIGER"), full.names = TRUE)
 
 # Get sample names
 sampleIDs <- basename(file_paths)
@@ -102,7 +102,7 @@ RTIGER also requires chromosome lengths for the parent_1. These need to be provi
 
 ``` {r echo=TRUE}
 # Get chromosome lengths for the example data included in the package
-chr_len <- RTIGERJ::ATseqlengths
+chr_len <- RTIGER::ATseqlengths
 names(chr_len) <- c('Chr1' , 'Chr2', 'Chr3', 'Chr4', 'Chr5')
 print(chr_len)
 ```
