@@ -1,0 +1,21 @@
+---
+title: "RTIGER_Markdown"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RTIGER_Markdown}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+or the original notebook, please go to
+<https://github.com/rfael0cm/RTIGER>.
+```{r setup}
+library(RTIGER)
+```

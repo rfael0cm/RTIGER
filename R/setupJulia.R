@@ -1,8 +1,10 @@
 #' Installs the needed packages in JULIA to run the EM algorithm for rHMM.
 #'
-#' @param JULA_HOME the file folder which contains julia binary, if not set, JuliaCall will look at the global option JULIA_HOME, if the global option is not set, JuliaCall will then look at the environmental variable JULIA_HOME, if still not found, JuliaCall will try to use the julia in path.
+#' @param JULIA_HOME the file folder which contains julia binary, if not set, JuliaCall will look at the global option JULIA_HOME, if the global option is not set, JuliaCall will then look at the environmental variable JULIA_HOME, if still not found, JuliaCall will try to use the julia in path.
 #'
 #' @return empty
+#' @usage setupJulia(JULIA_HOME = NULL)
+#'
 #' @export setupJulia
 setupJulia = function(JULIA_HOME = NULL){
   if(!is.null(JULIA_HOME)) julia_setup(JULIA_HOME = JULIA_HOME)

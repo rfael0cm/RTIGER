@@ -7,7 +7,7 @@
 #' @param seqlengths a named vector with the chromosome lenghts of the organism that the user is working with.
 #' @return Matrix m x n. M number of samples and N chromosomes.
 #'
-#' #' @return RTIGER object
+#' @return RTIGER object
 #' @usage generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL, seqlengths = NULL)
 #'
 #' @examples

@@ -32,10 +32,10 @@ RTIGER object
 Call Julia code to fit the values
 }
 \examples{
-
+\dontrun{
 data("fittedExample")
 sourceJulia()
 myfit = fit(myDat, max.iter = 2, eps=0.01, trace = TRUE, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE)
 
-
+}
 }

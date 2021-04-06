@@ -18,7 +18,7 @@ generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL, seqlengths = 
 \value{
 Matrix m x n. M number of samples and N chromosomes.
 
-#' @return RTIGER object
+RTIGER object
 }
 \description{
 Load data
