@@ -1,8 +1,15 @@
 #' Installs the needed packages in JULIA to run the EM algorithm for rHMM.
 #'
+#' @param JULA_HOME the file folder which contains julia binary, if not set, JuliaCall will look at the global option JULIA_HOME, if the global option is not set, JuliaCall will then look at the environmental variable JULIA_HOME, if still not found, JuliaCall will try to use the julia in path.
+#'
 #' @return empty
 #' @export setupJulia
-setupJulia = function(){
+setupJulia = function(JULIA_HOME = NULL){
+  if(!is.null(JULIA_HOME)) julia_setup(JULIA_HOME = JULIA_HOME)
+  v = julia_eval("string(VERSION)")
+  v = unlist(strsplit(v, split = "[.]"))
+  v = as.numeric(paste(v[1:2], collapse = "."))
+  if(v < 1.4) stop("Install Julia version 1.4 or higher.")
   julia_install_package_if_needed("Optim")
   julia_install_package_if_needed("Distributions")
   julia_install_package_if_needed("LinearAlgebra")

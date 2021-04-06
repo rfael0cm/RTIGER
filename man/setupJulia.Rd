@@ -4,7 +4,10 @@
 \alias{setupJulia}
 \title{Installs the needed packages in JULIA to run the EM algorithm for rHMM.}
 \usage{
-setupJulia()
+setupJulia(JULIA_HOME = NULL)
+}
+\arguments{
+\item{JULA_HOME}{the file folder which contains julia binary, if not set, JuliaCall will look at the global option JULIA_HOME, if the global option is not set, JuliaCall will then look at the environmental variable JULIA_HOME, if still not found, JuliaCall will try to use the julia in path.}
 }
 \value{
 empty
