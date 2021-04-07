@@ -34,7 +34,7 @@ fit = function(rtigerobj, max.iter, eps, trace, all = TRUE, random = FALSE, spec
     })
     return(chr)
   })
-  cat("Inside fit the postprocessing value is:", post.processing, "\n")
+  # cat("Inside fit the postprocessing value is:", post.processing, "\n")
   # function fit(Observations,info,initial_parameter,max_iter=100,eps=10^(-5),trace=false)
   myfit = julia_call("fit",obs, info, params, as.integer(max.iter), eps, trace, all, random , as.integer(nsamples), specific, post.processing )
   # function fit(
