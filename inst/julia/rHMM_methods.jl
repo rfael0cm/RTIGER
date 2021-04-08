@@ -945,7 +945,7 @@ function fit(
         end
         # println(aNeu)
         # println(bNeu)
-        println(abbruch)
+        println("Itertation:", abbruch)
         abbruch += 1
 
     end
