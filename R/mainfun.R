@@ -15,10 +15,11 @@
 #' @param nsamples if random TRUE, how many samples should be taken randomly.
 #' @param post.processing Logical value. Whether to run an extra step that fine maps the segment borthers. Default TRUE
 #' @param specific Logical value to specify which samples to take.
+#' @param save.results Logical value, whether to generate and save the plots and igv files.
 #' @return Matrix m x n. M number of samples and N chromosomes.
 #'
-#' #' @return RTIGER object
-#' @usage RTIGER(expDesign, rigidity=NULL, outputdir=NULL, nstates = 3, seqlengths = NULL, eps=0.01, max.iter=50, trace = FALSE, tiles = 4e5, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE)
+#' @return RTIGER object
+#' @usage RTIGER(expDesign, rigidity=NULL, outputdir=NULL, nstates = 3, seqlengths = NULL, eps=0.01, max.iter=50, trace = FALSE, tiles = 4e5, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE, save.results = FALSE)
 #'
 #' @examples
 #'\dontrun{
@@ -34,7 +35,8 @@
 #'               seqlengths = ATseqlengths,
 #'               rigidity = 4,
 #'               max.iter = 2,
-#'              trace = FALSE)
+#'              trace = FALSE,
+#'              save.results = FALSE)
 #'}
 #'
 #' @export RTIGER
@@ -54,7 +56,8 @@ RTIGER = function(expDesign,
                   random = FALSE,
                   specific = FALSE,
                   nsamples = 20,
-                  post.processing = TRUE){
+                  post.processing = TRUE,
+                  save.results = FALSE){
   # Checks
   if(any(seqlengths < tiles)) stop("Your tiling distance is larger than some of your chromosomes. Reduce the tiling parameter.\n")
   if(is.null(rigidity)) stop("Rigidity must be specified. This is a data specific parameter. Check vignette.\n")
@@ -121,119 +124,123 @@ RTIGER = function(expDesign,
     dev.off()
   }
 
-  # Plotting CO number per chormosome
-  cat("PLotting CO number per chromosome. \n")
-  myf = file.path(outputdir, "COs-per-Chromosome.pdf")
-  plotCOs(myDat, myf)
+  if(save.results){
+    # Plotting CO number per chormosome
+    cat("PLotting CO number per chromosome. \n")
+    myf = file.path(outputdir, "COs-per-Chromosome.pdf")
+    plotCOs(myDat, myf)
 
-  # Plotting CO number per Sample
-  cos = calcCOnumber(myDat)
-  cos = melt(cos)
-  rev.newn = myDat@info$expDesign$OName
-  names(rev.newn) = myDat@info$expDesign$name
-  colnames(cos) = c("Chr", "Sample", "COs")
-  cos$Sample = rev.newn[cos$Sample]
-  myf = file.path(outputdir, "CO-count-perSample.pdf")
-  pdf(myf)
+    # Plotting CO number per Sample
+    cos = calcCOnumber(myDat)
+    cos = melt(cos)
+    rev.newn = myDat@info$expDesign$OName
+    names(rev.newn) = myDat@info$expDesign$name
+    colnames(cos) = c("Chr", "Sample", "COs")
+    cos$Sample = rev.newn[cos$Sample]
+    myf = file.path(outputdir, "CO-count-perSample.pdf")
+    pdf(myf)
 
-  p <- ggplot(data=cos, aes(x=Sample, y=COs)) +
-    geom_bar(stat="identity") +
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-    ylab("Number of COs")+
-    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-          panel.background = element_blank(), axis.line = element_line(colour = "black"))
-  # barplot(colSums(calcCOnumber(myDat)), las = 2)
-  print(p)
-  dev.off()
+    p <- ggplot(data=cos, aes(x=Sample, y=COs)) +
+      geom_bar(stat="identity") +
+      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      ylab("Number of COs")+
+      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+            panel.background = element_blank(), axis.line = element_line(colour = "black"))
+    # barplot(colSums(calcCOnumber(myDat)), las = 2)
+    print(p)
+    dev.off()
 
-  # Create output
-  cat("Creating bed and IGV output formats.\n")
-  for(samp in info$sample_names){
+    # Create output
+    cat("Creating bed and IGV output formats.\n")
+    for(samp in info$sample_names){
 
-    export2IGV(myDat, sample = samp, dir = outputdir, ratio = TRUE, newn = newn)
-  }
-
-
-# Goodness of fit ---------------------------------------------------------
-
-  if(nstates < 4){
-    cat("Plotting goodness of fit.\n")
-    vit = myDat@Viterbi
-    if(length(vit) >= 10)vit = vit[sample(1:length(vit), ceiling(.1*length(vit)))]
-
-    hetrat = unlist(lapply(vit, function(x) x$P1.Allele.Count[x$Viterbi == "het"]/x$total[x$Viterbi == "het"] * 100))
-    patrat = unlist(lapply(vit, function(x) x$P1.Allele.Count[x$Viterbi == "pat"]/x$total[x$Viterbi == "pat"]* 100))
-    matrat = unlist(lapply(vit, function(x) x$P1.Allele.Count[x$Viterbi == "mat"]/x$total[x$Viterbi == "mat"]* 100))
-    if(nstates == 3 & any(c(length(hetrat), length(patrat), length(matrat)) == 0)){
-      cat("Your data probably comes form a back-crossed population. Please fit the model with nstates = 2.\n
-          The plot Goodness-Of-Fit.pdf might be erroneous.")
-      myl = list(hetrat, patrat, matrat)
-      myl = myl[which(c(length(hetrat), length(patrat), length(matrat)) != 0)]
-      hetrat = myl[[1]]
-      patrat = myl[[2]]
+      export2IGV(myDat, sample = samp, dir = outputdir, ratio = TRUE, newn = newn)
     }
+
+
+    # Goodness of fit ---------------------------------------------------------
+
     if(nstates < 4){
-      alphas = as.vector(myDat@params$paraBetaAlpha)
-      names(alphas) = rownames(myDat@params$paraBetaAlpha)
-      betas = as.vector(myDat@params$paraBetaBeta)
-      names(betas) = rownames(myDat@params$paraBetaBeta)
-      x = 0:100
-      y = NULL
-      ecolors = c("red","violet","blue")
-      for (e_state in names(alphas)) { y = cbind(y,dbb(x,100,alphas[e_state],betas[e_state])) }
-      colnames(y) = names(alphas)
+      cat("Plotting goodness of fit.\n")
+      vit = myDat@Viterbi
+      if(length(vit) >= 10)vit = vit[sample(1:length(vit), ceiling(.1*length(vit)))]
 
-      myf = file.path(outputdir, "Goodness-Of-Fit.pdf")
-      pdf(myf)
-
-      if(length(patrat) > 0){
-        hist(patrat, probability = TRUE, col = rgb(1,0,0,0.25), main = "P1 homozygous states", xlab = "Allele ratio", xlim = c(0,100))
-        points(x,y[,"pat"],type="l",col=ecolors[1])
-        legend("topleft",c("Fitted P1 distribution"),
-               lty = 1, col = c("red"), cex = .7)
+      hetrat = unlist(lapply(vit, function(x) x$P1.Allele.Count[x$Viterbi == "het"]/x$total[x$Viterbi == "het"] * 100))
+      patrat = unlist(lapply(vit, function(x) x$P1.Allele.Count[x$Viterbi == "pat"]/x$total[x$Viterbi == "pat"]* 100))
+      matrat = unlist(lapply(vit, function(x) x$P1.Allele.Count[x$Viterbi == "mat"]/x$total[x$Viterbi == "mat"]* 100))
+      if(nstates == 3 & any(c(length(hetrat), length(patrat), length(matrat)) == 0)){
+        cat("Your data probably comes form a back-crossed population. Please fit the model with nstates = 2.\n
+          The plot Goodness-Of-Fit.pdf might be erroneous.")
+        myl = list(hetrat, patrat, matrat)
+        myl = myl[which(c(length(hetrat), length(patrat), length(matrat)) != 0)]
+        hetrat = myl[[1]]
+        patrat = myl[[2]]
       }
+      if(nstates < 4){
+        alphas = as.vector(myDat@params$paraBetaAlpha)
+        names(alphas) = rownames(myDat@params$paraBetaAlpha)
+        betas = as.vector(myDat@params$paraBetaBeta)
+        names(betas) = rownames(myDat@params$paraBetaBeta)
+        x = 0:100
+        y = NULL
+        ecolors = c("red","violet","blue")
+        for (e_state in names(alphas)) { y = cbind(y,dbb(x,100,alphas[e_state],betas[e_state])) }
+        colnames(y) = names(alphas)
 
-      if(length(hetrat) > 0){
-        hist(hetrat, probability =   TRUE, col = rgb( 0.744,0.34,0.844,0.25), main = "P1 homozygous states", xlab = "Allele ratio", xlim = c(0,100))
-        points(x,y[,"het"],type="l",col=ecolors[2])
-        legend("topleft",c( "Fitted Heterozygous\n distribution"),
-               lty = 1, col = c( "violet"), cex = .7)
+        myf = file.path(outputdir, "Goodness-Of-Fit.pdf")
+        pdf(myf)
+
+        if(length(patrat) > 0){
+          hist(patrat, probability = TRUE, col = rgb(1,0,0,0.25), main = "P1 homozygous states", xlab = "Allele ratio", xlim = c(0,100))
+          points(x,y[,"pat"],type="l",col=ecolors[1])
+          legend("topleft",c("Fitted P1 distribution"),
+                 lty = 1, col = c("red"), cex = .7)
+        }
+
+        if(length(hetrat) > 0){
+          hist(hetrat, probability =   TRUE, col = rgb( 0.744,0.34,0.844,0.25), main = "P1 homozygous states", xlab = "Allele ratio", xlim = c(0,100))
+          points(x,y[,"het"],type="l",col=ecolors[2])
+          legend("topleft",c( "Fitted Heterozygous\n distribution"),
+                 lty = 1, col = c( "violet"), cex = .7)
+        }
+
+        if(length(matrat) > 0){
+          hist(matrat, probability = TRUE, col = rgb(0,0,1,0.25), main = "P1 homozygous states", xlab = "Allele ratio", xlim = c(0,100))
+          points(x,y[,"mat"],type="l",col=ecolors[3])
+          legend("topleft",c("Fitted P2 distribution"),
+                 lty = 1, col = c("blue"), cex = .7)
+        }
+
+
+        # for (e_state in 1:nstates){}
+
+        # legend("topright", c("P1 allele count ratio", "Heterozygous allele\n count ratio", "P2 allele count ratio")[1:nstates],
+        # fil = c(rgb(1,0,0,0.25), rgb( 0.744,0.34,0.844,0.25), rgb(0,0,1,0.25))[1:nstates], cex = .7)
+        dev.off()
+
       }
-
-      if(length(matrat) > 0){
-        hist(matrat, probability = TRUE, col = rgb(0,0,1,0.25), main = "P1 homozygous states", xlab = "Allele ratio", xlim = c(0,100))
-        points(x,y[,"mat"],type="l",col=ecolors[3])
-        legend("topleft",c("Fitted P2 distribution"),
-               lty = 1, col = c("blue"), cex = .7)
-      }
-
-
-      # for (e_state in 1:nstates){}
-
-      # legend("topright", c("P1 allele count ratio", "Heterozygous allele\n count ratio", "P2 allele count ratio")[1:nstates],
-             # fil = c(rgb(1,0,0,0.25), rgb( 0.744,0.34,0.844,0.25), rgb(0,0,1,0.25))[1:nstates], cex = .7)
-      dev.off()
 
     }
 
+    # Running Frequency -------------------------------------------------------
+
+    myx = lapply(vit, function(samp){
+      myp = lapply(seqlevels(samp), function(chr){
+        myn = samp[seqnames(samp) == chr]
+        myn = Vit2GrangesGen(myn, "Viterbi")
+        seqlengths(myn) = seqlengths(samp)
+        return(myn)
+      })
+      names(myp) = seqlevels(samp)
+      return(myp)
+    })
+
+
+    myf = file.path(outputdir, "GenomicFrequencies.pdf")
+    plotFreqgen(myx = myx, tiles = tiles, file = myf, info = info, groups = NULL)
+
   }
 
-# Running Frequency -------------------------------------------------------
-
-  myx = lapply(vit, function(samp){
-    myp = lapply(seqlevels(samp), function(chr){
-      myn = samp[seqnames(samp) == chr]
-      myn = Vit2GrangesGen(myn, "Viterbi")
-      seqlengths(myn) = seqlengths(samp)
-      return(myn)
-    })
-    names(myp) = seqlevels(samp)
-    return(myp)
-  })
-
-
-  myf = file.path(outputdir, "GenomicFrequencies.pdf")
-  plotFreqgen(myx = myx, tiles = tiles, file = myf, info = info, groups = NULL)
 
 # Return object -----------------------------------------------------------
 

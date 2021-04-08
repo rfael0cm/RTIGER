@@ -7,8 +7,6 @@ Maintainer: Rafael Campos-Martin <rfael.mpi@gmail.com>
 Description: Our method integrates information from all sequenced samples, thus avoiding loss of alleles due to low coverage. Moreover, it increasses the statistical power to uncover sequencing or alignment errors. 
 Depends: 
     R (>= 3.6),
-    Gviz, 
-    rtracklayer, 
     GenomicRanges, 
     GenomeInfoDb
 License: GPL (>= 2)
@@ -19,6 +17,8 @@ RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    Gviz, 
+    rtracklayer 
 biocViews: GenomeAnnotation, HiddenMarkovModel, Sequencing
    

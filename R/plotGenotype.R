@@ -20,10 +20,12 @@
 #' @usage plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = c(1,1), main = NULL, showGenAxis = TRUE, ratio = FALSE, window = 10)
 #'
 #' @examples
-#'
+#'\dontrun{
 #' data("fittedExample")
 #' info = myDat@info
 #' plotGenotype(myDat, samp = info$sample_names[1],chr = info$part_names[1])
+#'}
+
 #' @export plotGenotype
 #'
 #'
