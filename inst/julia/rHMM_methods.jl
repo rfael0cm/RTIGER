@@ -849,6 +849,7 @@ function fit(
     nsamples = 20,
     specific = nothing,
     post_processing = true,
+    PRINT=true
 )
     #pick of observations
     if (all)
@@ -893,15 +894,18 @@ function fit(
             Observations[s] = input_Observations[s]
         end
     end
-    #println("chosing done")
-
+    if (PRINT)
+        println("chosing done")
+    end
     # Initial parameters
     parameter = initial_parameter
     nstates = parameter[:nstates]
     rigidity = parameter[:rigidity]
     (Gamma, traNeu, startNeu, aNeu, bNeu, alpha, beta, psi, m, tau) =
         EM(Observations, parameter, 1)
-    #println("first EM")
+    if (PRINT)
+        println("first EM")
+    end
     #Change of the parameters of the BetaBinomial distribution
     er = maximum(
         [abs.(parameter[:paraBetaAlpha] - aNeu) abs.(
@@ -922,6 +926,10 @@ function fit(
     while er > eps
         if (abbruch >= max_iter)
             break
+        end
+        abbruch += 1
+        if PRINT
+            println(abbruch,". Iteration")
         end
         parameter[:paraBetaAlpha] = aNeu
         parameter[:paraBetaBeta] = bNeu
@@ -945,8 +953,7 @@ function fit(
         end
         # println(aNeu)
         # println(bNeu)
-        println("Itertation:", abbruch)
-        abbruch += 1
+
 
     end
     parameter[:paraBetaAlpha] = aNeu
@@ -958,11 +965,15 @@ function fit(
 
     vit = viterbi(input_Observations, parameter)
 
-
+    if PRINT
+        println("before post_processing")
+    end
     if post_processing
         vit_new = postprocessing(input_Observations, vit, parameter)
     end
-    #println("fitting done")
+    if PRINT
+        println("fitting done")
+    end
 
     # Returns:
     ret = Dict()
