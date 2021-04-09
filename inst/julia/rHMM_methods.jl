@@ -600,7 +600,7 @@ One call of the expectation and maximization step
 - `beta`: list with the results of the backward algorithm for each observation chain
 - `psi`: list with psi values for each observation chain
 """
-function EM(Observations::AbstractDict, logParameter::AbstractDict, iteration)
+function EM(Observations::AbstractDict, logParameter::AbstractDict, iteration, printbool)
     O = Observations
     logAnfang = logParameter[:logpi]
     logTransition = logParameter[:logtransition]
@@ -628,11 +628,17 @@ function EM(Observations::AbstractDict, logParameter::AbstractDict, iteration)
         beta[c] = Dict()
         psi[c] = Dict()
         for i in keys(Oc)
+            if printbool
+                display(string("start of sample ",c," chromosom ",i))
+            end
             OChr = Oc[i]
             Tc = size(OChr)[1]
             # Calculation of the psi values with the BetaBinomial distribution
             logpsi = getlogpsi(OChr, aAlt, bAlt)
             logPSI = productpsi(logpsi, rigidity)
+            if printbool
+                display("Start of the forward algorithm")
+            end
             # Calculation of alpha, beta, zeta and gamma for each observation chain
             alphac = forward(
                 Tc,
@@ -643,9 +649,18 @@ function EM(Observations::AbstractDict, logParameter::AbstractDict, iteration)
                 logTransition,
                 logpsi,
             )
+            if printbool
+                display("Start of the backward algorithm")
+            end
             betac =
                 backward(Tc, rigidity, nstates, logPSI, logTransition, logpsi)
+            if printbool
+                display("Calculation of Zeta")
+            end
             zetac = zeta(alphac, betac, logTransition, logPSI, logpsi, rigidity)
+            if printbool
+                display("Calculation of gamma")
+            end
             gammac = gamma(zetac, alphac, betac, rigidity, c, i, iteration)
 
             # save in the global lists
@@ -657,8 +672,14 @@ function EM(Observations::AbstractDict, logParameter::AbstractDict, iteration)
 
         end
     end
+    if printbool
+        display("transition and start update")
+    end
     Anew = transitionMultiple(Z, rigidity, nstates)
     PInew = startMultiple(G, nstates)
+    if printbool
+        display("emission update")
+    end
     (a, b, m, tau) = emissionMultiple(
         O,
         G,
@@ -849,8 +870,11 @@ function fit(
     nsamples = 20,
     specific = nothing,
     post_processing = true,
-    PRINT=false,
+    PRINT=true,
 )
+    if PRINT
+        display("Start in Julia")
+    end
     #pick of observations
     if (all)
         Observations = input_Observations
@@ -895,16 +919,16 @@ function fit(
         end
     end
     if (PRINT)
-        println("chosing done")
+        display("chosing done")
     end
     # Initial parameters
     parameter = initial_parameter
     nstates = parameter[:nstates]
     rigidity = parameter[:rigidity]
     (Gamma, traNeu, startNeu, aNeu, bNeu, alpha, beta, psi, m, tau) =
-        EM(Observations, parameter, 1)
+        EM(Observations, parameter, 1,PRINT)
     if (PRINT)
-        println("first EM")
+        display("first EM")
     end
     #Change of the parameters of the BetaBinomial distribution
     er = maximum(
@@ -929,7 +953,7 @@ function fit(
         end
         abbruch += 1
         if PRINT
-            println(abbruch,". Iteration")
+            display(string(abbruch,". Iteration"))
         end
         parameter[:paraBetaAlpha] = aNeu
         parameter[:paraBetaBeta] = bNeu
@@ -938,7 +962,7 @@ function fit(
         parameter[:logtransition] = log.(traNeu)
         parameter[:logpi] = log.(startNeu)
         (Gamma, traNeu, startNeu, aNeu, bNeu, alpha, beta, psi, m, tau) =
-            EM(Observations, parameter, (abbruch + 1))
+            EM(Observations, parameter, (abbruch + 1),PRINT)
         er = maximum(
             [abs.(parameter[:paraBetaAlpha] - aNeu) abs.(
                 parameter[:paraBetaBeta] - bNeu,
@@ -966,13 +990,13 @@ function fit(
     vit = viterbi(input_Observations, parameter)
 
     if PRINT
-        println("before post_processing")
+        display("before post_processing")
     end
     if post_processing
         vit_new = postprocessing(input_Observations, vit, parameter)
     end
     if PRINT
-        println("fitting done")
+        display("fitting done")
     end
 
     # Returns:
