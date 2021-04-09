@@ -672,11 +672,14 @@ function EM(Observations::AbstractDict, logParameter::AbstractDict, iteration, p
 
         end
     end
-    if printbool 
+    if printbool
         display("transition and start update")
     end
     Anew = transitionMultiple(Z, rigidity, nstates)
     PInew = startMultiple(G, nstates)
+    if printbool
+        display("emission update")
+    end
     (a, b, m, tau) = emissionMultiple(
         O,
         G,
