@@ -849,7 +849,7 @@ function fit(
     nsamples = 20,
     specific = nothing,
     post_processing = true,
-    PRINT=true
+    PRINT=false,
 )
     #pick of observations
     if (all)
