@@ -849,8 +849,11 @@ function fit(
     nsamples = 20,
     specific = nothing,
     post_processing = true,
-    PRINT=false,
+    PRINT=true,
 )
+    if PRINT
+        display("Start in Julia")
+    end
     #pick of observations
     if (all)
         Observations = input_Observations
@@ -895,7 +898,7 @@ function fit(
         end
     end
     if (PRINT)
-        println("chosing done")
+        display("chosing done")
     end
     # Initial parameters
     parameter = initial_parameter
@@ -904,7 +907,7 @@ function fit(
     (Gamma, traNeu, startNeu, aNeu, bNeu, alpha, beta, psi, m, tau) =
         EM(Observations, parameter, 1)
     if (PRINT)
-        println("first EM")
+        display("first EM")
     end
     #Change of the parameters of the BetaBinomial distribution
     er = maximum(
@@ -929,7 +932,7 @@ function fit(
         end
         abbruch += 1
         if PRINT
-            println(abbruch,". Iteration")
+            display(string(abbruch,". Iteration"))
         end
         parameter[:paraBetaAlpha] = aNeu
         parameter[:paraBetaBeta] = bNeu
@@ -966,13 +969,13 @@ function fit(
     vit = viterbi(input_Observations, parameter)
 
     if PRINT
-        println("before post_processing")
+        display("before post_processing")
     end
     if post_processing
         vit_new = postprocessing(input_Observations, vit, parameter)
     end
     if PRINT
-        println("fitting done")
+        display("fitting done")
     end
 
     # Returns:
