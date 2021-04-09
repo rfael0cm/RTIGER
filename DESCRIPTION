@@ -1,6 +1,6 @@
 Package: RTIGER
 Type: Package
-Title: RTIGER: A Robust HMM-based Model for genotyping-by-sequencing and Recombination Breakpoint Identification
+Title: RTIGER: A Robust HMM-Based Model for Genotyping-by-Sequencing and Recombination Breakpoint Identification
 Version: 0.99.0
 Author: Rafael Campos-Martin, Sophia Schmickler, Korbinian Schneeberger, Achim Tresch.
 Maintainer: Rafael Campos-Martin <rfael.mpi@gmail.com>

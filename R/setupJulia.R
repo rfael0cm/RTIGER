@@ -9,9 +9,9 @@
 setupJulia = function(JULIA_HOME = NULL){
   if(!is.null(JULIA_HOME)) julia_setup(JULIA_HOME = JULIA_HOME)
   v = julia_eval("string(VERSION)")
-  v = unlist(strsplit(v, split = "[.]"))
-  v = as.numeric(paste(v[1:2], collapse = "."))
-  if(v < 1.4) stop("Install Julia version 1.4 or higher.")
+  # v = unlist(strsplit(v, split = "[.]"))
+  # v = as.numeric(paste(v[1:2], collapse = "."))
+  if(v != "1.0.5") cat("WARNING: Your Julia version is different than 1.0.5.\nWe recommend to use 1.0.5 to improve speeed. Using other versions might give problems or do not work on higher speed.")
   julia_install_package_if_needed("Optim")
   julia_install_package_if_needed("Distributions")
   julia_install_package_if_needed("LinearAlgebra")
