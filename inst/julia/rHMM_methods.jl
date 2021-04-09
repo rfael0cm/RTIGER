@@ -870,7 +870,7 @@ function fit(
     nsamples = 20,
     specific = nothing,
     post_processing = true,
-    PRINT=true,
+    PRINT=false,
 )
     if PRINT
         display("Start in Julia")
