@@ -6,7 +6,7 @@ Author: Rafael Campos-Martin, Sophia Schmickler, Korbinian Schneeberger, Achim T
 Maintainer: Rafael Campos-Martin <rfael.mpi@gmail.com>
 Description: Our method integrates information from all sequenced samples, thus avoiding loss of alleles due to low coverage. Moreover, it increasses the statistical power to uncover sequencing or alignment errors. 
 Depends: 
-    R (>= 3.6),
+    R (>= 4.0),
     GenomicRanges, 
     GenomeInfoDb
 License: GPL (>= 2)
