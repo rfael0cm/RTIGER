@@ -101,30 +101,25 @@ RTIGER = function(expDesign,
                                      We recommend to increase the number of iterations.
                                      \n\n--------------------------\n\n")
 
-  if(!dir.exists(outputdir)) dir.create(outputdir)
-
-  # plots = file.path(outputdir, "Plots")
-  # files = file.path(outputdir, "igv")
-
-  # if(!dir.exists(plots)) dir.create(plots)
-  # if(!dir.exists(files)) dir.create(files)
-
-  cat("Plotting samples Genotypes.\n")
-  for(samp in info$sample_names){
-    # f.name = names(newn)[newn %in% samp]
-    sampdir = file.path(outputdir, samp)
-    myx = paste0("GenotypePlot_",samp, ".pdf")
-    if(!dir.exists(sampdir)) dir.create(sampdir)
-    on = file.path(sampdir, myx)
-    pdf(on)
-    for(chr in info$part_names){
-      ren = newn[as.character(samp)]
-      plotGenotype(myDat, ren, chr, ratio = TRUE, window = 10)
-    }
-    dev.off()
-  }
-
   if(save.results){
+    if(!dir.exists(outputdir)) dir.create(outputdir)
+    cat("Plotting samples Genotypes.\n")
+    for(samp in info$sample_names){
+      # f.name = names(newn)[newn %in% samp]
+      sampdir = file.path(outputdir, samp)
+      myx = paste0("GenotypePlot_",samp, ".pdf")
+      if(!dir.exists(sampdir)) dir.create(sampdir)
+      on = file.path(sampdir, myx)
+      pdf(on)
+      for(chr in info$part_names){
+        ren = newn[as.character(samp)]
+        plotGenotype(myDat, ren, chr, ratio = TRUE, window = 10)
+      }
+      dev.off()
+    }
+
+
+
     # Plotting CO number per chormosome
     cat("PLotting CO number per chromosome. \n")
     myf = file.path(outputdir, "COs-per-Chromosome.pdf")
