@@ -67,6 +67,10 @@ RTIGER = function(expDesign,
   if(!is.integer(nstates)) nstates = as.integer(nstates)
   if(is.null(seqlengths)) stop("seqlengths are necessary to create the Genomic Ranges object to store the data. Please, introduce the chromosome lengths of your organism.\n")
   if(!is.integer(max.iter)) max.iter = as.integer(max.iter)
+  if(save.results){
+    if(sum(c("Gviz", "rtracklayer") %in% rownames(installed.packages())) != 2) stop("To save the results you need to have installed Gviz and rtracklayer.\n
+                                                                                    Currently you are missing them.")
+  }
 
   # Load data
   cat("Loading data and generating RTIGER object.\n")
@@ -102,6 +106,8 @@ RTIGER = function(expDesign,
                                      \n\n--------------------------\n\n")
 
   if(save.results){
+    require(Gviz)
+    require(rtracklayer)
     if(!dir.exists(outputdir)) dir.create(outputdir)
     cat("Plotting samples Genotypes.\n")
     for(samp in info$sample_names){
