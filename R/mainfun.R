@@ -19,7 +19,10 @@
 #' @return Matrix m x n. M number of samples and N chromosomes.
 #'
 #' @return RTIGER object
-#' @usage RTIGER(expDesign, rigidity=NULL, outputdir=NULL, nstates = 3, seqlengths = NULL, eps=0.01, max.iter=50, trace = FALSE, tiles = 4e5, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE, save.results = FALSE)
+#' @usage RTIGER(expDesign, rigidity=NULL, outputdir=NULL, nstates = 3,
+#' seqlengths = NULL, eps=0.01, max.iter=50, trace = FALSE,
+#' tiles = 4e5, all = TRUE, random = FALSE, specific = FALSE,
+#' nsamples = 20, post.processing = TRUE, save.results = FALSE)
 #'
 #' @examples
 #'\dontrun{
@@ -32,11 +35,11 @@
 #' names(ATseqlengths) = paste0("Chr", 1:5)
 #' myres = RTIGER(expDesign = expDesign,
 #'                outputdir = "/home/campos/Documents/outputjulia/",
-#'               seqlengths = ATseqlengths,
-#'               rigidity = 4,
-#'               max.iter = 2,
-#'              trace = FALSE,
-#'              save.results = FALSE)
+#'                seqlengths = ATseqlengths,
+#'                rigidity = 4,
+#'                max.iter = 2,
+#'                trace = FALSE,
+#'                save.results = FALSE)
 #'}
 #'
 #' @export RTIGER
@@ -62,8 +65,8 @@ RTIGER = function(expDesign,
   if(any(seqlengths < tiles)) stop("Your tiling distance is larger than some of your chromosomes. Reduce the tiling parameter.\n")
   if(is.null(rigidity)) stop("Rigidity must be specified. This is a data specific parameter. Check vignette.\n")
   if(!is.integer(rigidity))  rigidity = as.integer(rigidity)
-  if(is.null(outputdir)) stop("Outputdir must be specified. The results are automatichally saved inside the folder.\n")
-  if(!file.exists(outputdir)) cat(paste0("The new directory: ", outputdir, " will be created.\n"))
+  if(is.null(outputdir) & save.results ) stop("Outputdir must be specified. The results are automatichally saved inside the folder.\n")
+  if(!is.null(outputdir)) if(!file.exists(outputdir)) cat(paste0("The new directory: ", outputdir, " will be created.\n"))
   if(!is.integer(nstates)) nstates = as.integer(nstates)
   if(is.null(seqlengths)) stop("seqlengths are necessary to create the Genomic Ranges object to store the data. Please, introduce the chromosome lengths of your organism.\n")
   if(!is.integer(max.iter)) max.iter = as.integer(max.iter)

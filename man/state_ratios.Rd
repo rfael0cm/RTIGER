@@ -16,8 +16,9 @@ matrix with the mean count ratios per sample and state.
 This funciton computes the mean raatio per state and sample
 }
 \examples{
-
+\dontrun{
 data("fittedExample")
 myratios = state_ratios(myDat)
+}
 
 }

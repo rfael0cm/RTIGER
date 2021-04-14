@@ -84,12 +84,12 @@ export2IGV = function( object, sample, dir = NULL, ratio = FALSE, newn = NULL){
     ratio[is.na(ratio)] = 0
     Viterbi$score = ratio
 
-    export.bw(Viterbi[,"score"], ratiofile)
+    rtracklayer::export.bw(Viterbi[,"score"], ratiofile)
   }
   write.table(df, file= Comp.statesfile, quote=FALSE, sep="\t", row.names=FALSE, col.names=FALSE)
-  export.bed(P1.states, P1.statesfile)
-  export.bed(P2.states, P2.statesfile)
-  export.bed(Het.states, Het.statesfile)
+  rtracklayer::export.bed(P1.states, P1.statesfile)
+  rtracklayer::export.bed(P2.states, P2.statesfile)
+  rtracklayer::export.bed(Het.states, Het.statesfile)
 
   rtracklayer::export.bw(P1.count, P1.countsfile)
   rtracklayer::export.bw(P2.count, P2.countsfile)

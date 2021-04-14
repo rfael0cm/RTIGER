@@ -11,6 +11,7 @@
 #' @usage generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL, seqlengths = NULL)
 #'
 #' @examples
+#' \dontrun{
 #' data("ATseqlengths")
 #' path = system.file("extdata",  package = "RTIGER")
 #' files = list.files(path, full.names = TRUE)
@@ -21,6 +22,7 @@
 #'               seqlengths = ATseqlengths,
 #'               rigidity = 10
 #')
+#' }
 #'
 #' @export generateObject
 #'

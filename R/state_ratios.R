@@ -7,10 +7,12 @@
 #' @usage state_ratios(rtigerobj)
 #'
 #' @examples
-#'
+#'\dontrun{
 #'data("fittedExample")
-#' myratios = state_ratios(myDat)
+#'myratios = state_ratios(myDat)
+#'}
 #'
+
 
 state_ratios = function(rtigerobj){
   r = rtigerobj@params$rigidity

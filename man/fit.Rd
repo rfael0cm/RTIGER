@@ -4,7 +4,10 @@
 \alias{fit}
 \title{Call Julia code to fit the values}
 \usage{
-fit(rtigerobj, max.iter , eps, trace, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE)
+fit(rtigerobj, max.iter , eps,
+trace, all = TRUE, random = FALSE,
+specific = FALSE, nsamples = 20,
+post.processing = TRUE)
 }
 \arguments{
 \item{rtigerobj}{an RTIGER object.}
@@ -35,7 +38,10 @@ Call Julia code to fit the values
 \dontrun{
 data("fittedExample")
 sourceJulia()
-myfit = fit(myDat, max.iter = 2, eps=0.01, trace = TRUE, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE)
+myfit = fit(myDat, max.iter = 2, eps=0.01,
+            trace = TRUE, all = TRUE,
+            random = FALSE, specific = FALSE,
+            nsamples = 20, post.processing = TRUE)
 
 }
 }
