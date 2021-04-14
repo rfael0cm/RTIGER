@@ -40,6 +40,10 @@ plotGenotype = function(object,
          showGenAxis = TRUE,
          ratio = FALSE,
          window = 10){
+
+  if(sum(c("Gviz") %in% rownames(installed.packages())) != 2) stop("To generate this plot you need to have installed Gviz Bioconductor package.\n
+                                                                   https://bioconductor.org/packages/release/bioc/html/Gviz.html")
+
   DataViterbi_GR = object@Viterbi
 
   FinalRes_chr = DataViterbi_GR[[samp]]
@@ -62,7 +66,7 @@ plotGenotype = function(object,
     myratio$P2.Allele.Count = negRatio
     myratio = myratio[,c("P1.Allele.Count", "P2.Allele.Count")]
     ratlim = c(-100,100)
-    ratgviz = DataTrack(myratio, type = "l", col = col[1:2], name = "Allele frequency Ratio", ylim = ratlim)
+    ratgviz = Gviz::DataTrack(myratio, type = "l", col = col[1:2], name = "Allele frequency Ratio", ylim = ratlim)
     size = c(1,1,1)
 
   }
@@ -78,13 +82,13 @@ plotGenotype = function(object,
 
   coldata = col[1:2]
   names(coldata) = c("Reference", "Alternate")
-  datgviz = DataTrack(dat, type = "h", name = "Allele frequency", col = coldata, ylim = c(-lim, lim))
+  datgviz = Gviz::DataTrack(dat, type = "h", name = "Allele frequency", col = coldata, ylim = c(-lim, lim))
 
   names(col) = c("mat", "pat", "het")
 
   myclass = "Genotype"
 
-  vitGviz = AnnotationTrack(Viterbi, name = myclass,
+  vitGviz = Gviz::AnnotationTrack(Viterbi, name = myclass,
                             fill = col[Viterbi$Viterbi],
                             col = "transparent", stacking = "dense")
 
@@ -95,7 +99,7 @@ plotGenotype = function(object,
   }
 
   if(showGenAxis){
-    gtrack <- GenomeAxisTrack()
+    gtrack <- Gviz::GenomeAxisTrack()
     mytracks = c(gtrack, mytracks)
     mySize = c(.5,size)
 
@@ -110,7 +114,7 @@ plotGenotype = function(object,
     }
     main = paste(sample.name, "\n", chr)
   }
-  plotTracks(mytracks, groups = colnames(mcols(dat)),
+  Gviz::plotTracks(mytracks, groups = colnames(mcols(dat)),
              background.title="darkgrey", lwd=2,
              to= seqlengths(FinalRes_chr)[chr] ,
              main = main,

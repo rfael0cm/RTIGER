@@ -106,8 +106,8 @@ RTIGER = function(expDesign,
                                      \n\n--------------------------\n\n")
 
   if(save.results){
-    require(Gviz)
-    require(rtracklayer)
+    # require(Gviz)
+    # require(rtracklayer)
     if(!dir.exists(outputdir)) dir.create(outputdir)
     cat("Plotting samples Genotypes.\n")
     for(samp in info$sample_names){

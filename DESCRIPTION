@@ -6,12 +6,13 @@ Author: Rafael Campos-Martin, Sophia Schmickler, Korbinian Schneeberger, Achim T
 Maintainer: Rafael Campos-Martin <rfael.mpi@gmail.com>
 Description: Our method integrates information from all sequenced samples, thus avoiding loss of alleles due to low coverage. Moreover, it increasses the statistical power to uncover sequencing or alignment errors. 
 Depends: 
-    R (>= 4.0),
+    R (>= 3.6),
     GenomicRanges, 
     GenomeInfoDb
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
+LazyDataComnpression: xz
 Imports: S4Vectors, methods, e1071, reshape2, ggplot2, TailRank, JuliaCall, IRanges, qpdf, grDevices, graphics, stats, utils
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
