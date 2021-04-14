@@ -44,7 +44,7 @@ plotGenotype = function(object,
          ratio = FALSE,
          window = 10){
 
-  if(sum(c("Gviz") %in% rownames(installed.packages())) != 2) stop("To generate this plot you need to have installed Gviz Bioconductor package.\n
+  if(sum(c("Gviz") %in% rownames(installed.packages())) != 1) stop("To generate this plot you need to have installed Gviz Bioconductor package.\n
                                                                    https://bioconductor.org/packages/release/bioc/html/Gviz.html")
 
   DataViterbi_GR = object@Viterbi

@@ -33,7 +33,7 @@ export2IGV = function( object, sample, dir = NULL, ratio = FALSE, newn = NULL){
   if(!dir.exists(compdir)) dir.create(compdir)
 
   if(!is.null(newn)) sample = newn[sample]
-  if(sum(c("rtracklayer") %in% rownames(installed.packages())) != 2) stop("To export to IGV you need to have installed rtracklayer.\n
+  if(sum(c("rtracklayer") %in% rownames(installed.packages())) != 1) stop("To export to IGV you need to have installed rtracklayer.\n
                                                                           https://bioconductor.org/packages/release/bioc/html/rtracklayer.html")
 
   P1.statesfile = file.path(compdir, paste("P1-state-", sample, ".bed", sep = ""))
