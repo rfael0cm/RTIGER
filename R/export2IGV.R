@@ -11,11 +11,11 @@
 #' @usage export2IGV(object, sample, dir = NULL, ratio = FALSE, newn = NULL)
 #'
 #' @examples
-#'\dontrun{
+#'
 #' data("fittedExample")
 #' info = myDat@info
 #' export2IGV(myDat, samp = info$sample_names[1])
-#'}
+#'
 #
 #' @export export2IGV
 #'
@@ -33,8 +33,9 @@ export2IGV = function( object, sample, dir = NULL, ratio = FALSE, newn = NULL){
   if(!dir.exists(compdir)) dir.create(compdir)
 
   if(!is.null(newn)) sample = newn[sample]
-  if(sum(c("rtracklayer") %in% rownames(installed.packages())) != 1) stop("To export to IGV you need to have installed rtracklayer.\n
-                                                                          https://bioconductor.org/packages/release/bioc/html/rtracklayer.html")
+  requireNamespace("rtracklayer")
+  # if(sum(c("rtracklayer") %in% rownames(installed.packages())) != 1) stop("To export to IGV you need to have installed rtracklayer.\n
+                                                                          # https://bioconductor.org/packages/release/bioc/html/rtracklayer.html")
 
   P1.statesfile = file.path(compdir, paste("P1-state-", sample, ".bed", sep = ""))
   P2.statesfile = file.path(compdir, paste("P2-state-", sample, ".bed", sep = ""))

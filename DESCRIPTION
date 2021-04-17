@@ -1,9 +1,14 @@
 Package: RTIGER
 Type: Package
-Title: A Robust HMM-Based Model for Genotyping-by-Sequencing and Recombination Breakpoint Identification
+Title: HMM-Based Model for Genotyping and Cross-Over Identification
 Version: 0.99.0
-Author: Rafael Campos-Martin, Sophia Schmickler, Korbinian Schneeberger, Achim Tresch.
-Maintainer: Rafael Campos-Martin <rfael.mpi@gmail.com>
+Authors@R: c(
+    person("Rafael", "Campos-Martin", email = "rfael.mpi@gmail.com", role = c("cre"), comment = c(ORCID = "0000-0002-1395-8571")),
+    person("Sophia", "Schmickler", email = "so4a_schmickler@t-online.de", role = c("aut")),
+    person("Manish", "Goel", email = "goel@mpipz.mpg.de", role = c("ctb")),
+    person("Korbinian", "Schneeberger", email = "schneeberger@mpipz.mpg.de", role = c("aut")),
+    person("Achim", "Tresch", email = "achim.tresch@uni-koeln.de", role= c("aut"))
+    )
 Description: Our method integrates information from all sequenced samples, thus avoiding loss of alleles due to low coverage. Moreover, it increases the statistical power to uncover sequencing or alignment errors. 
 Depends: 
     R (>= 3.6),

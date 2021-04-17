@@ -11,7 +11,7 @@
 #' @usage generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL, seqlengths = NULL)
 #'
 #' @examples
-#' \dontrun{
+#'
 #' data("ATseqlengths")
 #' path = system.file("extdata",  package = "RTIGER")
 #' files = list.files(path, full.names = TRUE)
@@ -22,19 +22,19 @@
 #'               seqlengths = ATseqlengths,
 #'               rigidity = 10
 #')
-#' }
+#'
 #'
 #' @export generateObject
 #'
 
-generateObject = function(experimentDesign = NULL, nstates = 3, rigidity = NULL, seqlengths = NULL){
+generateObject = function(experimentDesign = NULL, nstates = 3, rigidity = NULL, seqlengths = NULL, verbose = TRUE){
   if( is.null(experimentDesign) ){
     stop("No file information found!")
   }
   if(is.null(rigidity)) stop("No rigidity information added. Please, select a rigidity value.\n")
   if(is.null(seqlengths)) stop("Chromosome lengths are mandatory in order to know the genome length. Please, add chromosome length as a vector.\n")
 
-  cat("Using", nstates, "states for fitting.\n")
+  if(verbose) cat("Using", nstates, "states for fitting.\n")
   myCol = experimentDesign[, c("files", "name")]
 
   rawGR = sapply(1:nrow(myCol), function(i){

@@ -7,7 +7,7 @@
 RTIGER(expDesign, rigidity=NULL, outputdir=NULL, nstates = 3,
 seqlengths = NULL, eps=0.01, max.iter=50, trace = FALSE,
 tiles = 4e5, all = TRUE, random = FALSE, specific = FALSE,
-nsamples = 20, post.processing = TRUE, save.results = FALSE)
+nsamples = 20, post.processing = TRUE, save.results = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{expDesign}{a data Frame that contains minimum a column with the files direction (name of the column files) and another with a shorter name to be used inside the function.}
@@ -39,6 +39,8 @@ nsamples = 20, post.processing = TRUE, save.results = FALSE)
 \item{post.processing}{Logical value. Whether to run an extra step that fine maps the segment borthers. Default TRUE}
 
 \item{save.results}{Logical value, whether to generate and save the plots and igv files.}
+
+\item{verbose}{Logical, whether to print info to console.}
 }
 \value{
 Matrix m x n. M number of samples and N chromosomes.

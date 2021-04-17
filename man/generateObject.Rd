@@ -24,7 +24,7 @@ RTIGER object
 Load data
 }
 \examples{
-\dontrun{
+
 data("ATseqlengths")
 path = system.file("extdata",  package = "RTIGER")
 files = list.files(path, full.names = TRUE)
@@ -35,6 +35,6 @@ myres = generateObject(experimentDesign = expDesign,
               seqlengths = ATseqlengths,
               rigidity = 10
 )
-}
+
 
 }

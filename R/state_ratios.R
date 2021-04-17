@@ -3,14 +3,8 @@
 #'
 #' @param rtigerobj an RTIGER or RViterbi object with the filtered data
 #'
-#' @return matrix with the mean count ratios per sample and state.
-#' @usage state_ratios(rtigerobj)
-#'
-#' @examples
-#'\dontrun{
-#'data("fittedExample")
-#'myratios = state_ratios(myDat)
-#'}
+#' @keywords internal
+#' @noRd
 #'
 
 

@@ -23,11 +23,11 @@
 #' showGenAxis = TRUE, ratio = FALSE, window = 10)
 #'
 #' @examples
-#'\dontrun{
+#'
 #' data("fittedExample")
 #' info = myDat@info
 #' plotGenotype(myDat, samp = info$sample_names[1],chr = info$part_names[1])
-#'}
+#'
 
 #' @export plotGenotype
 #'
@@ -44,8 +44,9 @@ plotGenotype = function(object,
          ratio = FALSE,
          window = 10){
 
-  if(sum(c("Gviz") %in% rownames(installed.packages())) != 1) stop("To generate this plot you need to have installed Gviz Bioconductor package.\n
-                                                                   https://bioconductor.org/packages/release/bioc/html/Gviz.html")
+  # if(sum(c("Gviz") %in% rownames(installed.packages())) != 1) stop("To generate this plot you need to have installed Gviz Bioconductor package.\n
+  #                                                                  https://bioconductor.org/packages/release/bioc/html/Gviz.html")
+  requireNamespace("Gviz")
 
   DataViterbi_GR = object@Viterbi
 

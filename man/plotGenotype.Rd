@@ -35,9 +35,9 @@ plot with the genomic segmentation for chromosome chr in sample samp.
 This funciton creates an RViterbi object.
 }
 \examples{
-\dontrun{
+
 data("fittedExample")
 info = myDat@info
 plotGenotype(myDat, samp = info$sample_names[1],chr = info$part_names[1])
-}
+
 }
