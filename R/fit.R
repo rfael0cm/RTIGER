@@ -11,13 +11,19 @@
 #' @param post.processing logical value, whether to run post.processing process.
 #'
 #' @return RTIGER object
-#' @usage fit(rtigerobj, max.iter , eps, trace, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE)
+#' @usage fit(rtigerobj, max.iter , eps,
+#' trace, all = TRUE, random = FALSE,
+#' specific = FALSE, nsamples = 20,
+#' post.processing = TRUE)
 #'
 #' @examples
 #'\dontrun{
 #'data("fittedExample")
 #' sourceJulia()
-#' myfit = fit(myDat, max.iter = 2, eps=0.01, trace = TRUE, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE)
+#' myfit = fit(myDat, max.iter = 2, eps=0.01,
+#'             trace = TRUE, all = TRUE,
+#'             random = FALSE, specific = FALSE,
+#'             nsamples = 20, post.processing = TRUE)
 #'
 #'}
 #' @export fit

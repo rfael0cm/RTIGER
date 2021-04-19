@@ -16,10 +16,14 @@
 #' @param post.processing Logical value. Whether to run an extra step that fine maps the segment borthers. Default TRUE
 #' @param specific Logical value to specify which samples to take.
 #' @param save.results Logical value, whether to generate and save the plots and igv files.
+#' @param verbose Logical, whether to print info to console.
 #' @return Matrix m x n. M number of samples and N chromosomes.
 #'
 #' @return RTIGER object
-#' @usage RTIGER(expDesign, rigidity=NULL, outputdir=NULL, nstates = 3, seqlengths = NULL, eps=0.01, max.iter=50, trace = FALSE, tiles = 4e5, all = TRUE, random = FALSE, specific = FALSE, nsamples = 20, post.processing = TRUE, save.results = FALSE)
+#' @usage RTIGER(expDesign, rigidity=NULL, outputdir=NULL, nstates = 3,
+#' seqlengths = NULL, eps=0.01, max.iter=50, trace = FALSE,
+#' tiles = 4e5, all = TRUE, random = FALSE, specific = FALSE,
+#' nsamples = 20, post.processing = TRUE, save.results = FALSE, verbose = TRUE)
 #'
 #' @examples
 #'\dontrun{
@@ -32,11 +36,11 @@
 #' names(ATseqlengths) = paste0("Chr", 1:5)
 #' myres = RTIGER(expDesign = expDesign,
 #'                outputdir = "/home/campos/Documents/outputjulia/",
-#'               seqlengths = ATseqlengths,
-#'               rigidity = 4,
-#'               max.iter = 2,
-#'              trace = FALSE,
-#'              save.results = FALSE)
+#'                seqlengths = ATseqlengths,
+#'                rigidity = 4,
+#'                max.iter = 2,
+#'                trace = FALSE,
+#'                save.results = FALSE)
 #'}
 #'
 #' @export RTIGER
@@ -57,30 +61,41 @@ RTIGER = function(expDesign,
                   specific = FALSE,
                   nsamples = 20,
                   post.processing = TRUE,
-                  save.results = FALSE){
+                  save.results = FALSE,
+                  verbose = TRUE){
   # Checks
   if(any(seqlengths < tiles)) stop("Your tiling distance is larger than some of your chromosomes. Reduce the tiling parameter.\n")
   if(is.null(rigidity)) stop("Rigidity must be specified. This is a data specific parameter. Check vignette.\n")
   if(!is.integer(rigidity))  rigidity = as.integer(rigidity)
-  if(is.null(outputdir)) stop("Outputdir must be specified. The results are automatichally saved inside the folder.\n")
-  if(!file.exists(outputdir)) cat(paste0("The new directory: ", outputdir, " will be created.\n"))
+  if(is.null(outputdir) & save.results ) stop("Outputdir must be specified. The results are automatichally saved inside the folder.\n")
+  if(!is.null(outputdir)) if(!file.exists(outputdir)) if(verbose) cat(paste0("The new directory: ", outputdir, " will be created.\n"))
   if(!is.integer(nstates)) nstates = as.integer(nstates)
   if(is.null(seqlengths)) stop("seqlengths are necessary to create the Genomic Ranges object to store the data. Please, introduce the chromosome lengths of your organism.\n")
   if(!is.integer(max.iter)) max.iter = as.integer(max.iter)
+  if(save.results){
+    # if(sum(c("Gviz", "rtracklayer") %in% rownames(installed.packages())) != 2) stop("To save the results you need to have installed Gviz and rtracklayer.\n
+    #                                                                                 Currently you are missing them.")
+    requireNamespace("Gviz")
+    requireNamespace("rtracklayer")
+  }
 
   # Load data
-  cat("Loading data and generating RTIGER object.\n")
+  if(verbose) cat("Loading data and generating RTIGER object.\n")
   newn = paste("Sample", 1:nrow(expDesign), sep = "_")
   names(newn) = expDesign$name
   expDesign$OName = expDesign$name
   expDesign$name = newn
-  myDat = generateObject(experimentDesign = expDesign,nstates = nstates,rigidity = rigidity, seqlengths = seqlengths)
+  myDat = generateObject(experimentDesign = expDesign,nstates = nstates,rigidity = rigidity, seqlengths = seqlengths, verbose = verbose)
   info = myDat@info
   # params = myDat@params
+  # Check length observations
+
+  obs.l = sapply(myDat@matobs, function(x) sapply(x, ncol))
+  if(any(obs.l < 2*rigidity)) stop("Some of your observations is smaller than 2 times rigidity. Decrease your rigidity value.")
 
   # Fit and decode
-  cat("\n\nFitting the parameters and Viterbi decoding. \n")
-  cat("post processing value is:", post.processing,"\n")
+  if(verbose) cat("\n\nFitting the parameters and Viterbi decoding. \n")
+  if(verbose) cat("post processing value is:", post.processing,"\n")
   myDat = fit(rtigerobj = myDat,
               max.iter = max.iter,
               eps = eps,
@@ -95,38 +110,35 @@ RTIGER = function(expDesign,
   myDat@info$expDesign = expDesign
 
 
-  cat("Number of iterations run: ", myDat@num.iter, "\n\n")
+  if(verbose) cat("Number of iterations run: ", myDat@num.iter, "\n\n")
   if(myDat@num.iter == max.iter) cat("--------------------------\n
   Warning!! The maximum number of iterations were needed without reaching convergence.\n
                                      We recommend to increase the number of iterations.
                                      \n\n--------------------------\n\n")
 
-  if(!dir.exists(outputdir)) dir.create(outputdir)
-
-  # plots = file.path(outputdir, "Plots")
-  # files = file.path(outputdir, "igv")
-
-  # if(!dir.exists(plots)) dir.create(plots)
-  # if(!dir.exists(files)) dir.create(files)
-
-  cat("Plotting samples Genotypes.\n")
-  for(samp in info$sample_names){
-    # f.name = names(newn)[newn %in% samp]
-    sampdir = file.path(outputdir, samp)
-    myx = paste0("GenotypePlot_",samp, ".pdf")
-    if(!dir.exists(sampdir)) dir.create(sampdir)
-    on = file.path(sampdir, myx)
-    pdf(on)
-    for(chr in info$part_names){
-      ren = newn[as.character(samp)]
-      plotGenotype(myDat, ren, chr, ratio = TRUE, window = 10)
-    }
-    dev.off()
-  }
-
   if(save.results){
+    # require(Gviz)
+    # require(rtracklayer)
+    if(!dir.exists(outputdir)) dir.create(outputdir)
+    if(verbose) cat("Plotting samples Genotypes.\n")
+    for(samp in info$sample_names){
+      # f.name = names(newn)[newn %in% samp]
+      sampdir = file.path(outputdir, samp)
+      myx = paste0("GenotypePlot_",samp, ".pdf")
+      if(!dir.exists(sampdir)) dir.create(sampdir)
+      on = file.path(sampdir, myx)
+      pdf(on)
+      for(chr in info$part_names){
+        ren = newn[as.character(samp)]
+        plotGenotype(myDat, ren, chr, ratio = TRUE, window = 10)
+      }
+      dev.off()
+    }
+
+
+
     # Plotting CO number per chormosome
-    cat("PLotting CO number per chromosome. \n")
+    if(verbose) cat("PLotting CO number per chromosome. \n")
     myf = file.path(outputdir, "COs-per-Chromosome.pdf")
     plotCOs(myDat, myf)
 
@@ -151,7 +163,7 @@ RTIGER = function(expDesign,
     dev.off()
 
     # Create output
-    cat("Creating bed and IGV output formats.\n")
+    if(verbose) cat("Creating bed and IGV output formats.\n")
     for(samp in info$sample_names){
 
       export2IGV(myDat, sample = samp, dir = outputdir, ratio = TRUE, newn = newn)
@@ -161,7 +173,7 @@ RTIGER = function(expDesign,
     # Goodness of fit ---------------------------------------------------------
 
     if(nstates < 4){
-      cat("Plotting goodness of fit.\n")
+      if(verbose) cat("Plotting goodness of fit.\n")
       vit = myDat@Viterbi
       if(length(vit) >= 10)vit = vit[sample(1:length(vit), ceiling(.1*length(vit)))]
 
@@ -169,7 +181,7 @@ RTIGER = function(expDesign,
       patrat = unlist(lapply(vit, function(x) x$P1.Allele.Count[x$Viterbi == "pat"]/x$total[x$Viterbi == "pat"]* 100))
       matrat = unlist(lapply(vit, function(x) x$P1.Allele.Count[x$Viterbi == "mat"]/x$total[x$Viterbi == "mat"]* 100))
       if(nstates == 3 & any(c(length(hetrat), length(patrat), length(matrat)) == 0)){
-        cat("Your data probably comes form a back-crossed population. Please fit the model with nstates = 2.\n
+        if(verbose) cat("Your data probably comes form a back-crossed population. Please fit the model with nstates = 2.\n
           The plot Goodness-Of-Fit.pdf might be erroneous.")
         myl = list(hetrat, patrat, matrat)
         myl = myl[which(c(length(hetrat), length(patrat), length(matrat)) != 0)]
@@ -237,7 +249,7 @@ RTIGER = function(expDesign,
 
 
     myf = file.path(outputdir, "GenomicFrequencies.pdf")
-    plotFreqgen(myx = myx, tiles = tiles, file = myf, info = info, groups = NULL)
+    plotFreqgen(myx = myx, tiles = tiles, file = myf, info = info, groups = NULL, verbose = verbose)
 
   }
 

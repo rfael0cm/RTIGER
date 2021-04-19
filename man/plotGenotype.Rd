@@ -4,7 +4,10 @@
 \alias{plotGenotype}
 \title{This funciton creates an RViterbi object.}
 \usage{
-plotGenotype(object, samp, chr, col = c("red", "blue", "mediumorchid4"), size = c(1,1), main = NULL, showGenAxis = TRUE, ratio = FALSE, window = 10)
+plotGenotype(object, samp, chr,
+col = c("red", "blue", "mediumorchid4"),
+size = c(1,1), main = NULL,
+showGenAxis = TRUE, ratio = FALSE, window = 10)
 }
 \arguments{
 \item{object}{an RTIGER or RViterbi object with the filtered data}
@@ -32,9 +35,9 @@ plot with the genomic segmentation for chromosome chr in sample samp.
 This funciton creates an RViterbi object.
 }
 \examples{
-\dontrun{
+
 data("fittedExample")
 info = myDat@info
 plotGenotype(myDat, samp = info$sample_names[1],chr = info$part_names[1])
-}
+
 }

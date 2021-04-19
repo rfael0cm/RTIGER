@@ -24,9 +24,9 @@ a folder with files to visualize results in igv.
 Exports the count and viterbi code to a folder in order to visualize it in IGV.
 }
 \examples{
-\dontrun{
+
 data("fittedExample")
 info = myDat@info
 export2IGV(myDat, samp = info$sample_names[1])
-}
+
 }

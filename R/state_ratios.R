@@ -3,14 +3,10 @@
 #'
 #' @param rtigerobj an RTIGER or RViterbi object with the filtered data
 #'
-#' @return matrix with the mean count ratios per sample and state.
-#' @usage state_ratios(rtigerobj)
+#' @keywords internal
+#' @noRd
 #'
-#' @examples
-#'
-#'data("fittedExample")
-#' myratios = state_ratios(myDat)
-#'
+
 
 state_ratios = function(rtigerobj){
   r = rtigerobj@params$rigidity

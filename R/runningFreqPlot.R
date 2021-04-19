@@ -18,8 +18,11 @@ running.freq = function(x, tiles = 4e5, info){
 }
 
 # tiles = 4e5
-plotFreqgen = function(myx, tiles, file, groups = NULL, info){
-  cat("Plotting Gen frequencies.\n")
+plotFreqgen = function(myx, tiles, file, groups = NULL, info, verbose = TRUE){
+  if(sum(c("Gviz") %in% rownames(installed.packages())) != 2) stop("To generate this plot you need to have installed Gviz Bioconductor package.\n
+                                                                   https://bioconductor.org/packages/release/bioc/html/Gviz.html")
+
+  if(verbose) cat("Plotting Gen frequencies.\n")
   total.running = running.freq(myx, tiles = tiles, info = info)
   if(is.null(groups)){
     pdf(file)
@@ -31,12 +34,12 @@ plotFreqgen = function(myx, tiles, file, groups = NULL, info){
 
       dat = FinalRes_chr[,c("co.freq")]
 
-      datgviz = DataTrack(dat, type = "l", name = "COs per MB", col = c("#fc8d62"))
-      axistrack = GenomeAxisTrack()
+      datgviz = Gviz::DataTrack(dat, type = "l", name = "COs per MB", col = c("#fc8d62"))
+      axistrack = Gviz::GenomeAxisTrack()
 
       mySize = c(.3,1)
       # png(paste("~/Documents/PhDthesis/Chapter4/Figures/runningCo/MutvsWt-", chr, ".png", sep=""))
-      plotTracks(c(axistrack,datgviz),  groups = colnames(mcols(dat)),
+      Gviz::plotTracks(c(axistrack,datgviz),  groups = colnames(mcols(dat)),
                  cex.feature=0.7, background.title="darkgrey", lwd=2,
                  from=1,
                  to= seqlengths(dat)[chr] ,
@@ -67,13 +70,13 @@ plotFreqgen = function(myx, tiles, file, groups = NULL, info){
       # dat = FinalRes_chr[,c("co.freq")]
       colors = c("#fc8d62", "#8da0cb","#b35806","#e08214","#fdb863","#fee0b6","#f7f7f7","#d8daeb","#b2abd2","#8073ac","#542788")
 
-      datgviz = DataTrack(dat, type = "l", name = "CO freq", col = colors[1:length(levels(groups))])
-      axistrack = GenomeAxisTrack()
+      datgviz = Gviz::DataTrack(dat, type = "l", name = "CO freq", col = colors[1:length(levels(groups))])
+      axistrack = Gviz::GenomeAxisTrack()
       pdf(file)
 
       mySize = c(.3,1)
       # png(paste("~/Documents/PhDthesis/Chapter4/Figures/runningCo/MutvsWt-", chr, ".png", sep=""))
-      plotTracks(c(axistrack,datgviz),  groups = colnames(mcols(dat)),
+      Gviz::plotTracks(c(axistrack,datgviz),  groups = colnames(mcols(dat)),
                  cex.feature=0.7, background.title="darkgrey", lwd=2,
                  from=1,
                  to= seqlengths(dat)[chr] ,
