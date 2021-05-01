@@ -5,10 +5,11 @@
 #' @param rigidity an integer number specifying the rigidity parameter to be used.
 #' @param nstates the number of states to be fitted in the model. A standard setting would use 3 states (Homozygous1, Heterozygous, and Homozygous2).
 #' @param seqlengths a named vector with the chromosome lenghts of the organism that the user is working with.
-#' @return Matrix m x n. M number of samples and N chromosomes.
+#' @param verbose logical value. Whether to print info messages.
 #'
 #' @return RTIGER object
-#' @usage generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL, seqlengths = NULL)
+#' @usage generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL,
+#' seqlengths = NULL, verbose = TRUE)
 #'
 #' @examples
 #'

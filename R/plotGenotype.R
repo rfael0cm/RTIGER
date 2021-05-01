@@ -28,8 +28,8 @@
 #' info = myDat@info
 #' plotGenotype(myDat, samp = info$sample_names[1],chr = info$part_names[1])
 #'
-
-#' @export plotGenotype
+#' @keywords internal
+#' @noRd
 #'
 #'
 

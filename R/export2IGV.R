@@ -9,15 +9,9 @@
 #'
 #' @return a folder with files to visualize results in igv.
 #' @usage export2IGV(object, sample, dir = NULL, ratio = FALSE, newn = NULL)
+#' @keywords internal
+#' @noRd
 #'
-#' @examples
-#'
-#' data("fittedExample")
-#' info = myDat@info
-#' export2IGV(myDat, samp = info$sample_names[1])
-#'
-#
-#' @export export2IGV
 #'
 export2IGV = function( object, sample, dir = NULL, ratio = FALSE, newn = NULL){
   if(!is.null(dir)){

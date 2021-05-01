@@ -4,7 +4,8 @@
 \alias{generateObject}
 \title{Load data}
 \usage{
-generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL, seqlengths = NULL)
+generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL,
+seqlengths = NULL, verbose = TRUE)
 }
 \arguments{
 \item{experimentDesign}{a data Frame that contains minimum a column with the files direction (name of the column files) and another with a shorter name to be used inside the function.}
@@ -14,10 +15,10 @@ generateObject(experimentDesign = NULL,nstates = 3, rigidity=NULL, seqlengths = 
 \item{rigidity}{an integer number specifying the rigidity parameter to be used.}
 
 \item{seqlengths}{a named vector with the chromosome lenghts of the organism that the user is working with.}
+
+\item{verbose}{logical value. Whether to print info messages.}
 }
 \value{
-Matrix m x n. M number of samples and N chromosomes.
-
 RTIGER object
 }
 \description{
