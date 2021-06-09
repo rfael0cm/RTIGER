@@ -234,23 +234,6 @@ RTIGER = function(expDesign,
 
     }
 
-    # Running Frequency -------------------------------------------------------
-
-    myx = lapply(vit, function(samp){
-      myp = lapply(seqlevels(samp), function(chr){
-        myn = samp[seqnames(samp) == chr]
-        myn = Vit2GrangesGen(myn, "Viterbi")
-        seqlengths(myn) = seqlengths(samp)
-        return(myn)
-      })
-      names(myp) = seqlevels(samp)
-      return(myp)
-    })
-
-
-    myf = file.path(outputdir, "GenomicFrequencies.pdf")
-    plotFreqgen(myx = myx, tiles = tiles, file = myf, info = info, groups = NULL, verbose = verbose)
-
   }
 
 
