@@ -15,6 +15,8 @@
 #' @param showGenAxis boolean parameter whether or not show the genome axis.
 #' @param ratio boolean parameter wether or not to plot the ratio counts
 #' @param window if ratio TRUE, what is the window for the sliding window to be computed of the ratios.
+#' @param from If specified, which to start plotting. Default is one.
+#' @param to If specified, till which position to plot. Default is final chromosomoe.
 #'
 #' @return plot with the genomic segmentation for chromosome chr in sample samp.
 #' @usage plotGenotype(object, samp, chr,
@@ -42,7 +44,9 @@ plotGenotype = function(object,
          main = NULL,
          showGenAxis = TRUE,
          ratio = FALSE,
-         window = 10){
+         window = 10,
+         from = NULL,
+         to = NULL){
 
   # if(sum(c("Gviz") %in% rownames(installed.packages())) != 1) stop("To generate this plot you need to have installed Gviz Bioconductor package.\n
   #                                                                  https://bioconductor.org/packages/release/bioc/html/Gviz.html")
@@ -118,9 +122,12 @@ plotGenotype = function(object,
     }
     main = paste(sample.name, "\n", chr)
   }
+  to = ifelse(is.null(to), seqlengths(FinalRes_chr)[chr], to)
+  from = ifelse(is.null(from), 1, to)
   Gviz::plotTracks(mytracks, groups = colnames(mcols(dat)),
              background.title="darkgrey", lwd=2,
-             to= seqlengths(FinalRes_chr)[chr] ,
+             from = from,
+             to=  to,
              main = main,
              sizes=mySize,
              showFeatureId=FALSE,
