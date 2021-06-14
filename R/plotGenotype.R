@@ -39,7 +39,7 @@
 plotGenotype = function(object,
          samp,
          chr,
-         col = c("red", "blue", "mediumorchid4"),
+         col = c("red", "blue",  "mediumorchid4"),
          size = c(1,1),
          main = NULL,
          showGenAxis = TRUE,
@@ -72,7 +72,7 @@ plotGenotype = function(object,
     myratio = FinalRes_chr
     myratio$P1.Allele.Count = posRatio
     myratio$P2.Allele.Count = negRatio
-    myratio = myratio[,c("P1.Allele.Count", "P2.Allele.Count")]
+    myratio = myratio[,c("P2.Allele.Count", "P1.Allele.Count")]
     ratlim = c(-100,100)
     ratgviz = Gviz::DataTrack(myratio, type = "l", col = col[1:2], name = "Allele frequency Ratio", ylim = ratlim)
     size = c(1,1,1)
@@ -85,11 +85,12 @@ plotGenotype = function(object,
   dat = FinalRes_chr[,c("P1.Allele.Count", "total")]
   dat$P2.Allele.Count = - (dat$total - dat$P1.Allele.Count)
   dat = dat[,c("P1.Allele.Count", "P2.Allele.Count")]
-  colnames(mcols(dat)) = c("Reference", "Alternate")
+  colnames(mcols(dat)) = c( "Reference", "Alternate")
   lim = max(abs(as.matrix(mcols(dat))), na.rm = TRUE) + 2
 
   coldata = col[1:2]
-  names(coldata) = c("Reference", "Alternate")
+  names(coldata) = c("Alternate", "Reference")
+  mcols(dat) = mcols(dat)[, c("Alternate", "Reference")]
   datgviz = Gviz::DataTrack(dat, type = "h", name = "Allele frequency", col = coldata, ylim = c(-lim, lim))
 
   names(col) = c("mat", "pat", "het")
@@ -130,6 +131,7 @@ plotGenotype = function(object,
              to=  to,
              main = main,
              sizes=mySize,
+             legend = TRUE,
              showFeatureId=FALSE,
              fontcolor.feature="black",  background.title="darkgrey",
              showId=TRUE)
