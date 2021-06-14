@@ -123,7 +123,7 @@ plotGenotype = function(object,
     main = paste(sample.name, "\n", chr)
   }
   to = ifelse(is.null(to), seqlengths(FinalRes_chr)[chr], to)
-  from = ifelse(is.null(from), 1, to)
+  from = ifelse(is.null(from), 1, from)
   Gviz::plotTracks(mytracks, groups = colnames(mcols(dat)),
              background.title="darkgrey", lwd=2,
              from = from,
