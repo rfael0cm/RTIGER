@@ -183,7 +183,7 @@ function zeta(
             end
         end
     end
-    #Noramlisation and exponantial
+    #Normalisation and exponential
     PO = maximum(zeta)
     return exp.(zeta .- PO)
 end
@@ -290,7 +290,16 @@ function transitionMultiple(
         end
     end
     sumSamples = sum(sumZeta[2:size(sumZeta)[1], :, :], dims = 1)[1, :, :]
-    A = sumSamples ./ sum(sumSamples, dims = 2)
+    # Catch out: all transitions equal zero
+    summedSumSamples=sum(sumSamples, dims = 2)
+    sTzeros=findall(iszero,summedSumSamples)
+    if length(sTzeros)>0
+        @info "One row of transition probabilities is completely zero, there might be not enough information for one state."
+        for indexZ in sTzeros
+            summedSumSamples[indexZ]=1
+        end
+    end
+    A = sumSamples ./ summedSumSamples
     # Check:
     !any((x -> ((x < 0) | (x > 1))), A) ||
         error("Some transition probability is not in the range of 0 to 1.")
@@ -486,8 +495,11 @@ function viterbi(PI::Array, PSI::Array, psi::Array, A::Array, r::Integer)
     phi = zeros(s, T)
     b = Array{Int}(undef, s, T)
     phi[:, 1:r] = PSI[:, 1:r] .+ PI
-    b[:, 1:r] = repeat(collect(1:s), 1, r)
-    for t = r+1:T
+    b[:, 1:2r] = repeat(collect(1:s), 1, 2*r)
+    for t=r+1:2*r
+        phi[:,t]= psi[:, t] + a + phi[:, t-1]
+    end
+    for t = 2*r+1:T
         d = psi[:, t] + a + phi[:, t-1]
         nd = A .+ PSI[:, t]' .+ phi[:, t-r]
         indexInf = findall(x -> x == -Inf, Diagonal(nd))
