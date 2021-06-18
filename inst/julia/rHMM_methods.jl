@@ -492,14 +492,14 @@ function viterbi(PI::Array, PSI::Array, psi::Array, A::Array, r::Integer)
 
     a = diag(A)
     (s, T) = size(psi)
-    phi = zeros(s, T)
+    phi = -Inf*ones(s,T)
     b = Array{Int}(undef, s, T)
-    phi[:, 1:r] = PSI[:, 1:r] .+ PI
-    b[:, 1:2r] = repeat(collect(1:s), 1, 2*r)
-    for t=r+1:2*r
-        phi[:,t]= psi[:, t] + a + phi[:, t-1]
-    end
-    for t = 2*r+1:T
+    phi[:, r] = PSI[:, r] .+ PI
+    b[:, 1:r] = repeat(collect(1:s), 1,r)
+    # for t=r+1:2*r
+    #     phi[:,t]= psi[:, t] + a + phi[:, t-1]
+    # end
+    for t = r+1:T
         d = psi[:, t] + a + phi[:, t-1]
         nd = A .+ PSI[:, t]' .+ phi[:, t-r]
         indexInf = findall(x -> x == -Inf, Diagonal(nd))
