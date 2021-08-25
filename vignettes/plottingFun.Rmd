@@ -1,0 +1,69 @@
+---
+title: "Exporting results functions for RTIGER"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(RTIGER)
+```
+
+## plotGenotype()
+
+plotGenotype uses an object RVit in which de decoding has been already done. The data is plotted as a barplot format, with positive and red bars as read count for the paternal allele and negative scale and blue color the read counts for the maternal allele count. Optionally, if ratio = TRUE, nother panel is added in which the ratio paternal/maternal read counts is added. This ratio goes from -100 (complete maternal) to 100 (complete paternal). Therefore, 0 is hal paternal half maternal or heterozygous region. The ratio window is smoothed using running means funciton, in orther to smooth the window size must be selected with the option window (default value is 10).
+
+```{r cars}
+data("R.ViterbiExample")
+info = myDat@info
+plotGenotype(RVit, samp = info$sample_names[1], 
+             chr = info$part_names[1],
+             main = "Showcase",
+             showGenAxis = TRUE,
+             ratio = TRUE,
+             window = 20)
+            
+```
+
+## write.geno.csv()
+
+Save the viterbi path of samples (if NULL saves all the samples) in a csv file where columns are alleles and rows sample names. It needs to specify the the chromosome to save.
+
+```{r write.geno.csv, eval=FALSE}
+data("R.ViterbiExample")
+write.geno.csv(RVit, 
+               file = "example.geno.csv", 
+               samples = NULL,
+               chr = 1)
+```
+
+## export2IGV()
+
+export2IGV() function exports all results into a directory for visualization into the IGV software. Inside this directory it will create 5 files:
+* 3 bed files, one for each state (Paternal, Maternal, Het).
+* 2 bw files, one for each allele count (Paternal, Maternal).
+If the ratio otpion is set as TRUE then:
+* 1 bw file for the ratio paternal/maternal counts that goes from -100 to 100 (See plotGenotype() function).
+
+```{r export2IGV, eval=FALSE}
+data("R.ViterbiExample")
+info = myDat@info
+export2IGV(RVit, 
+           samp = info$sample_names[1],
+           dir = "~/myResults/IGV/"
+           ratio = TRUE)
+```
+
+
+## snpCounts2IGV()
+
+Similar to xport2IGV() function but only exports the 2 bw files of the count data:
+
+```{r smpCounts2IGV, eval=FALSE}
+data("fittedExample.rda")
+info = myDat@info
+snpCounts2IGV(myDat, 
+              samp = info$sample_names[1],
+              dir "~/myResults/IGV")
+```

@@ -134,7 +134,10 @@ wrap_fwbw = function(obs,info,params){
     for (samp in sample_names){
       # cat(samp, "\n")
       # cat(samp, " ", part, "\n")
+      cat("In sample: ", samp, "\n")
       res = RTIGER:::forwardbackward(obs[[samp]][[part]],params)
+      cat("Dimension res:"dim(t(res$alpha[vstates,marker_names])), "\n")
+      cat("Dimension alpha complete: ", alpha_complete[[part]][samp,marker_names,vstates],"\n")
       alpha_complete[[part]][samp,marker_names,vstates] = t(res$alpha[vstates,marker_names])
       beta_complete[[part]][samp,marker_names,vstates] = t(res$beta[vstates,marker_names])
       psimat_complete[[part]][samp,marker_names,psistates] = t(res$psimat[psistates,marker_names])
