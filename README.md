@@ -12,7 +12,21 @@ To account for variation in the coverage of sequencing data, RTIGER uses Viterbi
 * R: Version > 3.6
 * *RECOMENDED*: Julia-1.0.5 (Which versions of Julia can be supported?): Julia needs to be installed and available in the environment^[https://www.geeksforgeeks.org/how-to-setup-julia-path-to-environment-variable/?ref=lbp]
   - Julia 1.4.1 Works as well but slightly slower.
- - REQUIRED R LIBRARIES for Julia will be installed from the R terminal just after installation of the package.
+  - REQUIRED R LIBRARIES for Julia will be installed from the R terminal just after installation of the package.
+
+RTIGER is an R package meant to be used for Biological data. For that reason, we rely in some Bioconductor libraries that needs to be installed beofrehand to ensure a smooth installation of the package from CRAN. To install Bioconductor and the packages needed, run on the R terminal:
+```
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(version = "3.14")
+
+BiocManager::install(c("GenomicRanges", "GenomeInfoDb", "TailRank", "IRanges", "Gviz"))
+
+```
+Now we are ready to install RTIGER. As mentioned before, RTIGER is an CRAN package and can be installed with the simple command line:
+```
+install.packages("RTIGER")
+```
 
 <!-- ################################################################################ -->
 ### Preparing input data:
