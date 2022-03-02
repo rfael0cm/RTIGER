@@ -21,12 +21,23 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install(version = "3.14")
 
 BiocManager::install(c("GenomicRanges", "GenomeInfoDb", "TailRank", "IRanges", "Gviz"))
-
 ```
 Now we are ready to install RTIGER. As mentioned before, RTIGER is an CRAN package and can be installed with the simple command line:
 ```
 install.packages("RTIGER")
 ```
+Neverhteless, to get the latest and debugged versions, we recommend you install it from github using the devtools package:
+```
+install.packages("devtools")
+library(devtools)
+install_github("rfael0cm/RTIGER")
+```
+Once the RTIGER package is installed, next is to install the JULIA libraries needed to run the analysis. We have simplified this step by just running the following function:
+```
+library(RTIGER)
+setupJulia()
+```
+Now, we have all the necessary prerequisists to start using RTIGER and obtain the maximum information from our data sets. RTIGER needs specific data format to work. On the next section we will describe how it must be enoced and saved.
 
 <!-- ################################################################################ -->
 ### Preparing input data:
