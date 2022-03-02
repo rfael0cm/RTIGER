@@ -10,7 +10,7 @@ To account for variation in the coverage of sequencing data, RTIGER uses Viterbi
 ## Installation
 #### Pre-Requisites:
 * R: Version > 3.6
-* *RECOMENDED*: Julia-1.0.5 (Which versions of Julia can be supported?): Julia needs to be installed and available in the environment^[https://www.geeksforgeeks.org/how-to-setup-julia-path-to-environment-variable/?ref=lbp]
+* **RECOMENDED**: Julia-1.0.5 (Which versions of Julia can be supported?): Julia needs to be installed and available in the environment Link to JUlia [link] (https://www.geeksforgeeks.org/how-to-setup-julia-path-to-environment-variable/?ref=lbp)
   - Julia 1.4.1 Works as well but slightly slower.
   - REQUIRED R LIBRARIES for Julia will be installed from the R terminal just after installation of the package.
 
