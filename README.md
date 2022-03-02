@@ -12,6 +12,11 @@ To account for variation in the coverage of sequencing data, RTIGER uses Viterbi
 * R: Version > 3.6
 * *RECOMENDED*: Julia-1.0.5 (Which versions of Julia can be supported?): Julia needs to be installed and available in the environment^[https://www.geeksforgeeks.org/how-to-setup-julia-path-to-environment-variable/?ref=lbp]
   - Julia 1.4.1 Works as well but slightly slower.
-* REQUIRED R LIBRARIES WOULD BE INSTALLED AUTOMATICALLY... RIGHT?
+ - REQUIRED R LIBRARIES for Julia will be installed from the R terminal just after installation of the package.
 
-\
+<!-- ################################################################################ -->
+### Preparing input data:
+RTIGER uses the allele-count information at the SNP marker positions. The SNP markers correspond to differences between the two genotypes (i.e. parent_1 vs parent_2). RTIGER requires as input one allele-count file for each sample. The allele-count file should be in tab-separated value format, where each row corresponds to a SNP marker. The format of the file is described below:
+
+
+
