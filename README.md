@@ -43,5 +43,9 @@ Now, we have all the necessary prerequisists to start using RTIGER and obtain th
 ### Preparing input data:
 RTIGER uses the allele-count information at the SNP marker positions. The SNP markers correspond to differences between the two genotypes (i.e. parent_1 vs parent_2). RTIGER requires as input one allele-count file for each sample. The allele-count file should be in tab-separated value format, where each row corresponds to a SNP marker. The format of the file is described below:
 
+|Column | Field | Type | Description |
+|---|---|---|----|
+|1|SeqID|String| Chromosme ID|
+
 
 
