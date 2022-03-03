@@ -4,7 +4,6 @@
 Accurate identification of meiotic crossing-over sites (COs) is essential for correct genotyping of recombining samples. RTIGER is a method for predicting genome-wide COs using allele-counts at pre-defined SNP marker positions. RTIGER trains a Hidden Markov Model (HMM) where genomic states (homozygous parent_1, homozygous parent_2 or heterozygous) correspond to the hidden state and the allele-counts as the observed variable. COs are identified as transitions in the HMM state.
 
 To account for variation in the coverage of sequencing data, RTIGER uses Viterbi Path Algorithm and the `rigidity` parameter. This parameter defines the minimum number of SNP markers required to support a state-transition. This filters out low-confidence state-transitions, improving COs identification performance.
-\
 
 <!-- ################################################################################ -->
 ## Installation
@@ -63,6 +62,45 @@ SNPs in repetitive regions should be filtered out. Further, as crossing-over usu
 **NOTE 2**: Crossing-over resolution depends on sequenced marker density. Low sequencing coverage could result in few informative markers, which in turn could decrease resolution CO prediction.
 
 **NOTE 3**: RTIGER is designed to be robust against individual outliers, however, the user should check for "bad" markers, i.e. marker positions that are prone to mismapping. These markers result in high allele-count at that position.<!--  as well as in a high, artificial agreement in this position across samples. -->
+
+## Using RTIGER 
+
+To run RTIGER, first we need to invoke julia and the package. To this to work, be sure that everythink run smoothly on the isntallation section.
+```
+library(RTIGER)
+sourceJulia()
+```
+The function `sourceJulia()` will need to be run every single time that we load RTIGER. The two previous lines of code should be run always.
+
+#### Creating input objects
+The primary input for RTIGER is a data-frame termed `expDesign`. The first column of `expDesign` should have paths to allele-count files for all samples and the second column should have unique samples IDs. The columnames should be "files" and "name" to specify the file path and sample name respectivley. We recommend to use full path to the files to avoid further problems.
+An example of how to create the data-frame using the example data provided by our package:
+
+```
+# Get paths to example allele count files originating from a
+# cross between Col-0 and Ler accession of the A.thaliana
+file_paths = list.files(system.file("extdata",  package = "RTIGER"), full.names = TRUE)
+
+# Get sample names
+sampleIDs <- basename(file_paths)
+
+# Create the expDesign object
+expDesign = data.frame(files=file_paths, name=sampleIDs)
+
+print(expDesign)
+```
+RTIGER also requires chromosome lengths for the parent_1. These need to be provided as a named vector where the values are chromosome lengths and the names are chromosome ids. For our example, we have included the length of the five autosomal chroomosomes in Arabidopsis Thaliana and it can be invoqued as:
+
+```
+# Get chromosome lengths for the example data included in the package
+chr_len <- RTIGERJ::ATseqlengths
+names(chr_len) <- c('Chr1' , 'Chr2', 'Chr3', 'Chr4', 'Chr5')
+print(chr_len)
+```
+**Note**: It is important the that the names of the vector match exactly with the chromosome names in your data files. If any of the files uses another coding for the chromosomes, RTIGER will rise and error. Be consistent!
+
+
+
 
 
 
