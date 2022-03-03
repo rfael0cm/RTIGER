@@ -1,9 +1,13 @@
 # Quick Guide to RTIGER
 
 1.[Introduction](#Introduction)
+
 2.[Installation](#Installation)
+
 3.[Preparing input data](#Preparing input data)
+
 4.[Using RTIGER](#Using RTIGER)
+
 5.[RTIGER Output](#RTIGER Output)
 
 
