@@ -6,9 +6,9 @@
 
 3.[Preparing input data](#Preparing)
 
-4.[Using RTIGER](#Using RTIGER)
+4.[Using RTIGER](#Using)
 
-5.[RTIGER Output](#RTIGER Output)
+5.[RTIGER Output](#RTIGER)
 
 
 ## Introduction
