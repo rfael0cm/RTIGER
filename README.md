@@ -127,11 +127,15 @@ Look documentation for more information about this funcion.
 
 ## RTIGER Output:
 RTIGER identifies COs for each sample level and provides summary plots and statistics for each sample as well as for the entire population.
-
+If the user wants to acces to the data and obtain their own analysis done with R, they can be retrieved accesing inside the specific class:
+```
+myViterbi = myres@Viterbi
+```
+This object is a list of Genomic Ranges objects that contain the raw info and the decoded Viterbi using the RTIGER algorithm.
 #### Per sample output
 RTIGER creates a folder for each sample in the `outputdir`. This folder contains:
 
-* `GenotypePlot.pdf`: Graphical representation of the allele-counts, allele-count ratio, and genotypes
+* `GenotypePlot.pdf`: Graphical representation of the allele-counts, allele-count ratio, and genotypes.
 * `GenotypeBreaks.bed`: BED file providing genomic regions corresponding to different genotypes
 * `P1/P2/Het.bed`: BED files containing the markers present in genomic regions having genotype: homozygous parent 1, homozygous parent 2, or heterozygous, respectively
 * `P1/P2.bw`: BigWig file containing the number of reads per marker position supporting parent 1 and parent 2, respectively
