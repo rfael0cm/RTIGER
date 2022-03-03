@@ -46,6 +46,23 @@ RTIGER uses the allele-count information at the SNP marker positions. The SNP ma
 |Column | Field | Type | Description |
 |---|---|---|----|
 |1|SeqID|String| Chromosme ID|
+|2|Pos|init(>=0)| Position of the SNP marker|
+|3|RefA|char| Reference allele|
+|4|RefC| int(>=0)| Number of reads with reference alele|
+|5|AltA|char|Alternate allele|
+|6|AltF|int(>=0)|Number of reads with alternate allele|
+
+Ther order of the columns is **EXTREMELY IMPORTANT**. RTIGER ensures that the data type of each column is the correct. But the interpretation of **references allele** and **alternate allele** is completely arbitrary and it is the user who defines them. Moreover, the chromosome and position is crucila to run our algorithm since we group together consecutive SNPs from the same chromosome.
+
+The SNPs can be identified using any generic SNP identification pipeline. For example look this [method](https://www.ebi.ac.uk/sites/ebi.ac.uk/files/content.ebi.ac.uk/materials/2014/140217_AgriOmics/dan_bolser_snp_calling.pdf.)
+
+SNPs in repetitive regions should be filtered out. Further, as crossing-over usually takes place in syntenic regions between the two genome, for best results, only SNPs in syntenic regions should be selected as markers. If whole genome assemblies are present for both genomes, then this can be easily achieved using methods like [SyRI](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1911-0).
+
+
+
+
+
+
 
 
 
