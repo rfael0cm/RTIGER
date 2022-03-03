@@ -153,7 +153,8 @@ RTIGER = function(expDesign,
     pdf(myf)
 
     p <- ggplot(data=cos, aes(x=Sample, y=COs)) +
-      geom_bar(stat="identity") +
+      #geom_bar(stat="identity") +
+      geom_bar() +
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
       ylab("Number of COs")+
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
