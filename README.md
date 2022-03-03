@@ -4,7 +4,7 @@
 
 2.[Installation](#Installation)
 
-3.[Preparing input data](#Preparing input data)
+3.[Preparing input data](#Preparing)
 
 4.[Using RTIGER](#Using RTIGER)
 
