@@ -1,6 +1,11 @@
 # Quick Guide to RTIGER
 
 1.[Introduction](#Introduction)
+2.[Installation](#Installation)
+3.[Preparing input data](#Preparing input data)
+4.[Using RTIGER](#Using RTIGER)
+5.[RTIGER Output](#RTIGER Output)
+
 
 ## Introduction
 Accurate identification of meiotic crossing-over sites (COs) is essential for correct genotyping of recombining samples. RTIGER is a method for predicting genome-wide COs using allele-counts at pre-defined SNP marker positions. RTIGER trains a Hidden Markov Model (HMM) where genomic states (homozygous parent_1, homozygous parent_2 or heterozygous) correspond to the hidden state and the allele-counts as the observed variable. COs are identified as transitions in the HMM state.
@@ -41,7 +46,7 @@ setupJulia()
 Now, we have all the necessary prerequisists to start using RTIGER and obtain the maximum information from our data sets. RTIGER needs specific data format to work. On the next section we will describe how it must be enoced and saved.
 
 <!-- ################################################################################ -->
-### Preparing input data:
+## Preparing input data:
 RTIGER uses the allele-count information at the SNP marker positions. The SNP markers correspond to differences between the two genotypes (i.e. parent_1 vs parent_2). RTIGER requires as input one allele-count file for each sample. The allele-count file should be in tab-separated value format, where each row corresponds to a SNP marker. The format of the file is described below:
 
 |Column | Field | Type | Description |
