@@ -211,14 +211,14 @@ RTIGER = function(expDesign,
         }
 
         if(length(hetrat) > 0){
-          hist(hetrat, probability =   TRUE, col = rgb( 0.744,0.34,0.844,0.25), main = "P1 homozygous states", xlab = "Allele ratio", xlim = c(0,100))
+          hist(hetrat, probability =   TRUE, col = rgb( 0.744,0.34,0.844,0.25), main = "Heterozygous states", xlab = "Allele ratio", xlim = c(0,100))
           points(x,y[,"het"],type="l",col=ecolors[2])
           legend("topleft",c( "Fitted Heterozygous\n distribution"),
                  lty = 1, col = c( "violet"), cex = .7)
         }
 
         if(length(matrat) > 0){
-          hist(matrat, probability = TRUE, col = rgb(0,0,1,0.25), main = "P1 homozygous states", xlab = "Allele ratio", xlim = c(0,100))
+          hist(matrat, probability = TRUE, col = rgb(0,0,1,0.25), main = "P2 homozygous states", xlab = "Allele ratio", xlim = c(0,100))
           points(x,y[,"mat"],type="l",col=ecolors[3])
           legend("topleft",c("Fitted P2 distribution"),
                  lty = 1, col = c("blue"), cex = .7)
