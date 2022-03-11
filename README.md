@@ -3,6 +3,7 @@
 1.[Introduction](#Introduction)
 
 2.[Installation](#Installation)
+  2.1.[Problems installing Julia](##Problems)
 
 3.[Preparing input data](#Preparing)
 
@@ -18,7 +19,7 @@ To account for variation in the coverage of sequencing data, RTIGER uses Viterbi
 
 <!-- ################################################################################ -->
 ## Installation
-#### Pre-Requisites:
+### Pre-Requisites:
 * R: Version > 3.6
 * **RECOMENDED**: Julia-1.0.5 (Which versions of Julia can be supported?): Julia needs to be installed and available in the environment [Link to Julia](https://www.geeksforgeeks.org/how-to-setup-julia-path-to-environment-variable/?ref=lbp)
   - Julia 1.4.1 Works as well but slightly slower.
@@ -48,6 +49,14 @@ library(RTIGER)
 setupJulia()
 ```
 Now, we have all the necessary prerequisists to start using RTIGER and obtain the maximum information from our data sets. RTIGER needs specific data format to work. On the next section we will describe how it must be enoced and saved.
+
+### Problems installing Julia
+
+Working at the interface between R and Julia might be a bit troublesome to make it work. If when runing the function `setupJulia()`, R is unable to find Julia, this might be a solution:
+First, download the binaries from the [julia webpage](https://julialang.org/downloads/oldreleases/). As mentioned before, we recommend the version 1.0.5 of Julia. Unzip the file in your machine and the run the following script:
+```
+setupJulia(JULIA_HOME = full_path_to_Julia_bin_folder)
+```
 
 <!-- ################################################################################ -->
 ## Preparing input data
