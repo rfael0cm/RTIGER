@@ -61,7 +61,7 @@ RTIGER = function(expDesign,
                   specific = FALSE,
                   nsamples = 20,
                   post.processing = TRUE,
-                  save.results = FALSE,
+                  save.results = TRUE,
                   verbose = TRUE){
   # Checks
   if(any(seqlengths < tiles)) stop("Your tiling distance is larger than some of your chromosomes. Reduce the tiling parameter.\n")
