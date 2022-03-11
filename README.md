@@ -4,9 +4,9 @@
 
 2.[Installation](#Installation)
   
-  2.1.[Pre-requisites](##Pre-requisites)
+>  2.1.[Pre-requisites](##Pre-requisites)
 
-  2.2.[Problems installing Julia](##Problems)
+>  2.2.[Problems installing Julia](##Problems)
 
 3.[Preparing input data](#Preparing)
 
