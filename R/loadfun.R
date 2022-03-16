@@ -59,6 +59,7 @@ generateObject = function(experimentDesign = NULL, nstates = 3, rigidity = NULL,
                   total = f$V6 + f$V4,
                   seqlengths = seqlengths
     )
+    myG = sort(myG)
 
     return(myG)
   }) # end sapply rawGR
