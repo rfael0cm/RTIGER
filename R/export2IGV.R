@@ -25,19 +25,20 @@ export2IGV = function( object, sample, dir = NULL, ratio = FALSE, newn = NULL){
 
   # if(dir.exists(dir)) stop("A new directory will be created with the results. \n Please change the name of the directory or delete the existing one.")
   if(!dir.exists(compdir)) dir.create(compdir)
+  old_samp = sample
 
   if(!is.null(newn)) sample = newn[sample]
   requireNamespace("rtracklayer")
   # if(sum(c("rtracklayer") %in% rownames(installed.packages())) != 1) stop("To export to IGV you need to have installed rtracklayer.\n
                                                                           # https://bioconductor.org/packages/release/bioc/html/rtracklayer.html")
 
-  P1.statesfile = file.path(compdir, paste("P1-state-", sample, ".bed", sep = ""))
-  P2.statesfile = file.path(compdir, paste("P2-state-", sample, ".bed", sep = ""))
-  Het.statesfile = file.path(compdir, paste("Het-state-", sample, ".bed", sep = ""))
-  Comp.statesfile = file.path(compdir, paste("CompleteBlock-state-", sample, ".bed", sep = ""))
+  P1.statesfile = file.path(compdir, paste("P1-state-", old_samp, ".bed", sep = ""))
+  P2.statesfile = file.path(compdir, paste("P2-state-", old_samp, ".bed", sep = ""))
+  Het.statesfile = file.path(compdir, paste("Het-state-", old_samp, ".bed", sep = ""))
+  Comp.statesfile = file.path(compdir, paste("CompleteBlock-state-", old_samp, ".bed", sep = ""))
 
-  P1.countsfile = file.path(compdir, paste("P1-countperbin-", sample, ".bw", sep = ""))
-  P2.countsfile = file.path(compdir, paste("P2-countperbin-", sample, ".bw", sep = ""))
+  P1.countsfile = file.path(compdir, paste("P1-countperbin-", old_samp, ".bw", sep = ""))
+  P2.countsfile = file.path(compdir, paste("P2-countperbin-", old_samp, ".bw", sep = ""))
 
   Viterbi = object@Viterbi[[sample]]
   mycomp = sapply(object@info$part_names, function(x){
