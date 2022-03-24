@@ -144,22 +144,24 @@ RTIGER = function(expDesign,
 
     # Plotting CO number per Sample
     cos = calcCOnumber(myDat)
+    cos = colSums(cos)
     cos = melt(cos)
     rev.newn = myDat@info$expDesign$OName
     names(rev.newn) = myDat@info$expDesign$name
-    colnames(cos) = c("Chr", "Sample", "COs")
-    cos$Sample = rev.newn[cos$Sample]
+    cos$Sample = rev.newn[rownames(cos)]
+    colnames(cos) = c( "COs", "Sample")
     myf = file.path(outputdir, "CO-count-perSample.pdf")
     pdf(myf)
 
     p <- ggplot(data=cos, aes(x=Sample, y=COs)) +
       geom_bar(stat="identity") +
-      #geom_bar() +
+      # geom_bar() +
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
       ylab("Number of COs")+
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-            panel.background = element_blank(), axis.line = element_line(colour = "black"))
-    # barplot(colSums(calcCOnumber(myDat)), las = 2)
+            panel.background = element_blank(), axis.line = element_line(colour = "black"),
+            axis.text.y = element_text(angle = 45))+
+      coord_flip()
     print(p)
     dev.off()
 

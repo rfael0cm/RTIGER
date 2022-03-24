@@ -134,7 +134,7 @@ plotGenotype = function(object,
              legend = TRUE,
              showFeatureId=FALSE,
              fontcolor.feature="black",  background.title="darkgrey",
-             showId=TRUE)
+             showId=TRUE, cex.main = 0.7)
 
 }
 
