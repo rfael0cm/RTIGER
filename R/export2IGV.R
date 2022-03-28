@@ -74,7 +74,7 @@ export2IGV = function( object, sample, dir = NULL, ratio = FALSE, newn = NULL){
   # P2.count$score = P2.count$P2.Allele.Count
   P2.count$score[is.na(P2.count$score)] = 0
   if(ratio){
-    ratiofile = file.path(compdir, paste("Count-ratio-", sample, ".bw", sep = ""))
+    ratiofile = file.path(compdir, paste("Count-ratio-", old_samp, ".bw", sep = ""))
     ratio = Viterbi$P1.Allele.Count/Viterbi$total
     ratio = (ratio - .5)/.5
     ratio[is.na(ratio)] = 0
