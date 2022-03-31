@@ -116,7 +116,7 @@ RTIGER also requires chromosome lengths for the parent_1. These need to be provi
 
 ```
 # Get chromosome lengths for the example data included in the package
-chr_len <- RTIGERJ::ATseqlengths
+chr_len <- RTIGER::ATseqlengths
 names(chr_len) <- c('Chr1' , 'Chr2', 'Chr3', 'Chr4', 'Chr5')
 print(chr_len)
 ```
@@ -130,7 +130,7 @@ RTIGER does model training, COs identification, per sample and summary plots cre
 myres = RTIGER(expDesign = expDesign,
                outputdir = "/srv/netscratch/dep_mercier/grp_schneeberger/projects/SynSearch/tests",
                seqlengths = chr_len,
-               rigidity = 200,
+               rigidity = 20,
                save.results = TRUE)
 ```
 The `rigidity` parameter defines the required minimum number of continuous markers that together support a state change of the HMM model. Smaller `rigidity` values increase the sensitivity in detecting COs that are close to each other, but may result in false-positive CO identification because of variation in sequencing coverage. Larger `rigidity` values improve precision but COs that are close to each other might not be identified. **Users are supposed to test and adjust `rigidity` based on their specific experimental setup**.
