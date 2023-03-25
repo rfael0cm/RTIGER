@@ -8,6 +8,10 @@
 #' @param seqlengths a named vector with the chromosome lenghts of the organism that the user is working with.
 #' @param eps the threshold of the difference between the parameters value between the previous and actuay iteration to stope de EM algorithm.
 #' @param max.iter maximum number of iterations of the EM algorithm before to stop in case that eps has not been achieved.
+#' @param  autotune Logical value if the R-value should be tuned by our algorithm. This will take longer as it needs a first training with the rigidity value provided by the user and then the optimization step is carried. Finally, a training using the optimum R will be performed and results for the optimum R will be returned.
+#' @param max_rigidity If autotune true, R values will be explored up the value given in this parameter. Default = 2^9
+#' @param average_coverage If autotune true, for conservative results set it to the lowest average coverage of a sample in your experiment, or evne to the lowest average coverage in a (sufficiently large) region in one of your samples. The lower the value, the more conservative (higher) our estimates of the false positive segments rates. If it is not provided it will be computed as the average of all data points.
+#' @param crossovers_per_megabase If autotune true,  for conservative results set it to the highest ratio of a sample in your experiment. The higher the value, the more conservative (higher) our estimates of the false positive segments rates. If it is not provided it will be computed as the average of all samples.
 #' @param trace logical value. Whether or not to keep track of the parameters for the HMM along the iterations. Deafault FALSE
 #' @param tiles length of the tiles by which the genome will be segmented in order to compute the ratio of COs in the complete dataset.
 #' @param all logical value. Whether to use the complete data set to fit the rHMM. default TRUE.
@@ -21,9 +25,11 @@
 #'
 #' @return RTIGER object
 #' @usage RTIGER(expDesign, rigidity=NULL, outputdir=NULL, nstates = 3,
-#' seqlengths = NULL, eps=0.01, max.iter=50, trace = FALSE,
+#' seqlengths = NULL, eps=0.01, max.iter=50, autotune = FALSE,
+#' max_rigidity = 2^9, average_coverage = NULL,
+#' crossovers_per_megabase = NULL, trace = FALSE,
 #' tiles = 4e5, all = TRUE, random = FALSE, specific = FALSE,
-#' nsamples = 20, post.processing = TRUE, save.results = FALSE, verbose = TRUE)
+#' nsamples = 20, post.processing = TRUE, save.results = TRUE, verbose = TRUE)
 #'
 #' @examples
 #'\dontrun{
@@ -40,7 +46,7 @@
 #'                rigidity = 4,
 #'                max.iter = 2,
 #'                trace = FALSE,
-#'                save.results = FALSE)
+#'                save.results = TRUE)
 #'}
 #'
 #' @export RTIGER
@@ -53,9 +59,12 @@ RTIGER = function(expDesign,
                   seqlengths = NULL,
                   eps=0.01,
                   max.iter=50,
+                  autotune = FALSE,
+                  max_rigidity = 2^9,
+                  average_coverage = NULL,
+                  crossovers_per_megabase = NULL,
                   trace = FALSE,
                   tiles = 4e5,
-                  # groups = NULL,
                   all = TRUE,
                   random = FALSE,
                   specific = FALSE,
@@ -77,6 +86,10 @@ RTIGER = function(expDesign,
     #                                                                                 Currently you are missing them.")
     requireNamespace("Gviz")
     requireNamespace("rtracklayer")
+  }
+  if(autotune){
+    post_post.processing =post.processing
+    post.processing = FALSE
   }
 
   # Load data
@@ -106,6 +119,22 @@ RTIGER = function(expDesign,
               nsamples = nsamples,
               post.processing = post.processing
               )
+  if(autotune){
+    opt_R = optimize_R(myDat, max_rigidity = max_rigidity, average_coverage = average_coverage,
+                       crossovers_per_megabase = crossovers_per_megabase)
+    myDat@params$rigidity = opt_R
+    myDat = fit(rtigerobj = myDat,
+                max.iter = max.iter,
+                eps = eps,
+                trace = trace,
+                all = all,
+                random = random,
+                specific = specific,
+                nsamples = nsamples,
+                post.processing = post_post.processing
+    )
+
+  }
   if(all(info$sample_names == expDesign$name)) info$sample_names = expDesign$OName
   myDat@info$expDesign = expDesign
 

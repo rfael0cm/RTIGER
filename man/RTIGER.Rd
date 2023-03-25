@@ -5,9 +5,11 @@
 \title{Load, Fit, and plot}
 \usage{
 RTIGER(expDesign, rigidity=NULL, outputdir=NULL, nstates = 3,
-seqlengths = NULL, eps=0.01, max.iter=50, trace = FALSE,
+seqlengths = NULL, eps=0.01, max.iter=50, autotune = FALSE,
+max_rigidity = 2^9, average_coverage = NULL,
+crossovers_per_megabase = NULL, trace = FALSE,
 tiles = 4e5, all = TRUE, random = FALSE, specific = FALSE,
-nsamples = 20, post.processing = TRUE, save.results = FALSE, verbose = TRUE)
+nsamples = 20, post.processing = TRUE, save.results = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{expDesign}{a data Frame that contains minimum a column with the files direction (name of the column files) and another with a shorter name to be used inside the function.}
@@ -23,6 +25,14 @@ nsamples = 20, post.processing = TRUE, save.results = FALSE, verbose = TRUE)
 \item{eps}{the threshold of the difference between the parameters value between the previous and actuay iteration to stope de EM algorithm.}
 
 \item{max.iter}{maximum number of iterations of the EM algorithm before to stop in case that eps has not been achieved.}
+
+\item{autotune}{Logical value if the R-value should be tuned by our algorithm. This will take longer as it needs a first training with the rigidity value provided by the user and then the optimization step is carried. Finally, a training using the optimum R will be performed and results for the optimum R will be returned.}
+
+\item{max_rigidity}{If autotune true, R values will be explored up the value given in this parameter. Default = 2^9}
+
+\item{average_coverage}{If autotune true, for conservative results set it to the lowest average coverage of a sample in your experiment, or evne to the lowest average coverage in a (sufficiently large) region in one of your samples. The lower the value, the more conservative (higher) our estimates of the false positive segments rates. If it is not provided it will be computed as the average of all data points.}
+
+\item{crossovers_per_megabase}{If autotune true,  for conservative results set it to the highest ratio of a sample in your experiment. The higher the value, the more conservative (higher) our estimates of the false positive segments rates. If it is not provided it will be computed as the average of all samples.}
 
 \item{trace}{logical value. Whether or not to keep track of the parameters for the HMM along the iterations. Deafault FALSE}
 
@@ -65,7 +75,7 @@ myres = RTIGER(expDesign = expDesign,
                rigidity = 4,
                max.iter = 2,
                trace = FALSE,
-               save.results = FALSE)
+               save.results = TRUE)
 }
 
 }

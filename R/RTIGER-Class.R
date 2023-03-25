@@ -36,7 +36,8 @@ setMethod(f = "show", signature = c("RTIGER"), function(object) {
   cat(" Number of chromosomes per sample: ", object@info$part_nr, "\n",
       sep = "")
   cat(" Chromosome names: ", paste(as.character(object@info$part_names), collapse = " "), "\n", sep = "")
-  cat(" Number of observations per chromosome: ", paste(as.character(object@info$part_lengths), collapse = " "), "\n", sep = "")
+  cat(" Rigidity value: ", object@params$rigidity, "\n", sep = "")
+  # cat(" Number of observations per chromosome: ", paste(as.character(object@info$part_lengths), collapse = " "), "\n", sep = "")
 
 })
 

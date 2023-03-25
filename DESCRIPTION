@@ -1,7 +1,7 @@
 Package: RTIGER
 Type: Package
 Title: HMM-Based Model for Genotyping and Cross-Over Identification
-Version: 1.99.0
+Version: 2.01.0
 Authors@R: c(
     person("Rafael", "Campos-Martin", email = "rfael.mpi@gmail.com", role = c("cre"), comment = c(ORCID = "0000-0002-1395-8571")),
     person("Sophia", "Schmickler", email = "so4a_schmickler@t-online.de", role = c("aut")),
@@ -18,8 +18,8 @@ License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: gzip
-Imports: methods, e1071, reshape2, ggplot2, TailRank, JuliaCall, IRanges, qpdf, grDevices, graphics, stats, utils
-RoxygenNote: 7.1.1
+Imports: methods, e1071, extraDistr, reshape2, ggplot2, TailRank, JuliaCall, IRanges, qpdf, grDevices, graphics, stats, utils
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Suggests: 
     knitr,
@@ -28,4 +28,3 @@ Suggests:
     Gviz, 
     rtracklayer 
 biocViews: GenomeAnnotation, HiddenMarkovModel, Sequencing
-   

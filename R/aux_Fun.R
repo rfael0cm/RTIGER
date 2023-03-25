@@ -1,3 +1,24 @@
+#' Extract the parameters for the R-optimization step
+#' @param params list of parameters for the HMM.
+#' @param states names of the states.
+#'
+#' @keywords internal
+#' @noRd
+#'
+
+extract_emissions = function(params, states = c("mat","het","pat")){
+  res = lapply(states, function(state){
+    vec = c(params[["paraBetaAlpha"]][state,1], params[["paraBetaBeta"]][state,1])
+    names(vec) = c("alpha", "beta")
+    return(vec)
+  })
+  names(res) = states
+  return(res)
+
+
+}
+
+
 #' Generate random parameters
 #' @param params list of parameters for the HMM.
 #' @param randomize logical variable wether the initial values should be taken randomly.
