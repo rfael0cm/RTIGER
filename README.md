@@ -76,7 +76,7 @@ RTIGER uses the allele-count information at the SNP marker positions. The SNP ma
 
 Ther order of the columns is **EXTREMELY IMPORTANT**. RTIGER ensures that the data type of each column is the correct. But the interpretation of **references allele** and **alternate allele** is completely arbitrary and it is the user who defines them. Moreover, the chromosome and position is crucial to run our algorithm since we group together consecutive SNPs from the same chromosome.
 
-The SNPs can be identified using any generic SNP identification pipeline. For example look this [method](https://www.ebi.ac.uk/sites/ebi.ac.uk/files/content.ebi.ac.uk/materials/2014/140217_AgriOmics/dan_bolser_snp_calling.pdf.).
+The SNPs can be identified using any generic SNP identification pipeline. For example look this [method](https://www.ebi.ac.uk/sites/ebi.ac.uk/files/content.ebi.ac.uk/materials/2014/140217_AgriOmics/dan_bolser_snp_calling.pdf).
 
 SNPs in repetitive regions should be filtered out. Further, as crossing-over usually takes place in syntenic regions between the two genome, for best results, only SNPs in syntenic regions should be selected as markers. If whole genome assemblies are present for both genomes, then this can be easily achieved using methods like [SyRI](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1911-0).
 
@@ -116,7 +116,7 @@ RTIGER also requires chromosome lengths for the parent_1. These need to be provi
 
 ```
 # Get chromosome lengths for the example data included in the package
-chr_len <- RTIGERJ::ATseqlengths
+chr_len <- RTIGER::ATseqlengths
 names(chr_len) <- c('Chr1' , 'Chr2', 'Chr3', 'Chr4', 'Chr5')
 print(chr_len)
 ```
@@ -130,7 +130,7 @@ RTIGER does model training, COs identification, per sample and summary plots cre
 myres = RTIGER(expDesign = expDesign,
                outputdir = "/srv/netscratch/dep_mercier/grp_schneeberger/projects/SynSearch/tests",
                seqlengths = chr_len,
-               rigidity = 200,
+               rigidity = 20,
                save.results = TRUE)
 ```
 The `rigidity` parameter defines the required minimum number of continuous markers that together support a state change of the HMM model. Smaller `rigidity` values increase the sensitivity in detecting COs that are close to each other, but may result in false-positive CO identification because of variation in sequencing coverage. Larger `rigidity` values improve precision but COs that are close to each other might not be identified. **Users are supposed to test and adjust `rigidity` based on their specific experimental setup**.
