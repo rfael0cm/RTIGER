@@ -30,6 +30,6 @@ Find the otimum R value for a given data set
 \examples{
 
 data("fittedExample")
-co.num = calcCOnumber(myDat)
+bestR = optimize_R(myDat)
 
 }

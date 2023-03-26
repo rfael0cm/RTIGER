@@ -88,7 +88,7 @@ RTIGER = function(expDesign,
     requireNamespace("rtracklayer")
   }
   if(autotune){
-    post_post.processing =post.processing
+    post_post.processing = post.processing
     post.processing = FALSE
   }
 
@@ -108,7 +108,9 @@ RTIGER = function(expDesign,
 
   # Fit and decode
   if(verbose) cat("\n\nFitting the parameters and Viterbi decoding. \n")
-  if(verbose) cat("post processing value is:", post.processing,"\n")
+  if(verbose) cat("post processing value is:", post_post.processing,"\n")
+  if(verbose) cat("R value autotune is:", autotune,"\n")
+  if(autotune & verbose) cat("Fitting an RTIGER object with the R provided by the user.\n")
   myDat = fit(rtigerobj = myDat,
               max.iter = max.iter,
               eps = eps,
@@ -120,9 +122,11 @@ RTIGER = function(expDesign,
               post.processing = post.processing
               )
   if(autotune){
+    if(verbose) cat("Optimizing the R parameter.\n")
     opt_R = optimize_R(myDat, max_rigidity = max_rigidity, average_coverage = average_coverage,
                        crossovers_per_megabase = crossovers_per_megabase)
-    myDat@params$rigidity = opt_R
+    if(verbose) cat("Best R value:", opt_R,"\n")
+    myDat@params$rigidity = as.integer(opt_R)
     myDat = fit(rtigerobj = myDat,
                 max.iter = max.iter,
                 eps = eps,

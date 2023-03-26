@@ -17,7 +17,7 @@
 #' @examples
 #'
 #' data("fittedExample")
-#' co.num = calcCOnumber(myDat)
+#' bestR = optimize_R(myDat)
 #'
 #' @export optimize_R
 #'
@@ -101,7 +101,7 @@ optimize_R = function(object,
   }
   if (n_rigidity>1){
     for (r in 2:n_rigidity){
-      cat(rigidity_grid[r],", ")
+      #cat(rigidity_grid[r],", ")
       #if (all(FPR_grid[,r-1]==0)) break()
       for (u in 1:n_segments){
         FPR_grid[u,r] = FPR(segment_length = segment_length_grid[u],
@@ -111,7 +111,7 @@ optimize_R = function(object,
       } # end for u
     } # end for r
   } # end if n_rigidity>1
-  cat("\n")
+  #cat("\n")
 
 
   ### FNR
@@ -129,7 +129,7 @@ optimize_R = function(object,
   }
   if (n_rigidity>1){
     for (r in 2:n_rigidity){
-      cat(rigidity_grid[r],", ")
+      #cat(rigidity_grid[r],", ")
       for (u in 1:n_segments){
         FNR_grid[u,r] = FNR(segment_length = segment_length_grid[u],
                             rigidity       = rigidity_grid[r],
@@ -138,7 +138,7 @@ optimize_R = function(object,
       } # end for u
     } # end for r
   } # end if n_rigidity>1
-  cat("\n")
+  #cat("\n")
 
 
 
@@ -151,7 +151,7 @@ optimize_R = function(object,
 
   # cat("Calculating SE+, lower and upper bound.\nRigidity values: ")
   SEplus = sapply(rigidity_grid,function(x){
-    cat(x,", ")
+    #cat(x,", ")
 
     inner_FPR = sapply(rigidity_grid,function(y){
       FPR(segment_length=y, # length of the segment for which the FNR is to be calculated
@@ -398,12 +398,12 @@ construct_Delta_table = function(n_obs = 10^4, # how many samples shall be const
   dimnames(Delta_table) = list(states,states,NULL,NULL)
 
   # construct the Delta_table values for segments of length 2^(m-1) , m = 1,...,max_m
-  cat("Constructing Delta table with ",n_obs," observations.\n")
-  cat("Segment lengths (",max_m,"): ",sep="")
+  #cat("Constructing Delta table with ",n_obs," observations.\n")
+  #cat("Segment lengths (",max_m,"): ",sep="")
   for (m in 1:max_m){
 
     segment_length = 2^(m-1)
-    cat(segment_length,", ")
+    #cat(segment_length,", ")
 
     for (x_state in states){
       for (y_state in states){
@@ -417,7 +417,7 @@ construct_Delta_table = function(n_obs = 10^4, # how many samples shall be const
     } # end for x_state
 
   } # end for m
-  cat("\n")
+  #cat("\n")
 
   return(Delta_table)
 } # end construct_Delta_table

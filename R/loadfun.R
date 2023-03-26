@@ -85,7 +85,6 @@ generateObject = function(experimentDesign = NULL, nstates = 3, rigidity = NULL,
   })
 
   info = create_info(obs)
-  info$seqlengths = seqlengths
 
   params = generate_params(rigidity = rigidity, nstates = nstates)
 
