@@ -12,10 +12,9 @@
 
 4.[Using RTIGER](#Using)
 
-> 4.1. [Running RTIGER](##Running RTIGER)
+> 4.1. [Running RTIGER](##Running)
 
-> 4.2.[Autotune the R parameter](##Autotune the R parameter)
-
+> 4.2.[Autotune the R parameter](##Autotune)
 
 
 5.[RTIGER Output](#RTIGER)
@@ -146,7 +145,7 @@ myres = RTIGER(expDesign = expDesign,
                rigidity = 20,
                save.results = TRUE)
 ```
-The `rigidity` parameter defines the required minimum number of continuous markers that together support a state change of the HMM model. Smaller `rigidity` values increase the sensitivity in detecting COs that are close to each other, but may result in false-positive CO identification because of variation in sequencing coverage. Larger `rigidity` values improve precision but COs that are close to each other might not be identified. **See section [Autotune the R parameter](## Autotune the R parameter)**.
+The `rigidity` parameter defines the required minimum number of continuous markers that together support a state change of the HMM model. Smaller `rigidity` values increase the sensitivity in detecting COs that are close to each other, but may result in false-positive CO identification because of variation in sequencing coverage. Larger `rigidity` values improve precision but COs that are close to each other might not be identified. **See section [Autotune the R parameter](##Autotune)**.
 A second internal step is run, called post-processing. On this step, we fine tune the limits of each state by looking closely to the borders of two consecutive states. We can do that in an efficent manner since we look into state segments which the length is equal to the rigidity value. If the user would prefer to cancel this step, it can be done by setting `post.processing=FALSE`.
 Look documentation for more information about this funcion.
 
@@ -176,7 +175,7 @@ Alternatively, if the user has already trained a model with RTIGER, they can use
 ```
 best_R = optimize_R(myres)
 ```
-**NOTE** This funciton will only provide the optimum R value and generate the plots. If the user wants to use this suggested R value it should train again the model from scratch but using the `best_R` value and `autotune = FALSE`:
+**Note:** This funciton will only provide the optimum R value and generate the plots. If the user wants to use this suggested R value it should train again the model from scratch but using the `best_R` value and `autotune = FALSE`:
 
 
 ```
