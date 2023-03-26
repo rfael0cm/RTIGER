@@ -12,6 +12,12 @@
 
 4.[Using RTIGER](#Using)
 
+> 4.1. [Running RTIGER](##Running RTIGER)
+
+> 4.2.[Autotune the R parameter](##Autotune the R parameter)
+
+
+
 5.[RTIGER Output](#RTIGER)
 
 
@@ -88,12 +94,19 @@ SNPs in repetitive regions should be filtered out. Further, as crossing-over usu
 
 ## Using RTIGER 
 
-To run RTIGER, first we need to invoke julia and the package. To this to work, be sure that everythink run smoothly on the isntallation section.
+### Running RTIGER
+
+To run RTIGER, first we need to invoke julia and the package. To this to work, be sure that everythink run smoothly on the installation section.
 ```
 library(RTIGER)
+setupJulia()
 sourceJulia()
 ```
 The function `sourceJulia()` will need to be run every single time that we load RTIGER. The two previous lines of code should be run always.
+If the machine has several versions of Julia, it can be specified which version to use in the `setupJulia()` function:
+```
+setupJulia(JULIA_HOME = "/directory/to/Julia/binaries")
+```
 
 #### Creating input objects
 The primary input for RTIGER is a data-frame termed `expDesign`. The first column of `expDesign` should have paths to allele-count files for all samples and the second column should have unique samples IDs. The columnames should be "files" and "name" to specify the file path and sample name respectivley. We recommend to use full path to the files to avoid further problems.
@@ -133,9 +146,47 @@ myres = RTIGER(expDesign = expDesign,
                rigidity = 20,
                save.results = TRUE)
 ```
-The `rigidity` parameter defines the required minimum number of continuous markers that together support a state change of the HMM model. Smaller `rigidity` values increase the sensitivity in detecting COs that are close to each other, but may result in false-positive CO identification because of variation in sequencing coverage. Larger `rigidity` values improve precision but COs that are close to each other might not be identified. **Users are supposed to test and adjust `rigidity` based on their specific experimental setup**.
+The `rigidity` parameter defines the required minimum number of continuous markers that together support a state change of the HMM model. Smaller `rigidity` values increase the sensitivity in detecting COs that are close to each other, but may result in false-positive CO identification because of variation in sequencing coverage. Larger `rigidity` values improve precision but COs that are close to each other might not be identified. **See section [Autotune the R parameter](## Autotune the R parameter)**.
 A second internal step is run, called post-processing. On this step, we fine tune the limits of each state by looking closely to the borders of two consecutive states. We can do that in an efficent manner since we look into state segments which the length is equal to the rigidity value. If the user would prefer to cancel this step, it can be done by setting `post.processing=FALSE`.
 Look documentation for more information about this funcion.
+
+### Autotune the R parameter
+
+Our R package includes an algorithm designed to assist users in selecting the optimal R value for their data set. The algorithm achieves this by minimizing false positive segments (FP) and false negative segments (FN) through the RTIGER method. FP segments are those that do not exist in the actual data set, while FN segments are those that are not annotated by the model.
+
+The algorithm takes into account two parameters - sequencing depth and the number of CO per megabase - to determine the best R value for the given experiment. Users can either provide these values themselves using the `average_coverage` and `crossovers_per_megabase` parameters or allow the algorithm to compute them directly from the dataset. The `average_coverage` is computed as the mean coverage at all positions in the experiment, while the of CO per megabase is computed after an initial round of model fitting using the user-provided parameters.
+
++ `average_coverage`: To achieve conservative results, set this parameter to the lowest average coverage value in one of your samples, or to the lowest average coverage value in a sufficiently large region of one of your samples. Lower values will result in more conservative (higher) estimates of false positive segment rates. If this parameter is not provided, it will be computed as the mean of all data points.
+
++ `crossovers_per_megabase`: To achieve conservative results, set this parameter to the highest ratio of crossovers per megabase in any of your samples. Higher values will result in more conservative (higher) estimates of false positive segment rates. If this parameter is not provided, it will be computed as the average across all samples.
+
+```
+myres = RTIGER(expDesign = expDesign,
+               outputdir = "/srv/netscratch/dep_mercier/grp_schneeberger/projects/SynSearch/tests",
+               seqlengths = chr_len,
+               rigidity = 20,
+               autotune = TRUE,
+               save.results = TRUE)
+```
+This function will first compute an rhmm model with the R value provided by the user, find the optimum R parameter and then fit the model with this value.
+
+Alternatively, if the user has already trained a model with RTIGER, they can use the `optimize_R()` function to find the optimal R value. This function requires the RTIGER object and the same parameters mentioned previously (`average_coverage` and `crossovers_per_megabase`) to estimate the value. If these values are not provided, they will be computed experimentally. For more experienced users who want a more detailed understanding of how the rigidity value was selected, the function can be run with the option `save_it = TRUE` and a directory specified in `savedir`. This will save the plots in the desired directory. For a more in-depth interpretation of the plots, we refer readers to the supplementary documentation provided in our [manuscript]( https://doi.org/10.1093/plphys/kiad191).
+
+
+```
+best_R = optimize_R(myres)
+```
+**NOTE** This funciton will only provide the optimum R value and generate the plots. If the user wants to use this suggested R value it should train again the model from scratch but using the `best_R` value and `autotune = FALSE`:
+
+
+```
+myres = RTIGER(expDesign = expDesign,
+               outputdir = "/srv/netscratch/dep_mercier/grp_schneeberger/projects/SynSearch/tests",
+               seqlengths = chr_len,
+               rigidity = best_R,
+               autotune = FALSE,
+               save.results = TRUE)
+```
 
 ## RTIGER Output:
 RTIGER identifies COs for each sample level and provides summary plots and statistics for each sample as well as for the entire population.
