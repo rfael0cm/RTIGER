@@ -14,7 +14,7 @@
 
 > 4.1. [Running RTIGER](##Running)
 
-> 4.2.[Autotune the R parameter](##Autotune)
+> 4.2. [Autotune the R parameter](##Autotune)
 
 
 5.[RTIGER Output](#RTIGER)
