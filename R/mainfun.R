@@ -87,6 +87,7 @@ RTIGER = function(expDesign,
     requireNamespace("Gviz")
     requireNamespace("rtracklayer")
   }
+  post_post.processing = post.processing
   if(autotune){
     post_post.processing = post.processing
     post.processing = FALSE
