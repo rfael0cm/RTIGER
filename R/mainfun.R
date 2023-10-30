@@ -111,7 +111,7 @@ RTIGER = function(expDesign,
   if(verbose) cat("\n\nFitting the parameters and Viterbi decoding. \n")
   if(verbose) cat("post processing value is:", post_post.processing,"\n")
   if(verbose) cat("R value autotune is:", autotune,"\n")
-  if(autotune & verbose) cat("Fitting an RTIGER object with the R provided by the user.\n")
+  if(autotune & verbose) cat("This process will take longer due to optimization steps.\n")
   myDat = fit(rtigerobj = myDat,
               max.iter = max.iter,
               eps = eps,
@@ -124,6 +124,9 @@ RTIGER = function(expDesign,
               )
   if(autotune){
     if(verbose) cat("Optimizing the R parameter.\n")
+    if(all(info$sample_names == expDesign$name)) info$sample_names = expDesign$OName
+    myDat@info$expDesign = expDesign
+
     opt_R = optimize_R(myDat, max_rigidity = max_rigidity, average_coverage = average_coverage,
                        crossovers_per_megabase = crossovers_per_megabase)
     if(verbose) cat("Best R value:", opt_R,"\n")

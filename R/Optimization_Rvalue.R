@@ -31,13 +31,24 @@ optimize_R = function(object,
   if(save_it & is.null(savedir)) stop("Please if you want to save the plots and results specify the path in savedir.\n")
   myDat = object
   seqlengths = seqlengths(myDat@Viterbi[[1]])
+  expDesign = myDat@info$expDesign
+  cat("file :", expDesign$files[1])
   if(is.null(average_coverage)){
-    average_coverage = mean(sapply(myDat@Viterbi, function(x) mean(x$total)))
+    averages = c()
+    for(samp in expDesign$files){
+      f <- read.delim(file =samp, header = FALSE)
+      averages = c(averages, mean(f$V4 + f$V6))
+    }
+    average_coverage = min(averages)
+    # average_coverage = min(sapply(myDat@Viterbi, function(x) mean(x$total -1)))
   }
   if(is.null(crossovers_per_megabase)){
-    crossovers_per_megabase = mean(sapply(myDat@Viterbi, function(x) length(rle(x$Viterbi)$values)/sum(seqlengths)/1e6))
+    crossovers_per_megabase = mean(sapply(myDat@Viterbi, function(x) length(rle(x$Viterbi)$values)/sum(seqlengths)))*1e6
+    # crossovers_per_megabase = mean(colSums(calcCOnumber(myDat))/sum(seqlengths))
+    crossovers_per_megabase =  max(calcCOnumber(myDat)/(seqlengths/1e6))
   }
-
+  cat("Average coverage: ", average_coverage, "\n")
+  cat("Crossovers/Mb: ", crossovers_per_megabase, "\n")
   # EXTRACT EMISSIONS
   CO_min = crossovers_per_megabase # the CO frequency used to construct the lower bound
   CO_max = 10*CO_min # the CO frequency used to construct the upper bound
@@ -145,9 +156,9 @@ optimize_R = function(object,
   ### SE plus
 
   # We need the chromosome lengths (in number of markeres)
-  chromosome_lengths = c(35,22,25,20,31) * 10^6 # approx. A.thaliana chromosome lengths (according to TAIR)
-  n_chromosomes = length(chromosome_lengths)
-  total_length = sum(chromosome_lengths)
+  # chromosome_lengths = c(35,22,25,20,31) * 10^6 # approx. A.thaliana chromosome lengths (according to TAIR)
+  # n_chromosomes = length(chromosome_lengths)
+  # total_length = sum(chromosome_lengths)
 
   # cat("Calculating SE+, lower and upper bound.\nRigidity values: ")
   SEplus = sapply(rigidity_grid,function(x){
